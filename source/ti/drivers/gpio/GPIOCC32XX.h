@@ -173,7 +173,7 @@ extern "C" {
  *  };
  *  @endcode
  */
-typedef struct {
+typedef struct GPIOCC32XX_Config {
     /*! Pointer to the board's GPIO_PinConfig array */
     GPIO_PinConfig  *pinConfigs;
 
