@@ -15,7 +15,7 @@ package/lib/lib/iar/m4/sntp_debug/package/package_ti.net.sntp.orm4: package/pack
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clrm4 $< ...
-	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
 	
 	-@$(FIXDEP) $@.dep $@.dep
 	
@@ -25,7 +25,7 @@ package/lib/lib/iar/m4/sntp_debug/package/package_ti.net.sntp.srm4: package/pack
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clrm4 $< ...
-	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
 	
 	-@$(FIXDEP) $@.dep $@.dep
 	
@@ -40,7 +40,7 @@ package/lib/lib/iar/m4/sntp_debug/sntp.orm4: sntp.c lib/iar/m4/sntp_debug.a.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clrm4 $< ...
-	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
 	
 	-@$(FIXDEP) $@.dep $@.dep
 	
@@ -50,7 +50,7 @@ package/lib/lib/iar/m4/sntp_debug/sntp.srm4: sntp.c lib/iar/m4/sntp_debug.a.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clrm4 $< ...
-	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb   -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/iar -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_8_32_2 --debug --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h -I ../bsd $(XDCINCS)  -o $@  $<
 	
 	-@$(FIXDEP) $@.dep $@.dep
 	

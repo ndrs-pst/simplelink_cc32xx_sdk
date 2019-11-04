@@ -1,9 +1,0 @@
-package/package.bld.xml
-package/build.cfg
-package/package.xdc.inc
-package.bld
-Boot.xml
-package/package.cfg.xdc.inc
-lib/debug/ti.sysbios.family.arm.f2838x.init.aem4
-package/package_ti.sysbios.family.arm.f2838x.init.c
-Boot.c

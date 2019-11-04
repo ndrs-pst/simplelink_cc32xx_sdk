@@ -40,8 +40,9 @@
 
     /* shorthand names for some common references in template below */
     let instances = PWM.$instances;
+    if (instances.length == 0) return;
 
-    /* Board_XXXCOUNT string, derived from defaultInstanceName */
+    /* CONFIG_XXXCOUNT string, derived from defaultInstanceName */
     let countDef = PWM.defaultInstanceName + "COUNT";
 %%}
 /*
@@ -64,9 +65,7 @@ PWMTimerCC32XX_Object pwmTimerCC32XXObjects[`countDef`];
 const PWMTimerCC32XX_HWAttrsV2 pwmTimerCC32XXHWAttrs[`countDef`] = {
 % for (let i = 0; i < instances.length; i++) {
     % let inst = instances[i];
-    %
-    % let pin = inst.timer.pwmPin.$solution.packagePinName;
-    % if (pin.length == 1) { pin = "0" + pin; }
+    % let pin = inst.timer.pwmPin.$solution.packagePinName.padStart(2, "0");
     /* `inst.$name` */
     % if (inst.$hardware) {
     %     if (inst.$hardware.displayName) {

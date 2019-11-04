@@ -3,7 +3,7 @@
 #  package.bld.  Any modifications to this file will be 
 #  overwritten whenever makefiles are re-generated.
 #
-#  target compatibility key = ti.targets.arm.elf.M4{1,0,18.12,2
+#  target compatibility key = ti.targets.arm.elf.M4{1,0,18.12,3
 #
 ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/ccs/m4/httpclient_debug/package/package_ti.net.http.oem4.dep
@@ -15,8 +15,8 @@ package/lib/lib/ccs/m4/httpclient_debug/package/package_ti.net.http.oem4: packag
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug/package -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug/package -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/ccs/m4/httpclient_debug/package/package_ti.net.http.oem4: export C_DIR=
@@ -27,8 +27,8 @@ package/lib/lib/ccs/m4/httpclient_debug/package/package_ti.net.http.sem4: packag
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug/package -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug/package -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug/package -fr=./package/lib/lib/ccs/m4/httpclient_debug/package
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/ccs/m4/httpclient_debug/package/package_ti.net.http.sem4: export C_DIR=
@@ -44,8 +44,8 @@ package/lib/lib/ccs/m4/httpclient_debug/httpclient.oem4: httpclient.c lib/ccs/m4
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c  -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug -s oem4 $< -C   -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/ccs/m4/httpclient_debug/httpclient.oem4: export C_DIR=
@@ -56,8 +56,8 @@ package/lib/lib/ccs/m4/httpclient_debug/httpclient.sem4: httpclient.c lib/ccs/m4
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clem4 -n $< ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug -fc $<
-	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_2 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armcl -c -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug -fc $<
+	$(MKDEP) -a $@.dep -p package/lib/lib/ccs/m4/httpclient_debug -s oem4 $< -C  -n -s --symdebug:none -qq -pdsw225 --endian=little -mv7M4 --float_support=vfplib --abi=eabi -eo.oem4 -ea.sem4  -ms -g --c99  -D_DEBUG_=1  -I/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs -Dxdc_target_name__=M4 -Dxdc_target_types__=ti/targets/arm/elf/std.h -Dxdc_bld__profile_debug -Dxdc_bld__vers_1_0_18_12_3 --symdebug:dwarf  $(XDCINCS) -I$(ti.targets.arm.elf.M4.rootDir)/include  -fs=./package/lib/lib/ccs/m4/httpclient_debug -fr=./package/lib/lib/ccs/m4/httpclient_debug
 	-@$(FIXDEP) $@.dep $@.dep
 	
 package/lib/lib/ccs/m4/httpclient_debug/httpclient.sem4: export C_DIR=

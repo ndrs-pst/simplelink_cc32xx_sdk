@@ -38,6 +38,18 @@
     let SPI = args[0]; /* passed by /ti/drivers/templates/Board.c.xdt */
 
     let instances = SPI.$instances;
+    let offset = 0;
+
+    if (SPI.$static.includeNWP == false && instances.length == 0) {
+        return;
+    }
+
+    if (SPI.$static.includeNWP) {
+        offset = 1;
+    }
+
+    /* get Common /ti/drivers utility functions */
+    let Common = system.getScript("/ti/drivers/Common.js");
 %%}
 % /*not using Common.genBoardHeader(instances, SPI) due to NWP_SPI */
 %
@@ -45,9 +57,17 @@
  *  ======== `SPI.displayName` ========
  */
 
-% /* issue: is there a check that inst.$name is never == Board_NWP_SPI? */
-#define Board_NWP_SPI               0
+% /* issue: is there a check that inst.$name is never == CONFIG_NWP_SPI? */
+%if (SPI.$static.includeNWP) {
+#define CONFIG_NWP_SPI               0
+%}
+
 % for (let i = 0; i < instances.length; i++) {
     % let inst = instances[i];
-#define `inst.$name`                  `i+1`
+    % if (SPI._getPinResources) {
+    %    let line = Common.genResourceComment(SPI._getPinResources(inst));
+`line`
+    % }
+    %
+#define `inst.$name`                  `i+offset`
 % }

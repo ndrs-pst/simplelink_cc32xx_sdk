@@ -54,8 +54,12 @@ let config = [
     {
         name         : "regionSize",
         displayName  : "Region Size",
-        description  : "Size of the region in bytes. Must be a non-zero"
-            + " multiple of the Sector Size",
+        description  : "Base address of the region. Must be aligned on an"
+            + " integer multiple of the sector size.",
+        longDescription : "NOTE: This setting has no effect when using the GCC"
+            + " toolchain. The linker script must be manually modified if"
+            + " the region must be at a specific location. See the nvsinternal"
+            + " example README file for details.",
         displayFormat: "hex",
         default      : 0x1000
     },
@@ -102,20 +106,58 @@ function validate(inst, validation)
         let tRegionSize = tinst.regionSize;
         if ((regionBase >= tRegionBase) &&
             (regionBase < (tRegionBase + tRegionSize))) {
-            let message = "Region Base overlaps with NVS region: " + tinst.$name + ".";
+            let message = "Region Base overlaps with NVS region: " + tinst.$ownedBy.$name + ".";
             logWarning(validation, inst, "regionBase", message);
             break;
         }
         if (((regionBase + regionSize) > tRegionBase) &&
             ((regionBase + regionSize) <= (tRegionBase + tRegionSize))) {
-            let message = "Region Base + Region Size overlaps with NVS region: " + tinst.$name + ".";
+            let message = "Region Base + Region Size overlaps with NVS region: " + tinst.$ownedBy.$name + ".";
             logWarning(validation, inst, "regionBase", message);
             break;
         }
     }
 }
 
+/*
+ *  ======== extend ========
+ *  Extends a base exports object to include any device specifics
+ *
+ *  This should only modify the base config
+ */
+ function extend(base)
+ {
+    let config = base.config;
+
+    let typeLongDescription =`
+* [__External__][2] allows you to configure a flash
+region accessible via SPI.
+* [__RAM__][3] allows you to configure in a CPU addressable internal RAM
+region.
+
+[2]: /tidrivers/syscfg/html/ConfigDoc.html#NVSSPI25X_Configuration_Options
+[3]: /tidrivers/syscfg/html/ConfigDoc.html#NVSRAM_Configuration_Options
+`;
+
+    /* Find and remove "Internal" from "nvsType". Make "External" default */
+    for (let i = 0; i < config.length; i++) {
+        if (config[i].name === "nvsType") {
+            for (let k = 0; k < config[i].options.length; k++) {
+                if (config[i].options[k].name === "Internal") {
+                    base.config[i].options.splice(k, 1);
+                    base.config[i].default = "External";
+                    break;
+                }
+            }
+            base.config[i].longDescription = typeLongDescription;
+        }
+    }
+
+    return (base);
+ }
+
 exports = {
     config: config,
-    validate: validate
+    validate: validate,
+    extend: extend
 };

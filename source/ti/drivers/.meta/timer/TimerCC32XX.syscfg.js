@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,6 @@ let devSpecific = {
         boardh : "/ti/drivers/timer/Timer.Board.h.xdt"
     },
 
-    maxInstances       : 8,
     pinmuxRequirements : pinmuxRequirements
 };
 

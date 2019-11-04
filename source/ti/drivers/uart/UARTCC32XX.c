@@ -460,6 +460,9 @@ UART_Handle UARTCC32XX_open(UART_Handle handle, UART_Params *params)
      */
     Power_setDependency(object->powerMgrId);
 
+    /* Do a software reset of the peripheral */
+    PowerCC32XX_reset(object->powerMgrId);
+
     pin = (hwAttrs->rxPin) & 0xff;
     mode = (hwAttrs->rxPin >> 8) & 0xff;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018, Texas Instruments Incorporated
+ * Copyright (c) 2017-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,6 +53,7 @@ usage. Supported use cases include:
 
  \section modules_sec Module Names
  TI's SlNetSock layer is divided into the following software modules:
+     -# \ref SlNet      - Interface for general SlNet services
      -# \ref SlNetSock  - Controls standard client/server sockets options and capabilities
      -# \ref SlNetIf    - Controls standard stack/interface options and capabilities
      -# \ref SlNetUtils - Provides sockets related commands and configuration
@@ -332,11 +333,11 @@ typedef enum
 
      /*!
             @c SLNETSOCK_SEC_ATTRIB_DISABLE_CERT_STORE is
-            currently only supported on CC3x20 devices.
+            currently only supported on CC3xxx devices.
 
             The certificate store is a file, provided by TI,
             containing a list of known and trusted root CAs by TI.
-            For more information, see the CC3x20 documentation.
+            For more information, see the CC3xxx documentation.
 
             The certificate store is used only in client mode. Servers
             use a proprietary root CA to authenticate clients, and

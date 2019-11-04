@@ -40,20 +40,23 @@
     let SPI = args[0];
     let instances = SPI.$instances;
 
+    if (SPI.$static.includeNWP == false && instances.length == 0) {
+        return;
+    }
+
+    /* offset for NWP if present */
+    let offset = 0;
+    if (SPI.$static.includeNWP) {
+        offset = 1;
+    }
+
+    let configCount = instances.length + offset;
+
     /* get ti/drivers common utility functions */
     let Common = system.getScript("/ti/drivers/Common.js");
 
-    /* Board_XXXCOUNT string, derived from defaultInstanceName */
+    /* CONFIG_XXXCOUNT string, derived from defaultInstanceName */
     let countDef = SPI.defaultInstanceName + "COUNT";
-
-    /* insert leading '0' for pin numbers less than 10 */
-    function addLeadingZero(pin)
-    {
-        if (pin.length == 1) {
-            pin = "0" + pin;
-        }
-        return (pin);
-    }
 %%}
 /*
  *  =============================== SPI ===============================
@@ -69,7 +72,7 @@
 #include <ti/devices/cc32xx/driverlib/spi.h>
 #include <ti/devices/cc32xx/driverlib/udma.h>
 
-#define `countDef` `instances.length + 1`
+#define `countDef` `configCount`
 
 /*
  *  ======== spiCC32XXDMAObjects ========
@@ -82,7 +85,8 @@ uint32_t spiCC32XXSDMAscratchBuf[`countDef`];
  *  ======== spiCC32XXDMAHWAttrs ========
  */
 const SPICC32XXDMA_HWAttrsV1 spiCC32XXDMAHWAttrs[`countDef`] = {
-    /* Board_NWP_SPI */
+    % if (SPI.$static.includeNWP) {
+    /* CONFIG_NWP_SPI */
     /* Network Processor SPI Bus */
     {
         .baseAddr = LSPI_BASE,
@@ -103,6 +107,7 @@ const SPICC32XXDMA_HWAttrsV1 spiCC32XXDMAHWAttrs[`countDef`] = {
         .clkPin  = SPICC32XXDMA_PIN_NO_CONFIG,
         .csPin  = SPICC32XXDMA_PIN_NO_CONFIG
     },
+    % }
     % for (let i = 0; i < instances.length; i++) {
     % let inst = instances[i];
     %
@@ -118,11 +123,11 @@ const SPICC32XXDMA_HWAttrsV1 spiCC32XXDMAHWAttrs[`countDef`] = {
     % let mosiPin = "SPICC32XXDMA_PIN_";
     % let misoPin = "SPICC32XXDMA_PIN_";
     % let sclkPin = "SPICC32XXDMA_PIN_";
-    % sclkPin += addLeadingZero(spi.sclkPin.$solution.packagePinName) + "_CLK";
+    % sclkPin += spi.sclkPin.$solution.packagePinName.padStart(2, "0") + "_CLK";
     % if (inst.duplex == "Full") {
-    %     mosiPin += addLeadingZero(spi.mosiPin.$solution.packagePinName);
+    %     mosiPin += spi.mosiPin.$solution.packagePinName.padStart(2, "0");
     %     mosiPin += "_MOSI";
-    %     misoPin += addLeadingZero(spi.misoPin.$solution.packagePinName);
+    %     misoPin += spi.misoPin.$solution.packagePinName.padStart(2, "0");
     %     misoPin += "_MISO";
     %     rdmach = spi.dmaRxChannel.$solution.devicePinName.substring(7);
     %     rdmach = "UDMA_CH" + rdmach + "_" + name + "_RX";
@@ -130,28 +135,28 @@ const SPICC32XXDMA_HWAttrsV1 spiCC32XXDMAHWAttrs[`countDef`] = {
     %     tdmach = "UDMA_CH" + tdmach + "_" + name + "_TX";
     % }
     % else if (inst.duplex == "Master RX Only") {
-    %     misoPin += addLeadingZero(spi.misoPin.$solution.packagePinName);
+    %     misoPin += spi.misoPin.$solution.packagePinName.padStart(2, "0");
     %     misoPin += "_MISO";
     %     rdmach = spi.dmaRxChannel.$solution.devicePinName.substring(7);
     %     rdmach = "UDMA_CH" + rdmach + "_" + name + "_RX";
     %     mosiPin += "NO_CONFIG";
     % }
     % else if (inst.duplex == "Master TX Only") {
-    %     mosiPin += addLeadingZero(spi.mosiPin.$solution.packagePinName);
+    %     mosiPin += spi.mosiPin.$solution.packagePinName.padStart(2, "0");
     %     mosiPin += "_MOSI";
     %     tdmach = spi.dmaTxChannel.$solution.devicePinName.substring(7);
     %     tdmach = "UDMA_CH" + tdmach + "_" + name + "_TX";
     %     misoPin += "NO_CONFIG";
     % }
     % else if (inst.duplex == "Slave TX Only") {
-    %     misoPin += addLeadingZero(spi.misoPin.$solution.packagePinName);
+    %     misoPin += spi.misoPin.$solution.packagePinName.padStart(2, "0");
     %     misoPin += "_MISO";
     %     tdmach = spi.dmaTxChannel.$solution.devicePinName.substring(7);
     %     tdmach = "UDMA_CH" + tdmach + "_" + name + "_TX";
     %     mosiPin += "NO_CONFIG";
     % }
     % else if (inst.duplex == "Slave RX Only") {
-    %     mosiPin += addLeadingZero(spi.mosiPin.$solution.packagePinName);
+    %     mosiPin += spi.mosiPin.$solution.packagePinName.padStart(2, "0");
     %     mosiPin += "_MOSI";
     %     rdmach = spi.dmaRxChannel.$solution.devicePinName.substring(7);
     %     rdmach = "UDMA_CH" + rdmach + "_" + name + "_RX";
@@ -160,7 +165,7 @@ const SPICC32XXDMA_HWAttrsV1 spiCC32XXDMAHWAttrs[`countDef`] = {
     %
     % let ssPin = "SPICC32XXDMA_PIN_";
     % if (inst.mode !== "Three Pin") {
-    %     ssPin += addLeadingZero(spi.ssPin.$solution.packagePinName) + "_CS";
+    %     ssPin += spi.ssPin.$solution.packagePinName.padStart(2, "0") + "_CS";
     % }
     % else {
     %     ssPin += "NO_CONFIG";
@@ -197,11 +202,14 @@ const SPICC32XXDMA_HWAttrsV1 spiCC32XXDMAHWAttrs[`countDef`] = {
  *  ======== SPI_config ========
  */
 const SPI_Config SPI_config[`countDef`] = {
+    % if (SPI.$static.includeNWP) {
+    /* CONFIG_NWP_SPI */
     {
         .fxnTablePtr = &SPICC32XXDMA_fxnTable,
-        .object = &spiCC32XXDMAObjects[Board_NWP_SPI],
-        .hwAttrs = &spiCC32XXDMAHWAttrs[Board_NWP_SPI]
+        .object = &spiCC32XXDMAObjects[CONFIG_NWP_SPI],
+        .hwAttrs = &spiCC32XXDMAHWAttrs[CONFIG_NWP_SPI]
     },
+    %}
 % for (let i = 0; i < instances.length; i++) {
     % let inst = instances[i];
     /* `inst.$name` */

@@ -62,6 +62,13 @@ let devSpecific = {
 
     moduleStatic: {
         displayName: "SPI Driver Configuration",
+        config : [{
+            name: "includeNWP",
+            displayName: "Include Network Processor",
+            description: "A spi instance used to communicate with the NWP"
+            + " will be generated.",
+            default: true
+        }],
 
         /* bring in DMA and Power modules */
         modules: Common.autoForceModules(["Board", "Power", "DMA"])
@@ -73,8 +80,50 @@ let devSpecific = {
     templates: {
         boardc: "/ti/drivers/spi/SPICC32XXDMA.Board.c.xdt",
         boardh: "/ti/drivers/spi/SPICC32XXDMA.Board.h.xdt"
-    }
+    },
+
+    uiAdd : "staticAndInstance",
+
+    _getPinResources: _getPinResources
 };
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+    let pin;
+    let mosi = "Unassigned";
+    let miso = "Unassigned";
+    let sclk;
+    let ss;
+
+    if (inst.spi) {
+        if (inst.spi.mosiPin) {
+            mosi = inst.spi.mosiPin.$solution.packagePinName.padStart(2, "0");
+        }
+        if (inst.spi.misoPin) {
+            miso = inst.spi.misoPin.$solution.packagePinName.padStart(2, "0");
+        }
+
+        pin = "\nMOSI: " + mosi + "\nMISO: " + miso;
+
+        if (inst.spi.sclkPin) {
+            sclk = inst.spi.sclkPin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nSCLK: " + sclk;
+        }
+        if (inst.spi.ssPin) {
+            ss = inst.spi.ssPin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nSS: " + ss;
+        }
+
+        if (inst.$hardware && inst.$hardware.displayName) {
+            pin += "\n" + inst.$hardware.displayName;
+        }
+    }
+
+    return (pin);
+}
 
 /*
  *  ======== lspiFilter ========

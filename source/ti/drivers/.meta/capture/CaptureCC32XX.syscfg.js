@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,8 +58,28 @@ let devSpecific = {
     templates: {
         boardc : "/ti/drivers/capture/CaptureCC32XX.Board.c.xdt",
         boardh : "/ti/drivers/capture/Capture.Board.h.xdt"
-    }
+    },
+
+    _getPinResources: _getPinResources
 };
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+    let pin;
+
+    if (inst.timer) {
+        pin = "P" + inst.timer.capturePin.$solution.packagePinName.padStart(2, "0");
+
+        if (inst.$hardware && inst.$hardware.displayName) {
+            pin += ", " + inst.$hardware.displayName;
+        }
+    }
+
+    return (pin);
+}
 
 /*
  *  ======== pinmuxRequirements ========

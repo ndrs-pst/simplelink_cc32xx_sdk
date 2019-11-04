@@ -8,16 +8,16 @@ This release include the ServicePack binary image to be programmed into CC3120/C
   
 | File |  Notes |
 | --- | --- | 
-| sp_3.12.0.1_2.0.0.0_2.2.0.6.bin | ServicePack binary for UniFlash |
-| sp_3.12.0.1_2.0.0.0_2.2.0.6.ucf | ServicePack UCF for host driver API |
-| sp_3.12.0.1_2.0.0.0_2.2.0.6.ucf.signed.bin | ServicePack UCF signature |
+| sp_3.13.0.3_2.0.0.0_2.2.0.6.bin | ServicePack binary for UniFlash |
+| sp_3.13.0.3_2.0.0.0_2.2.0.6.ucf | ServicePack UCF for host driver API |
+| sp_3.13.0.3_2.0.0.0_2.2.0.6.ucf.signed.bin | ServicePack UCF signature |
 
 
 **Version information**
 
 | Component |  Version |
 | --- | --- | 
-| NWP | 3.12.0.1 |
+| NWP | 3.13.0.3 |
 | MAC | 2.0.0.0 |
 | PHY | 2.2.0.6 |
 
@@ -25,6 +25,10 @@ This release include the ServicePack binary image to be programmed into CC3120/C
 Upon successful ServicePack programming, version can be retrieved using 'sl_DeviceGet()' API, with SL_DEVICE_GENERAL_VERSION option.
 
 ## What's New
+
+* Pass bonjour test version 1.5
+* Support enterprise connection with 4096bits RSA key
+* Support file signing with SHA-256 including mcu image file through OTA or SimpleLink host driver API - Uniflash is not supported
 
 Fixed IOP issue - Some AP vendors learn the power save mode of the CC32xx from managment frames sent to the AP
 
@@ -41,7 +45,7 @@ The ServicePack can also be flushed using host driver API's or OTA application
 This release requires the following software components and tools:
 
 * UniFlash latest version - [Download page](http://www.ti.com/tool/UniFlash).
-* The ServicePack is bounded to host driver 3.0.1.54
+* The ServicePack is bounded to host driver 3.0.1.55
 
 ## Device Support
 * CC3120R 
@@ -54,6 +58,10 @@ This release requires the following software components and tools:
 * CC3220R\_LAUNCHXL
 * CC3220S\_LAUNCHXL
 * CC3220SF\_LAUNCHXL
+
+## Fixed Issues
+
+${GEN2_FIXED_ISSUES}
 
 ## Known Issues
 

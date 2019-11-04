@@ -403,14 +403,5 @@ int16_t CdnDropboxV2_ParseRespFileUrl(uint16_t SockId, uint8_t *pRespBuf, uint8_
     return CDN_STATUS_OK;
 }
 
-/* DROPBOX API - build get file request, example
-    GET /1/view/e2scsc5ku4hnjyi/Apps/SL_OTA/OTA_R2/20151217_2_00.tar HTTP/1.1
-    Host: dl.dropboxusercontent.com
-*/
-int16_t CdnDropboxV2_SendReqFileContent(int16_t SockId, uint8_t *pSendBuf, uint8_t *pFileServerName, uint8_t *pFileName)
-{
-    _SlOtaLibTrace(("CdnDropbox_SendReqFileContent: file=%s\r\n", pFileName));
-    return HttpClient_SendReq(SockId, pSendBuf, (uint8_t *)"GET ", pFileServerName, NULL, pFileName, NULL, NULL);
- }
 
 #endif /* #if OTA_SERVER_TYPE == OTA_SERVER_DROPBOX */

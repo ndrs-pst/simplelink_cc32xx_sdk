@@ -8,25 +8,31 @@ This release include the ServicePack binary image to be programmed into CC3135/C
 
 | File |  Notes |
 | --- | --- |
-| sp_4.3.0.5_3.1.0.5_3.1.0.18.bin | ServicePack binary for UniFlash |
-| sp_4.3.0.5_3.1.0.5_3.1.0.18.ucf | ServicePack UCF for host driver API |
-| sp_4.3.0.5_3.1.0.5_3.1.0.18.ucf.signed.bin | ServicePack UCF signature |
+| sp_4.4.1.3_3.1.0.5_3.1.0.19.bin | ServicePack binary for UniFlash |
+| sp_4.4.1.3_3.1.0.5_3.1.0.19.ucf | ServicePack UCF for host driver API |
+| sp_4.4.1.3_3.1.0.5_3.1.0.19.ucf.signed.bin | ServicePack UCF signature |
 
 
 **Version information**
 
 | Component |  Version |
 | --- | --- |
-| NWP | 4.3.0.5 |
+| NWP | 4.4.1.3 |
 | MAC | 3.1.0.5 |
-| PHY | 3.1.0.18 |
+| PHY | 3.1.0.19 |
 
 **Note:**
 Upon successful ServicePack programming, version can be retrieved using 'sl_DeviceGet()' API, with SL_DEVICE_GENERAL_VERSION option.
 
 ## What's New
+**SIMPLELINK-CC32XX-SDK\_3.30.01.02:**  
+* Added DICE unique Certificate Extensions to the Alias key certificate
+* Added downgrade protection to the SP when the DICE or the vendor certificate catalog features exists as from this version the NWP SP contains code implemented for those features   
 
-Fixed IOP issue - Some AP vendors learn the power save mode of the CC32xx from managment frames sent to the AP
+**SIMPLELINK-CC32XX-SDK\_3.30.00.04:**  
+* Support bonjour test 1.5  
+* Support for DICE - a security standard which based hardware and software authentication using manufacturer servers based on Azure cloud service  
+* Support enterprise connection with 4096bits RSA key   
 
 ## Upgrade and Compatibility Information
 
@@ -41,7 +47,7 @@ The ServicePack can also be flushed using host driver API's or OTA application
 This release requires the following software components and tools:
 
 * UniFlash latest version - [Download page](http://www.ti.com/tool/UniFlash).
-* The ServicePack is bounded to host driver 3.0.1.54
+* The ServicePack is bounded to host driver 3.0.1.55
 
 ## Device Support
 * CC3135
@@ -52,6 +58,11 @@ This release requires the following software components and tools:
 * CC3135\_BOOSTXL
 * CC3235S\_LAUNCHXL
 * CC3235SF\_LAUNCHXL
+
+
+## Fixed Issues
+
+${GEN3_FIXED_ISSUES}
 
 ## Known Issues
 

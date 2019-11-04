@@ -42,8 +42,6 @@
  *  Device-specific extensions to be added to base GPIO configuration
  */
 let devSpecific = {
-    maxInstances: 27,
-
     config : [
         {
             name: "enableStaticParking",
@@ -60,8 +58,29 @@ let devSpecific = {
     {
         boardc : "/ti/drivers/gpio/GPIOCC32XX.Board.c.xdt",
         boardh : "/ti/drivers/gpio/GPIO.Board.h.xdt"
-    }
+    },
+
+    _getPinResources: _getPinResources
+
 };
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+    let pin;
+
+    if (inst.gpioPin) {
+        pin = "P" + inst.gpioPin.$solution.packagePinName.padStart(2, "0");
+
+        if (inst.$hardware && inst.$hardware.displayName) {
+            pin += ", " + inst.$hardware.displayName;
+        }
+    }
+
+    return (pin);
+}
 
 /*
  *  ======== extend ========

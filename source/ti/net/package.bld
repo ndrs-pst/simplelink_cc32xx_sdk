@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018, Texas Instruments Incorporated
+ * Copyright (c) 2014-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@ Pkg.otherFiles = [
     "slnetif.h",
     "slnetsock.h",
     "slnetutils.h",
+    "slnet.h",
     "bsd/netdb.h",
     "bsd/sys/socket.h",
     "bsd/sys/select.h",
@@ -49,6 +50,11 @@ Pkg.otherFiles = [
     "bsd/netinet/in.h",
     "bsd/netinet/tcp.h",
     "bsd/arpa/inet.h",
+    ".meta/ns.component.js",
+    ".meta/SlNet.Config.c.xdt",
+    ".meta/SlNet.syscfg.js",
+    ".meta/SecObj.syscfg.js",
+    ".meta/Config.c.xdt",
     "package.bld"
 ];
 

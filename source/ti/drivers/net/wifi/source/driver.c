@@ -988,12 +988,13 @@ _SlReturnVal_t _SlDrvDataReadOp(
         if( g_pCB->SocketNonBlocking & (1<<(Sd & SL_BSD_SOCKET_ID_MASK) ))
         {
              _u16 opcodeAsyncEvent = (pCmdCtrl->Opcode ==  SL_OPCODE_SOCKET_RECV) ? SL_OPCODE_SOCKET_RECVASYNCRESPONSE : SL_OPCODE_SOCKET_RECVFROMASYNCRESPONSE; 
-             VERIFY_RET_OK(_SlDrvWaitForInternalAsyncEvent(ObjIdx, SL_DRIVER_TIMEOUT_SHORT, opcodeAsyncEvent));
+             RetVal = _SlDrvWaitForInternalAsyncEvent(ObjIdx, SL_DRIVER_TIMEOUT_SHORT, opcodeAsyncEvent);
+
         }
         else
         {
             /* Wait for response message. Will be signaled by _SlDrvMsgRead. */
-            VERIFY_RET_OK(_SlDrvWaitForInternalAsyncEvent(ObjIdx, 0, 0));
+            RetVal = _SlDrvWaitForInternalAsyncEvent(ObjIdx, 0, 0);
         }
           
     }
@@ -3032,6 +3033,13 @@ _SlReturnVal_t _SlSpawnMsgListInsert(_u16 AsyncEventLen, _u8 *pAsyncBuf)
     }
     /* now allocate the buffer itself */
     pItem->Buffer = (void*)sl_Malloc(AsyncEventLen);
+    if (pItem->Buffer == NULL)
+    {
+        sl_Free(pItem);
+        RetVal = SL_RET_CODE_NO_FREE_ASYNC_BUFFERS_ERROR;
+        SL_DRV_PROTECTION_OBJ_UNLOCK();
+        return RetVal;
+    }
     pItem->next = NULL;
     /* if list is empty point to the allocated one */
     if (g_pCB->spawnMsgList == NULL)
@@ -3123,7 +3131,7 @@ _SlReturnVal_t _SlSpawnMsgListProcess()
             _SlDrvAsyncEventGenericHandler(FALSE, (unsigned char *)&(g_StatMem.AsyncBufPool[i].Buffer));
 
             SL_DRV_LOCK_GLOBAL_UNLOCK(FALSE);
-	    
+
             SL_DRV_PROTECTION_OBJ_LOCK_FOREVER();
             g_StatMem.AsyncBufPool[i].ActionIndex = 0xFF;
             SL_DRV_PROTECTION_OBJ_UNLOCK();

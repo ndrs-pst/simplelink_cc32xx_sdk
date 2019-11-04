@@ -150,7 +150,7 @@ static void handleDMATransaction(I2S_Handle handle, I2S_Transaction *transaction
 static void handleCPUTransaction(I2S_Handle handle, I2S_Transaction **ptrTransaction, I2SCC32XX_Interface *interface);
 
 /* Extern globals */
-extern I2S_Config I2S_config[];
+extern const I2S_Config I2S_config[];
 extern const uint_least8_t I2S_count;
 
 /* Static globals */

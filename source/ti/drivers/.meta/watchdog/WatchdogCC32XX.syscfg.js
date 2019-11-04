@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,11 +39,11 @@
 
 let Common   = system.getScript("/ti/drivers/Common.js");
 let logError = Common.logError;
-let $super = {};
 
 let intPriority = Common.newIntPri()[0];
 intPriority.name = "interruptPriority";
 intPriority.displayName = "Interrupt Priority";
+intPriority.default = "1";
 
 /*
  *  ======== devSpecific ========
@@ -54,8 +54,6 @@ let devSpecific = {
         intPriority
     ],
 
-    validate : validate,
-    maxInstances : 1,
     templates : {
         boardc : "/ti/drivers/watchdog/WatchdogCC32XX.Board.c.xdt",
         boardh : "/ti/drivers/watchdog/Watchdog.Board.h.xdt"
@@ -68,8 +66,10 @@ let devSpecific = {
  *
  *  @param inst       - Watchdog timer instance to be validated
  *  @param validation - object to hold detected validation issues
+ *
+ *  @param $super     - needed to call the generic module's functions
  */
-function validate(inst, validation)
+function validate(inst, validation, $super)
 {
     let maxPeriod = 53687;
     let period    = parseInt(inst.period);
@@ -91,7 +91,10 @@ function validate(inst, validation)
  */
 function extend(base)
 {
-    $super = base;
+    /* override base validate */
+    devSpecific.validate = function (inst, validation) {
+        return validate(inst, validation, base);
+    };
 
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);

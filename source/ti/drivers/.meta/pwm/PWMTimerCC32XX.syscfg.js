@@ -52,8 +52,6 @@ let pwmPins = ["1", "2", "17", "19", "21", "64"];
  *  Device-specific extensions to be added to base PWM configuration
  */
 let devSpecific = {
-    maxInstances: 6,
-
     config: [],
 
     /* override generic requirements with  device-specific reqs (if any) */
@@ -65,8 +63,28 @@ let devSpecific = {
     templates: {
         boardc: "/ti/drivers/pwm/PWMTimerCC32XX.Board.c.xdt",
         boardh: "/ti/drivers/pwm/PWMTimer.Board.h.xdt"
-    }
+    },
+
+    _getPinResources: _getPinResources
 };
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+    let pin;
+
+    if (inst.timer) {
+       pin = "P" + inst.timer.pwmPin.$solution.packagePinName.padStart("0", 2);
+
+       if (inst.$hardware && inst.$hardware.displayName) {
+            pin += ", " + inst.$hardware.displayName;
+        }
+    }
+
+    return (pin);
+}
 
 /*
  *  ======== pinmuxRequirements ========

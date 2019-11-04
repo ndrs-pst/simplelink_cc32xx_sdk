@@ -5,6 +5,7 @@ slneterr.h
 slnetif.h
 slnetsock.h
 slnetutils.h
+slnet.h
 bsd/netdb.h
 bsd/sys/socket.h
 bsd/sys/select.h
@@ -12,6 +13,11 @@ bsd/errnoutil.h
 bsd/netinet/in.h
 bsd/netinet/tcp.h
 bsd/arpa/inet.h
+.meta/ns.component.js
+.meta/SlNet.Config.c.xdt
+.meta/SlNet.syscfg.js
+.meta/SecObj.syscfg.js
+.meta/Config.c.xdt
 package.bld
 package/package.cfg.xdc.inc
 lib/ccs/m4/slnetsock_debug.a

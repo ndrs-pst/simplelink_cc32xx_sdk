@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, Texas Instruments Incorporated
+ * Copyright (c) 2015-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,10 +52,6 @@
 #ifndef ti_drivers_i2c_I2CCC32XX__include
 #define ti_drivers_i2c_I2CCC32XX__include
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -63,6 +59,10 @@ extern "C" {
 #include <ti/drivers/dpl/HwiP.h>
 #include <ti/drivers/dpl/SemaphoreP.h>
 #include <ti/drivers/Power.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  *  Macros defining possible I2C signal pin mux options
@@ -122,13 +122,15 @@ extern const I2C_FxnTable I2CCC32XX_fxnTable;
  *
  *  This enum defines the state of the I2C driver's state machine.
  */
-typedef enum I2CCC32XX_Mode {
+typedef enum {
     /*! I2C is idle, and not performing a transaction */
     I2CCC32XX_IDLE_MODE = 0,
     /*! I2C is currently performing a write operation */
     I2CCC32XX_WRITE_MODE,
     /*! I2C is currently performing a read operation */
     I2CCC32XX_READ_MODE,
+    /*! I2C timeout has occurred */
+    I2CCC32XX_TIMEOUT,
     /*! I2C error has occurred */
     I2CCC32XX_ERROR = 0xFF
 } I2CCC32XX_Mode;
@@ -170,7 +172,7 @@ typedef enum I2CCC32XX_Mode {
  *  };
  *  @endcode
  */
-typedef struct I2CCC32XX_HWAttrsV1 {
+typedef struct {
     /*! I2C Peripheral's base address */
     unsigned int baseAddr;
     /*! I2C Peripheral's interrupt vector */
@@ -188,7 +190,7 @@ typedef struct I2CCC32XX_HWAttrsV1 {
  *  I2CCC32XX Object.  Applications must not access any member variables of
  *  this structure!
  */
-typedef struct I2CCC32XX_Object {
+typedef struct {
     SemaphoreP_Handle   mutex;            /* Grants exclusive access to I2C */
     SemaphoreP_Handle   transferComplete; /* Signals I2C transfer completion */
 
@@ -201,11 +203,13 @@ typedef struct I2CCC32XX_Object {
 
     I2C_Transaction    *currentTransaction; /* Pointer to current transaction */
 
-    uint8_t            *writeBufIdx;    /* Internal inc. writeBuf index */
-    size_t              writeCountIdx;  /* Internal dec. writeCounter */
+    uint8_t            *writeBufIdx;         /* Internal inc. writeBuf index */
+    size_t              totalWriteCountIdx;  /* Internal dec. writeCounter */
+    size_t              burstWriteCountIdx;  /* Internal dec. writeCounter */
 
-    uint8_t            *readBufIdx;     /* Internal inc. readBuf index */
-    size_t              readCountIdx;   /* Internal dec. readCounter */
+    uint8_t            *readBufIdx;          /* Internal inc. readBuf index */
+    size_t              totalReadCountIdx;   /* Internal dec. readCounter */
+    size_t              burstReadCountIdx;   /* Internal dec. readCounter */
 
     /* I2C transaction pointers for I2C_MODE_CALLBACK */
     I2C_Transaction    *headPtr;        /* Head ptr for queued transactions */

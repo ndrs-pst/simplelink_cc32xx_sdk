@@ -15,119 +15,119 @@ XDCCFGDIR = package/cfg/
 # in the event that some included BOM script changes.
 #
 ifneq (clean,$(MAKECMDGOALS))
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/utils.js:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/utils.js
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/xdc.tci:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/xdc.tci
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/template.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/template.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/om2.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/om2.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen2.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen2.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/Warnings.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/Warnings.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/IPackage.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/IPackage.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/package.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/package.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Clock.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Clock.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Trace.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Trace.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/bld.js:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/bld.js
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/BuildEnvironment.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/BuildEnvironment.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/PackageContents.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/PackageContents.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/_gen.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/_gen.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Library.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Library.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Executable.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Executable.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Repository.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Repository.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Configuration.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Configuration.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Script.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Script.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Manifest.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Manifest.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Utils.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Utils.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget2.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget2.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget3.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget3.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITargetFilter.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITargetFilter.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/package.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/coresdk.bld:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/coresdk.bld
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/utils.js:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/utils.js
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/xdc.tci:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/xdc.tci
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/template.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/template.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/om2.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/om2.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen2.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen2.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/Warnings.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/Warnings.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/IPackage.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/IPackage.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/package.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/package.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Clock.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Clock.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Trace.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Trace.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/bld.js:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/bld.js
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/BuildEnvironment.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/BuildEnvironment.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/PackageContents.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/PackageContents.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/_gen.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/_gen.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Library.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Library.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Executable.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Executable.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Repository.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Repository.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Configuration.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Configuration.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Script.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Script.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Manifest.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Manifest.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Utils.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Utils.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget2.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget2.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget3.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget3.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITargetFilter.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITargetFilter.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/package.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/coresdk.bld:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/coresdk.bld
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs
 package.mak: package.bld
 package.mak: xdcArgParser.xs
 package.mak: libBuilder.xs
 endif
 
-ti.targets.arm.elf.M4.rootDir ?= /opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
-ti.targets.arm.elf.packageBase ?= /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/
+ti.targets.arm.elf.M4.rootDir ?= /opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS
+ti.targets.arm.elf.packageBase ?= /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/
 gnu.targets.arm.M4.rootDir ?= /opt/ti/ccs-latest/ccs/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major
-gnu.targets.arm.packageBase ?= /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/
+gnu.targets.arm.packageBase ?= /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/
 iar.targets.arm.M4.rootDir ?= /opt/iar/arm/latest
-iar.targets.arm.packageBase ?= /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/
+iar.targets.arm.packageBase ?= /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/
 .PRECIOUS: $(XDCCFGDIR)/%.oem4
 .PHONY: all,em4 .dlls,em4 .executables,em4 test,em4
 all,em4: .executables,em4
@@ -202,8 +202,8 @@ package/package.cfg.xdc.inc: .interfaces $(XDCROOT)/packages/xdc/cfg/cfginc.js p
 -include lib/drivers_cc32xx.aem4.mak
 lib/drivers_cc32xx.aem4: 
 	$(RM) $@
-	@$(MSG) archiving package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4 package/lib/lib/drivers_cc32xx/NVS.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4 package/lib/lib/drivers_cc32xx/SD.oem4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4 package/lib/lib/drivers_cc32xx/SDFatFS.oem4 package/lib/lib/drivers_cc32xx/./utils/List.oem4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4 package/lib/lib/drivers_cc32xx/./utils/Random.oem4 package/lib/lib/drivers_cc32xx/ADC.oem4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4 package/lib/lib/drivers_cc32xx/Camera.oem4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Capture.oem4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2C.oem4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2S.oem4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4 package/lib/lib/drivers_cc32xx/PWM.oem4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4 package/lib/lib/drivers_cc32xx/SPI.oem4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Timer.oem4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/UART.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Watchdog.oem4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4  into $@ ...
-	$(ti.targets.arm.elf.M4.rootDir)/bin/armar  rq $@   package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4 package/lib/lib/drivers_cc32xx/NVS.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4 package/lib/lib/drivers_cc32xx/SD.oem4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4 package/lib/lib/drivers_cc32xx/SDFatFS.oem4 package/lib/lib/drivers_cc32xx/./utils/List.oem4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4 package/lib/lib/drivers_cc32xx/./utils/Random.oem4 package/lib/lib/drivers_cc32xx/ADC.oem4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4 package/lib/lib/drivers_cc32xx/Camera.oem4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Capture.oem4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2C.oem4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2S.oem4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4 package/lib/lib/drivers_cc32xx/PWM.oem4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4 package/lib/lib/drivers_cc32xx/SPI.oem4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Timer.oem4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/UART.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Watchdog.oem4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4 
+	@$(MSG) archiving package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4 package/lib/lib/drivers_cc32xx/NVS.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4 package/lib/lib/drivers_cc32xx/SD.oem4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4 package/lib/lib/drivers_cc32xx/SDFatFS.oem4 package/lib/lib/drivers_cc32xx/./utils/List.oem4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4 package/lib/lib/drivers_cc32xx/./utils/Random.oem4 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4 package/lib/lib/drivers_cc32xx/./apps/LED.oem4 package/lib/lib/drivers_cc32xx/./apps/Button.oem4 package/lib/lib/drivers_cc32xx/ADC.oem4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4 package/lib/lib/drivers_cc32xx/Camera.oem4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Capture.oem4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2C.oem4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2S.oem4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4 package/lib/lib/drivers_cc32xx/PWM.oem4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4 package/lib/lib/drivers_cc32xx/SPI.oem4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Timer.oem4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/UART.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Watchdog.oem4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4  into $@ ...
+	$(ti.targets.arm.elf.M4.rootDir)/bin/armar  rq $@   package/lib/lib/drivers_cc32xx/package/package_ti.drivers.oem4 package/lib/lib/drivers_cc32xx/NVS.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.oem4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.oem4 package/lib/lib/drivers_cc32xx/SD.oem4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.oem4 package/lib/lib/drivers_cc32xx/SDFatFS.oem4 package/lib/lib/drivers_cc32xx/./utils/List.oem4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4 package/lib/lib/drivers_cc32xx/./utils/Random.oem4 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4 package/lib/lib/drivers_cc32xx/./apps/LED.oem4 package/lib/lib/drivers_cc32xx/./apps/Button.oem4 package/lib/lib/drivers_cc32xx/ADC.oem4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4 package/lib/lib/drivers_cc32xx/Camera.oem4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Capture.oem4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.oem4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2C.oem4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.oem4 package/lib/lib/drivers_cc32xx/I2S.oem4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.oem4 package/lib/lib/drivers_cc32xx/PWM.oem4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.oem4 package/lib/lib/drivers_cc32xx/SPI.oem4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Timer.oem4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.oem4 package/lib/lib/drivers_cc32xx/UART.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.oem4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.oem4 package/lib/lib/drivers_cc32xx/Watchdog.oem4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.oem4 
 lib/drivers_cc32xx.aem4: export C_DIR=
 lib/drivers_cc32xx.aem4: PATH:=$(ti.targets.arm.elf.M4.rootDir)/bin/:$(PATH)
 
@@ -214,8 +214,8 @@ clean,em4 clean::
 -include lib/drivers_cc32xx.am4g.mak
 lib/drivers_cc32xx.am4g: 
 	$(RM) $@
-	@$(MSG) archiving package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g package/lib/lib/drivers_cc32xx/NVS.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g package/lib/lib/drivers_cc32xx/SD.om4g package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g package/lib/lib/drivers_cc32xx/SDFatFS.om4g package/lib/lib/drivers_cc32xx/./utils/List.om4g package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g package/lib/lib/drivers_cc32xx/./utils/Random.om4g package/lib/lib/drivers_cc32xx/ADC.om4g package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g package/lib/lib/drivers_cc32xx/Camera.om4g package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Capture.om4g package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g package/lib/lib/drivers_cc32xx/I2C.om4g package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g package/lib/lib/drivers_cc32xx/I2S.om4g package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g package/lib/lib/drivers_cc32xx/PWM.om4g package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g package/lib/lib/drivers_cc32xx/SPI.om4g package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Timer.om4g package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g package/lib/lib/drivers_cc32xx/UART.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Watchdog.om4g package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g  into $@ ...
-	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-ar  cr $@   package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g package/lib/lib/drivers_cc32xx/NVS.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g package/lib/lib/drivers_cc32xx/SD.om4g package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g package/lib/lib/drivers_cc32xx/SDFatFS.om4g package/lib/lib/drivers_cc32xx/./utils/List.om4g package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g package/lib/lib/drivers_cc32xx/./utils/Random.om4g package/lib/lib/drivers_cc32xx/ADC.om4g package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g package/lib/lib/drivers_cc32xx/Camera.om4g package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Capture.om4g package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g package/lib/lib/drivers_cc32xx/I2C.om4g package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g package/lib/lib/drivers_cc32xx/I2S.om4g package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g package/lib/lib/drivers_cc32xx/PWM.om4g package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g package/lib/lib/drivers_cc32xx/SPI.om4g package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Timer.om4g package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g package/lib/lib/drivers_cc32xx/UART.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Watchdog.om4g package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g 
+	@$(MSG) archiving package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g package/lib/lib/drivers_cc32xx/NVS.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g package/lib/lib/drivers_cc32xx/SD.om4g package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g package/lib/lib/drivers_cc32xx/SDFatFS.om4g package/lib/lib/drivers_cc32xx/./utils/List.om4g package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g package/lib/lib/drivers_cc32xx/./utils/Random.om4g package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g package/lib/lib/drivers_cc32xx/./apps/LED.om4g package/lib/lib/drivers_cc32xx/./apps/Button.om4g package/lib/lib/drivers_cc32xx/ADC.om4g package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g package/lib/lib/drivers_cc32xx/Camera.om4g package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Capture.om4g package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g package/lib/lib/drivers_cc32xx/I2C.om4g package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g package/lib/lib/drivers_cc32xx/I2S.om4g package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g package/lib/lib/drivers_cc32xx/PWM.om4g package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g package/lib/lib/drivers_cc32xx/SPI.om4g package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Timer.om4g package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g package/lib/lib/drivers_cc32xx/UART.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Watchdog.om4g package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g  into $@ ...
+	$(gnu.targets.arm.M4.rootDir)/bin/arm-none-eabi-ar  cr $@   package/lib/lib/drivers_cc32xx/package/package_ti.drivers.om4g package/lib/lib/drivers_cc32xx/NVS.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.om4g package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.om4g package/lib/lib/drivers_cc32xx/SD.om4g package/lib/lib/drivers_cc32xx/./sd/SDSPI.om4g package/lib/lib/drivers_cc32xx/SDFatFS.om4g package/lib/lib/drivers_cc32xx/./utils/List.om4g package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g package/lib/lib/drivers_cc32xx/./utils/Random.om4g package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g package/lib/lib/drivers_cc32xx/./apps/LED.om4g package/lib/lib/drivers_cc32xx/./apps/Button.om4g package/lib/lib/drivers_cc32xx/ADC.om4g package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g package/lib/lib/drivers_cc32xx/Camera.om4g package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Capture.om4g package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.om4g package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g package/lib/lib/drivers_cc32xx/I2C.om4g package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.om4g package/lib/lib/drivers_cc32xx/I2S.om4g package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.om4g package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.om4g package/lib/lib/drivers_cc32xx/PWM.om4g package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.om4g package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.om4g package/lib/lib/drivers_cc32xx/SPI.om4g package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Timer.om4g package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.om4g package/lib/lib/drivers_cc32xx/UART.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.om4g package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.om4g package/lib/lib/drivers_cc32xx/Watchdog.om4g package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.om4g 
 lib/drivers_cc32xx.am4g: export LD_LIBRARY_PATH=
 
 clean,m4g clean::
@@ -225,8 +225,8 @@ clean,m4g clean::
 -include lib/drivers_cc32xx.arm4.mak
 lib/drivers_cc32xx.arm4: 
 	$(RM) $@
-	@$(MSG) archiving package/lib/lib/drivers_cc32xx/package/package_ti.drivers.orm4 package/lib/lib/drivers_cc32xx/NVS.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.orm4 package/lib/lib/drivers_cc32xx/SD.orm4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.orm4 package/lib/lib/drivers_cc32xx/SDFatFS.orm4 package/lib/lib/drivers_cc32xx/./utils/List.orm4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4 package/lib/lib/drivers_cc32xx/./utils/Random.orm4 package/lib/lib/drivers_cc32xx/ADC.orm4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4 package/lib/lib/drivers_cc32xx/Camera.orm4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Capture.orm4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.orm4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2C.orm4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2S.orm4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.orm4 package/lib/lib/drivers_cc32xx/PWM.orm4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.orm4 package/lib/lib/drivers_cc32xx/SPI.orm4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Timer.orm4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/UART.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Watchdog.orm4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.orm4  into $@ ...
-	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iarchive --silent -o $@   package/lib/lib/drivers_cc32xx/package/package_ti.drivers.orm4 package/lib/lib/drivers_cc32xx/NVS.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.orm4 package/lib/lib/drivers_cc32xx/SD.orm4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.orm4 package/lib/lib/drivers_cc32xx/SDFatFS.orm4 package/lib/lib/drivers_cc32xx/./utils/List.orm4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4 package/lib/lib/drivers_cc32xx/./utils/Random.orm4 package/lib/lib/drivers_cc32xx/ADC.orm4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4 package/lib/lib/drivers_cc32xx/Camera.orm4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Capture.orm4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.orm4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2C.orm4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2S.orm4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.orm4 package/lib/lib/drivers_cc32xx/PWM.orm4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.orm4 package/lib/lib/drivers_cc32xx/SPI.orm4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Timer.orm4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/UART.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Watchdog.orm4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.orm4 
+	@$(MSG) archiving package/lib/lib/drivers_cc32xx/package/package_ti.drivers.orm4 package/lib/lib/drivers_cc32xx/NVS.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.orm4 package/lib/lib/drivers_cc32xx/SD.orm4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.orm4 package/lib/lib/drivers_cc32xx/SDFatFS.orm4 package/lib/lib/drivers_cc32xx/./utils/List.orm4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4 package/lib/lib/drivers_cc32xx/./utils/Random.orm4 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4 package/lib/lib/drivers_cc32xx/./apps/LED.orm4 package/lib/lib/drivers_cc32xx/./apps/Button.orm4 package/lib/lib/drivers_cc32xx/ADC.orm4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4 package/lib/lib/drivers_cc32xx/Camera.orm4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Capture.orm4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.orm4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2C.orm4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2S.orm4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.orm4 package/lib/lib/drivers_cc32xx/PWM.orm4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.orm4 package/lib/lib/drivers_cc32xx/SPI.orm4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Timer.orm4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/UART.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Watchdog.orm4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.orm4  into $@ ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iarchive --silent -o $@   package/lib/lib/drivers_cc32xx/package/package_ti.drivers.orm4 package/lib/lib/drivers_cc32xx/NVS.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.orm4 package/lib/lib/drivers_cc32xx/SD.orm4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.orm4 package/lib/lib/drivers_cc32xx/SDFatFS.orm4 package/lib/lib/drivers_cc32xx/./utils/List.orm4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4 package/lib/lib/drivers_cc32xx/./utils/Random.orm4 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4 package/lib/lib/drivers_cc32xx/./apps/LED.orm4 package/lib/lib/drivers_cc32xx/./apps/Button.orm4 package/lib/lib/drivers_cc32xx/ADC.orm4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4 package/lib/lib/drivers_cc32xx/Camera.orm4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Capture.orm4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.orm4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2C.orm4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2S.orm4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.orm4 package/lib/lib/drivers_cc32xx/PWM.orm4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.orm4 package/lib/lib/drivers_cc32xx/SPI.orm4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Timer.orm4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/UART.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Watchdog.orm4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.orm4 
 
 clean,rm4 clean::
 	-$(RM) lib/drivers_cc32xx.arm4
@@ -256,6 +256,12 @@ RingBuf.oem4,copy : package/lib/lib/drivers_cc32xx/./utils/RingBuf.oem4
 RingBuf.sem4,copy : package/lib/lib/drivers_cc32xx/./utils/RingBuf.sem4
 Random.oem4,copy : package/lib/lib/drivers_cc32xx/./utils/Random.oem4
 Random.sem4,copy : package/lib/lib/drivers_cc32xx/./utils/Random.sem4
+StructRingBuf.oem4,copy : package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.oem4
+StructRingBuf.sem4,copy : package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sem4
+LED.oem4,copy : package/lib/lib/drivers_cc32xx/./apps/LED.oem4
+LED.sem4,copy : package/lib/lib/drivers_cc32xx/./apps/LED.sem4
+Button.oem4,copy : package/lib/lib/drivers_cc32xx/./apps/Button.oem4
+Button.sem4,copy : package/lib/lib/drivers_cc32xx/./apps/Button.sem4
 ADC.oem4,copy : package/lib/lib/drivers_cc32xx/ADC.oem4
 ADC.sem4,copy : package/lib/lib/drivers_cc32xx/ADC.sem4
 ADCCC32XX.oem4,copy : package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.oem4
@@ -270,6 +276,8 @@ CaptureCC32XX.oem4,copy : package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX
 CaptureCC32XX.sem4,copy : package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.sem4
 CryptoCC32XX.oem4,copy : package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.oem4
 CryptoCC32XX.sem4,copy : package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.sem4
+CryptoUtils.oem4,copy : package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.oem4
+CryptoUtils.sem4,copy : package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sem4
 UDMACC32XX.oem4,copy : package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.oem4
 UDMACC32XX.sem4,copy : package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sem4
 GPIOCC32XX.oem4,copy : package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.oem4
@@ -329,6 +337,12 @@ RingBuf.om4g,copy : package/lib/lib/drivers_cc32xx/./utils/RingBuf.om4g
 RingBuf.sm4g,copy : package/lib/lib/drivers_cc32xx/./utils/RingBuf.sm4g
 Random.om4g,copy : package/lib/lib/drivers_cc32xx/./utils/Random.om4g
 Random.sm4g,copy : package/lib/lib/drivers_cc32xx/./utils/Random.sm4g
+StructRingBuf.om4g,copy : package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.om4g
+StructRingBuf.sm4g,copy : package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.sm4g
+LED.om4g,copy : package/lib/lib/drivers_cc32xx/./apps/LED.om4g
+LED.sm4g,copy : package/lib/lib/drivers_cc32xx/./apps/LED.sm4g
+Button.om4g,copy : package/lib/lib/drivers_cc32xx/./apps/Button.om4g
+Button.sm4g,copy : package/lib/lib/drivers_cc32xx/./apps/Button.sm4g
 ADC.om4g,copy : package/lib/lib/drivers_cc32xx/ADC.om4g
 ADC.sm4g,copy : package/lib/lib/drivers_cc32xx/ADC.sm4g
 ADCCC32XX.om4g,copy : package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.om4g
@@ -343,6 +357,8 @@ CaptureCC32XX.om4g,copy : package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX
 CaptureCC32XX.sm4g,copy : package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.sm4g
 CryptoCC32XX.om4g,copy : package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.om4g
 CryptoCC32XX.sm4g,copy : package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.sm4g
+CryptoUtils.om4g,copy : package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.om4g
+CryptoUtils.sm4g,copy : package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.sm4g
 UDMACC32XX.om4g,copy : package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.om4g
 UDMACC32XX.sm4g,copy : package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.sm4g
 GPIOCC32XX.om4g,copy : package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.om4g
@@ -402,6 +418,12 @@ RingBuf.orm4,copy : package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4
 RingBuf.srm4,copy : package/lib/lib/drivers_cc32xx/./utils/RingBuf.srm4
 Random.orm4,copy : package/lib/lib/drivers_cc32xx/./utils/Random.orm4
 Random.srm4,copy : package/lib/lib/drivers_cc32xx/./utils/Random.srm4
+StructRingBuf.orm4,copy : package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4
+StructRingBuf.srm4,copy : package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.srm4
+LED.orm4,copy : package/lib/lib/drivers_cc32xx/./apps/LED.orm4
+LED.srm4,copy : package/lib/lib/drivers_cc32xx/./apps/LED.srm4
+Button.orm4,copy : package/lib/lib/drivers_cc32xx/./apps/Button.orm4
+Button.srm4,copy : package/lib/lib/drivers_cc32xx/./apps/Button.srm4
 ADC.orm4,copy : package/lib/lib/drivers_cc32xx/ADC.orm4
 ADC.srm4,copy : package/lib/lib/drivers_cc32xx/ADC.srm4
 ADCCC32XX.orm4,copy : package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4
@@ -416,6 +438,8 @@ CaptureCC32XX.orm4,copy : package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX
 CaptureCC32XX.srm4,copy : package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.srm4
 CryptoCC32XX.orm4,copy : package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4
 CryptoCC32XX.srm4,copy : package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.srm4
+CryptoUtils.orm4,copy : package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4
+CryptoUtils.srm4,copy : package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.srm4
 UDMACC32XX.orm4,copy : package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4
 UDMACC32XX.srm4,copy : package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.srm4
 GPIOCC32XX.orm4,copy : package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4
@@ -487,6 +511,9 @@ package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./dpl/SystemP.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/List.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/RingBuf.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/Random.h
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/StructRingBuf.h
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./apps/LED.h
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./apps/Button.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ADC.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./adc/ADCCC32XX.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: Camera.h
@@ -494,6 +521,7 @@ package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./camera/CameraCC32XX
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: Capture.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./capture/CaptureCC32XX.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./crypto/CryptoCC32XX.h
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./cryptoutils/utils/CryptoUtils.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./dma/UDMACC32XX.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: GPIO.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./gpio/GPIOCC32XX.h
@@ -515,7 +543,6 @@ package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./uart/UARTCC32XX.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./uart/UARTCC32XXDMA.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: Watchdog.h
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./watchdog/WatchdogCC32XX.h
-package/rel/ti_drivers/ti/drivers/package/package.rel.xml: .meta
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: package/package.cfg.xdc.inc
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: lib/drivers_cc32xx.aem4
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: package/package_ti.drivers.c
@@ -528,6 +555,9 @@ package/rel/ti_drivers/ti/drivers/package/package.rel.xml: SDFatFS.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/List.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/RingBuf.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/Random.c
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./utils/StructRingBuf.c
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./apps/LED.c
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./apps/Button.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ADC.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./adc/ADCCC32XX.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: Camera.c
@@ -535,6 +565,7 @@ package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./camera/CameraCC32XX
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: Capture.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./capture/CaptureCC32XX.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./crypto/CryptoCC32XX.c
+package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./cryptoutils/utils/CryptoUtils.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./dma/UDMACC32XX.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: ./gpio/GPIOCC32XX.c
 package/rel/ti_drivers/ti/drivers/package/package.rel.xml: I2C.c
@@ -622,6 +653,9 @@ endif
 ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/utils))
     $(shell $(MKDIR) package/lib/lib/drivers_cc32xx/utils)
 endif
+ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/apps))
+    $(shell $(MKDIR) package/lib/lib/drivers_cc32xx/apps)
+endif
 ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/adc))
     $(shell $(MKDIR) package/lib/lib/drivers_cc32xx/adc)
 endif
@@ -633,6 +667,12 @@ ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/capture))
 endif
 ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/crypto))
     $(shell $(MKDIR) package/lib/lib/drivers_cc32xx/crypto)
+endif
+ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/cryptoutils))
+    $(shell $(MKDIR) package/lib/lib/drivers_cc32xx/cryptoutils)
+endif
+ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/cryptoutils/utils))
+    $(shell $(MKDIR) package/lib/lib/drivers_cc32xx/cryptoutils/utils)
 endif
 ifeq (,$(wildcard package/lib/lib/drivers_cc32xx/dma))
     $(shell $(MKDIR) package/lib/lib/drivers_cc32xx/dma)

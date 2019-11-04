@@ -50,6 +50,13 @@ extern "C" {
 /* must match type of _SlNetSock_Addr_t's sa_family field */
 typedef uint16_t sa_family_t;
 
+/* used for SO_LINGER option in set/getsockopt */
+typedef struct linger
+{
+    int l_onoff;           /**< 0 = disabled; 1 = enabled; default = 0; */
+    int l_linger;          /**< linger time in seconds; default = 0;    */
+} linger;
+
 #define sockaddr_storage SlNetSock_SockAddrStorage_t
 
 /* socket opts */

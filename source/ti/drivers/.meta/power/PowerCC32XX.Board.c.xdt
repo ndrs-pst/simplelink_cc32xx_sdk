@@ -126,15 +126,13 @@
       return "PRCM_IO_RET_" +  mask.join("|PRCM_IO_RET_");
     }
 %%}
-
-
 /*
  *  =============================== Power ===============================
  */
 #include <ti/drivers/Power.h>
 #include <ti/drivers/power/PowerCC32XX.h>
 #include <ti/devices/cc32xx/driverlib/prcm.h>
-#include "Board.h"
+#include "ti_drivers_config.h"
 
 % if (policyInitFxn !== 'NULL') {
 extern void `policyInitFxn`(void);

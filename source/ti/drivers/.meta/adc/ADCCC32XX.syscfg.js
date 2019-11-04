@@ -42,8 +42,6 @@
  *  Device-specific extensions to be added to base ADC configuration
  */
 let devSpecific = {
-    maxInstances: 4,
-
     config: [
         {
             name: "resolution",
@@ -63,7 +61,9 @@ let devSpecific = {
     templates: {
         boardc: "/ti/drivers/adc/ADCCC32XX.Board.c.xdt",
         boardh: "/ti/drivers/adc/ADC.Board.h.xdt"
-    }
+    },
+
+    _getPinResources: _getPinResources
 };
 
 /*
@@ -96,6 +96,21 @@ function pinmuxRequirements(inst)
     };
 
     return ([adc]);
+}
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+
+    let pin = "P" + inst.adc.adcPin.$solution.packagePinName;
+
+    if (inst.$hardware && inst.$hardware.displayName) {
+        pin += ", " + inst.$hardware.displayName;
+    }
+
+    return (pin);
 }
 
 /*

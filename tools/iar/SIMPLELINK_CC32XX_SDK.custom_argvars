@@ -4,15 +4,15 @@
   <group active="true" name="SIMPLELINK_CC32XX_SDK">
     <variable>
       <name>XDCPATH</name>
-      <value>c:/ti/simplelink_cc32xx_sdk_3_20_00_06/kernel/tirtos/packages;c:/ti/simplelink_cc32xx_sdk_3_20_00_06/source</value>
+      <value>c:/ti/simplelink_cc32xx_sdk_3_30_01_02/kernel/tirtos/packages;c:/ti/simplelink_cc32xx_sdk_3_30_01_02/source</value>
     </variable>
     <variable>
       <name>XDCROOT</name>
-      <value>c:/ti/xdctools_3_51_03_28_core</value>
+      <value>c:/ti/xdctools_3_60_00_24_core</value>
     </variable>
     <variable>
       <name>SYSCONFIG_ROOT</name>
-      <value>c:/ti/sysconfig_1.1.777</value>
+      <value>c:/ti/sysconfig_1.2.946</value>
     </variable>
     <variable>
       <name>FREERTOS_INSTALL_DIR</name>
@@ -20,11 +20,11 @@
     </variable>
     <variable>
       <name>SIMPLELINK_CC32XX_SDK_INSTALL_DIR</name>
-      <value>c:/ti/simplelink_cc32xx_sdk_3_20_00_06</value>
+      <value>c:/ti/simplelink_cc32xx_sdk_3_30_01_02</value>
     </variable>
     <variable>
       <name>EXAMPLE_ROOT</name>
-      <value>c:/ti/simplelink_cc32xx_sdk_3_20_00_06/tools/iar</value>
+      <value>c:/ti/simplelink_cc32xx_sdk_3_30_01_02/tools/iar</value>
     </variable>
   </group>
 </iarUserArgVars>

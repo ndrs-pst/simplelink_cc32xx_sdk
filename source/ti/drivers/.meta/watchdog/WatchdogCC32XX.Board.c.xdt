@@ -1,6 +1,6 @@
 %%{
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@
 
     let Watchdog    = args[0];
     let instances   = Watchdog.$instances;
+    if (instances.length == 0) return;
     let countDef    = Watchdog.defaultInstanceName + "COUNT";
     let Common      = system.getScript("/ti/drivers/Common.js");
 %%}

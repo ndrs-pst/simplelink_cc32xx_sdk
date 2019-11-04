@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, Texas Instruments Incorporated
+ * Copyright (c) 2015-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,11 +108,11 @@ static uint8_t HeadersHashTable[MAX_HASH_TABLE_SIZE] = {
 };
 
 /* Prototype for local functions */
-static int16_t httpProxyTunnel(HTTPClient_CB *cli, const char *hostName);
+static int16_t httpProxyTunnel(HTTPClient_CB *cli, const char *hostName, uint16_t portNumber);
 static int16_t getStatus(HTTPClient_CB *cli);
 static int16_t readLine(HTTPClient_CB *cli, char *line, int len, bool *moreFlag, uint32_t buffereddBodyLen);
+static int16_t createSecAttribs(HTTPClient_extSecParams *exSecParams, SlNetSockSecAttrib_t **secAttribs);
 static int16_t sprsend(HTTPClient_CB *cli, uint8_t flags, const char * fmt, ...);
-static int16_t startSecureMode(HTTPClient_CB * cli, const char *domain,HTTPClient_extSecParams *exSecParams);
 static int16_t sendReqHeaders(HTTPClient_CB *cli,uint32_t name ,uint32_t flags);
 static int16_t manageResponseHeaders(HTTPClient_CB *cli, uint8_t *flags);
 static void clearReqHeaders(HTTPClient_CB *cli, bool persistent);
@@ -145,14 +145,14 @@ static int16_t SlNetSock_connectURI(int16_t *sd, const char *URI, SlNetSockSecAt
 {
     uint32_t          addr[4];
     uint16_t          ipAddrLen = 1;
-    SlNetSock_Addr_t  serverAddr;
+    SlNetSock_SockAddrStorage_t  serverAddr;
     SlNetSocklen_t    serverAddrSize;
     int32_t           retVal;
     char              domainBuff[HTTPClient_DOMAIN_BUFLEN];
     char             *pDomainBuff    = domainBuff;
     uint16_t          domainBuffLen  = HTTPClient_DOMAIN_BUFLEN;
     uint16_t          port           = 0;
-    int16_t           virtualSd;
+    int16_t           virtualSd      = 0;
     uint16_t          URIFlags;
 
     /* Parse the URI input into port number, address (Domain, IPv4 or IPv6)
@@ -252,7 +252,7 @@ static int16_t SlNetSock_connectURI(int16_t *sd, const char *URI, SlNetSockSecAt
             serverAddrSize = sizeof(SlNetSock_AddrIn6_t);
             ((SlNetSock_AddrIn6_t *)&serverAddr)->sin6_family = SLNETSOCK_AF_INET6;
             ((SlNetSock_AddrIn6_t *)&serverAddr)->sin6_port   = SlNetUtil_htons(port);
-            memcpy(((SlNetSock_AddrIn6_t *)&serverAddr)->sin6_addr._S6_un._S6_u32, addr, 16);
+            memcpy(((SlNetSock_AddrIn6_t *)&serverAddr)->sin6_addr._S6_un._S6_u32, addr, sizeof(addr));
         }
     }
     /* The return value of the getHostByName function is the ifID of the
@@ -262,7 +262,7 @@ static int16_t SlNetSock_connectURI(int16_t *sd, const char *URI, SlNetSockSecAt
     /* When sd isn't provided, create one */
     if (NULL == sd)
     {
-        retVal = SlNetSock_create(serverAddr.sa_family, SLNETSOCK_SOCK_STREAM, SLNETSOCK_PROTO_TCP, ifBitmap, 0);
+        retVal = SlNetSock_create(serverAddr.ss_family, SLNETSOCK_SOCK_STREAM, SLNETSOCK_PROTO_TCP, ifBitmap, 0);
         virtualSd = retVal;
     }
 
@@ -360,7 +360,8 @@ static int16_t stringncasecmp(const char *s1, const char *s2, size_t n)
     if (n != 0)
     {
         do {
-            compareVal = tolower(*s1) - tolower(*s2);
+            /* TODO - avoid gcc's -Wall build errors */
+            compareVal = tolower(/*(int)*/*s1) - tolower(/*(int)*/*s2);
             if (compareVal != 0)
             {
                 return (compareVal);
@@ -968,24 +969,35 @@ static int16_t readResponseHeader(HTTPClient_CB *cli, char *header, uint8_t *mor
 
     if (getCliState(cli,HEADER_INCOMPLETE_STATE))
     {
-        eoh = strstr(cli->validBufStart,HTTPClient_crlfcrlf);
-        eol = strstr(cli->validBufStart,HTTPClient_crlf);
-        if (eol && (eoh== NULL))
+        eoh = strstr(cli->validBufStart, HTTPClient_crlfcrlf);
+        eol = strstr(cli->validBufStart, HTTPClient_crlf);
+        if (eol && (eoh == NULL))
         {
-            /* Clear the remaining of incomplete header-field */
+            /* Clear the remainder of the incomplete header field */
             cli->validBufStart = eol + strlen(HTTPClient_crlf);
         }
-        else if (eoh)
+        else if ((eoh) && (eol))
         {
-            /* The last header in the buffer is larger than buffer */
-            cli->validBufStart = eol + strlen(HTTPClient_crlfcrlf);
-            setCliState(cli,HEADER_INCOMPLETE_STATE,false);
-            return(LAST_HEADER_INCOMPLETE);
+            if (eoh == eol)
+            {
+                /* The last header in the buffer is larger than buffer */
+                cli->validBufStart = eol + strlen(HTTPClient_crlfcrlf);
+                setCliState(cli, HEADER_INCOMPLETE_STATE, false);
+                return(LAST_HEADER_INCOMPLETE);
+            }
+            else
+            {
+                /* Clear the remainder of the incomplete header field */
+                cli->validBufStart = eol + strlen(HTTPClient_crlf);
+            }
         }
         else if (eoh == NULL && eol == NULL)
         {
             /* After getting more data, the header and its value are not over yet */
-            cli->validBufEnd = cli->buf;
+            /* Copy a byte over in case \r is alone at the end of this buffer */
+            memcpy(cli->buf, cli->validBufEnd - 1, 1);
+            /* Move one byte from beginning so as not to overwrite at upcoming call to recv() */
+            cli->validBufEnd = cli->buf + 1;
             *moreFlag |= RECV_DATA;
             return(CONTINUE_AND_PULL);
         }
@@ -996,7 +1008,7 @@ static int16_t readResponseHeader(HTTPClient_CB *cli, char *header, uint8_t *mor
     eol = strstr(cli->validBufStart,HTTPClient_crlf);
     if ((eoh) && (eol))
     {
-        /* Current buffer have last header in it */
+        /* Current buffer has last header in it */
         currHeaderLen = eol - cli->validBufStart;
         if (eoh == eol)
         {
@@ -1017,6 +1029,14 @@ static int16_t readResponseHeader(HTTPClient_CB *cli, char *header, uint8_t *mor
     }
     else if (eol && (eoh == NULL))
     {
+        /*
+         * If this is the case, then the client encountered HTTPClient_crlfcrlf,
+         * but the string was encountered over two calls to recv()
+         */
+        if (eol == cli->validBufStart)
+        {
+            return(NO_MORE_HEADERS);
+        }
         /* Last header-field is not included in the buffer */
         currHeaderLen = eol - cli->validBufStart;
         *eol = '\0';
@@ -1031,17 +1051,21 @@ static int16_t readResponseHeader(HTTPClient_CB *cli, char *header, uint8_t *mor
             /* This section means that the Header and its value are larger than buffer */
             memcpy(header,cli->validBufStart,HTTPClient_BUF_LEN);
             *(header + HTTPClient_BUF_LEN - 1) = '\0';
-            cli->validBufEnd = cli->buf;
+            /* Copy a byte over in case \r is alone at the end of this buffer */
+            memcpy(cli->buf, cli->validBufEnd - 1, 1);
+            /* Advance forward one byte so as not to overwrite byte copied at upcoming call to recv() */
+            cli->validBufEnd = cli->buf + 1;
+            cli->validBufStart = cli->buf;
             /* Current header and value are incomplete */
             setCliState(cli,HEADER_INCOMPLETE_STATE,true);
             *moreFlag |= INCOMPLETE_VALUE;
-            /* More data need to be pulled from the NWP */
+            /* More data needs to be pulled from the NWP */
             *moreFlag |= RECV_DATA;
             return(PARSE_AND_CONTINUE);
         }
         else
         {
-            /* This sections  means that , The header and it value are cut before crlfcrlf */
+            /* This sections  means that the header and its value are cut before crlfcrlf */
             notSentLen =  cli->validBufEnd - cli->validBufStart;
             memcpy(cli->buf,cli->validBufStart,notSentLen);
             cli->validBufEnd = cli->buf + notSentLen;
@@ -1224,17 +1248,19 @@ static int16_t sendReqHeaders(HTTPClient_CB *cli,uint32_t name ,uint32_t flags)
 }
 
 /*
- *  ======== startSecureMode ========
+ * ======== createSecAttribs ========
+ * Creates an SlNetSockSecAttrib_t struct based on a user-supplied
+ * HTTPClient_extSecParams struct
  */
-static int16_t startSecureMode(HTTPClient_CB *cli, const char *domain, HTTPClient_extSecParams *exSecParams)
+static int16_t createSecAttribs(HTTPClient_extSecParams *exSecParams, SlNetSockSecAttrib_t **secAttribs)
 {
-    SlNetSockSecAttrib_t *secAttribHdl = NULL;
-    int ret;
+    int16_t ret = SLNETERR_RET_CODE_OK;
+    SlNetSockSecAttrib_t *secAttribHdl;
 
     secAttribHdl = SlNetSock_secAttribCreate();
     if (secAttribHdl == NULL)
     {
-        return(HTTPClient_ECANTCREATESECATTRIB);
+        return (HTTPClient_ECANTCREATESECATTRIB);
     }
     if (exSecParams != NULL)
     {
@@ -1263,21 +1289,15 @@ static int16_t startSecureMode(HTTPClient_CB *cli, const char *domain, HTTPClien
             }
         }
     }
-    if (domain != NULL)
-    {
-        ret = SlNetSock_secAttribSet(secAttribHdl, SLNETSOCK_SEC_ATTRIB_DOMAIN_NAME,(char *)domain,strlen(domain));
-        if (ret < 0)
-        {
-            goto error;
-        }
-    }
-    ret = SlNetSock_startSec(cli->ssock, secAttribHdl, SLNETSOCK_SEC_START_SECURITY_SESSION_ONLY|SLNETSOCK_SEC_BIND_CONTEXT_ONLY);
+    *secAttribs = secAttribHdl;
 
 error:
-    SlNetSock_secAttribDelete(secAttribHdl);
-
+    if (ret < 0)
+    {
+        SlNetSock_secAttribDelete(secAttribHdl);
+        *secAttribs = NULL;
+    }
     return (ret);
-
 }
 
 /*
@@ -1401,7 +1421,7 @@ static int16_t readLine(HTTPClient_CB *cli, char *line, int len, bool *moreFlag,
 }
 /*
  *  ======== getStatus ========
- *  Processes the response line to get the status
+ *  Resets buffer, retrieves data from the socket and checks that it is a HTTP response header with a status code (eg, HTTP/1.1 200 OK).
  */
 static int16_t getStatus(HTTPClient_CB *cli)
 {
@@ -1459,18 +1479,18 @@ static int16_t getStatus(HTTPClient_CB *cli)
  *  ======== httpProxyTunnel ========
  *  HTTP tunnel through proxy
  */
-static int16_t httpProxyTunnel(HTTPClient_CB *cli, const char *hostName)
+static int16_t httpProxyTunnel(HTTPClient_CB *cli, const char *hostName, uint16_t portNumber)
 {
     uint8_t redirectFlag = 0;
     int16_t ret = 0;
 
-    /* Start line */
-    ret = sprsend(cli, 0, "%s %s %s\r\n", HTTP_METHOD_CONNECT, hostName, HTTPStr_VER1_1);
+    /* Start line CONNECT <hostName>:<port> HTTP/1.1 */
+    ret = sprsend(cli, 0, "%s %s:%d %s\r\n", HTTP_METHOD_CONNECT, hostName, portNumber, HTTPStr_VER1_1);
     if (ret < 0)
     {
         return (ret);
     }
-    /* Host header-field */
+    /* Host header-field  Host:<host> */
     ret = sendReqHeaders(cli,HTTPClient_HFIELD_REQ_HOST,HTTPClient_HFIELD_PERSISTENT|ONE_REQ);
     if (ret == HTTPClient_EREQHEADERNOTFOUND)
     {
@@ -1482,6 +1502,10 @@ static int16_t httpProxyTunnel(HTTPClient_CB *cli, const char *hostName)
     }
     /* Proxy authorization */
     ret = sendReqHeaders(cli,HTTPClient_HFIELD_REQ_PROXY_AUTHORIZATION,HTTPClient_HFIELD_NOT_PERSISTENT|ONE_REQ);
+    /* Send user-agent header and proxy connection keep alive */
+    ret = sendReqHeaders(cli,HTTPClient_HFIELD_REQ_USER_AGENT,HTTPClient_HFIELD_PERSISTENT|ONE_REQ);
+    ret = HTTPClient_setHeader(cli,HTTPClient_HFIELD_REQ_CONNECTION,"Keep-Alive",strlen("Keep-Alive") + 1,HTTPClient_HFIELD_NOT_PERSISTENT);
+    ret = sendReqHeaders(cli,HTTPClient_HFIELD_REQ_CONNECTION,HTTPClient_HFIELD_NOT_PERSISTENT|ONE_REQ);
     ret = sprsend(cli, 0,"\r\n");
     if (ret < 0)
     {
@@ -1501,6 +1525,7 @@ static int16_t httpProxyTunnel(HTTPClient_CB *cli, const char *hostName)
         return (ret);
     }
 
+    /* Handles any headers that come after the HTTP 200 response */
     manageResponseHeaders(cli,&redirectFlag);
 
     cli->bodyLen  = 0;
@@ -1646,11 +1671,41 @@ static void initializeCB(HTTPClient_CB *cli)
 int16_t HTTPClient_disconnect(HTTPClient_Handle client)
 {
     HTTPClient_CB *cli = (HTTPClient_CB *)client;
+    SlNetSockSecAttrib_t *tempSecAttribs = NULL;
+    SlNetSock_SecAttribNode_t *secNode = NULL;
     int16_t ret = 0;
 
     if (cli != NULL)
     {
         ret = SlNetSock_close(cli->ssock);
+        if ((cli->secAttribs != NULL) && cli->secAttribsAllocated)
+        {
+            tempSecAttribs = cli->secAttribs;
+
+            /*
+             * If secAttribs has a domain we need to free its attribBuff,
+             * because we malloced the memory back in HTTPClient_connect().
+             */
+            if (*tempSecAttribs)
+            {
+                secNode = *tempSecAttribs;
+
+                while(secNode)
+                {
+                    if(secNode->attribName == SLNETSOCK_SEC_ATTRIB_DOMAIN_NAME)
+                    {
+                        free(secNode->attribBuff);
+                        break;
+                    }
+
+                    secNode = secNode->next;
+                }
+            }
+
+            SlNetSock_secAttribDelete(cli->secAttribs);
+            cli->secAttribs = NULL;
+            cli->secAttribsAllocated = false;
+        }
         /* Clear non-persistent request headers */
         clearReqHeaders(cli,false);
         /* Clear persistent request headers */
@@ -1713,9 +1768,9 @@ int16_t HTTPClient_destroy(HTTPClient_Handle client)
 }
 
 /*
- *  ======== HTTPClient_connect ========
+ *  ======== HTTPClient_connect2 ========
  */
-int16_t HTTPClient_connect(HTTPClient_Handle client, const char *hostName,HTTPClient_extSecParams *exSecParams, uint32_t flags)
+int16_t HTTPClient_connect2(HTTPClient_Handle client, const char *hostName, SlNetSockSecAttrib_t *secAttribs, uint32_t flags, int16_t *secureRetVal)
 {
     HTTPClient_CB *cli = (HTTPClient_CB *)client;
     int16_t   skt;
@@ -1811,7 +1866,7 @@ int16_t HTTPClient_connect(HTTPClient_Handle client, const char *hostName,HTTPCl
             }
             /* Connection finished succesfully */
             /* Tunnel using HTTP CONNECT */
-            ret = httpProxyTunnel(cli,hostName);
+            ret = httpProxyTunnel(cli,domainBuff,port);
             if (ret != 0)
             {
                 HTTPClient_disconnect(cli);
@@ -1839,24 +1894,100 @@ int16_t HTTPClient_connect(HTTPClient_Handle client, const char *hostName,HTTPCl
         }
         if ((intFlags & ISSECURED) || getCliState(cli, ISSECURED_STATE))
         {
-            if (!(intFlags & ISDOMAIN))
+            ret = SlNetSock_startSec(cli->ssock, secAttribs,
+                                     SLNETSOCK_SEC_START_SECURITY_SESSION_ONLY |
+                                     SLNETSOCK_SEC_BIND_CONTEXT_ONLY);
+            /*
+             *  Each of these specific return values indicate that the
+             *  connection was successful, but with a caveat
+             */
+            if ((ret >= 0) ||
+                (ret == SLNETERR_ESEC_UNKNOWN_ROOT_CA)      ||
+                (ret == SLNETERR_ESEC_CERTIFICATE_REVOKED)  ||
+                (ret == SLNETERR_ESEC_DATE_ERROR)           ||
+                (ret == SLNETERR_ESEC_SNO_VERIFY))
             {
-                domainPtr = NULL;
+                if (secureRetVal)
+                {
+                    *secureRetVal = ret;
+                }
             }
-            ret = startSecureMode(cli,domainPtr,exSecParams);
-            if ((ret < 0) && (ret != SLNETERR_ESEC_UNKNOWN_ROOT_CA) && (ret != SLNETERR_ESEC_HAND_SHAKE_TIMED_OUT) && (ret != SLNETERR_ESEC_DATE_ERROR) && (ret != SLNETERR_ESEC_SNO_VERIFY))
+            else
             {
-                HTTPClient_disconnect(cli);
+                /* Exit, as the secure connection could not be established */
                 return (ret);
             }
-            /* TLS was successfull, saves security attributes for reconnect */
+            /* TLS was successful, save security attributes for reconnect */
             setCliState(cli, ISSECURED_STATE, true);
-            cli->secParams = exSecParams;
+            cli->secAttribs = secAttribs;
         }
         setCliState(cli, CONNECTED_STATE, true);
         return (0);
     }
     return (HTTPClient_ECLIENTALREADYCONNECTED);
+}
+
+/*
+ *  ======== HTTPClient_connect ========
+ */
+int16_t HTTPClient_connect(HTTPClient_Handle client, const char *hostName, HTTPClient_extSecParams *exSecParams, uint32_t flags)
+{
+    HTTPClient_CB *cli = (HTTPClient_CB *)client;
+    uint16_t intFlags = 0;
+    uint16_t port = 0;
+    int16_t  retVal;
+    char     domainBuff[HTTPClient_DOMAIN_BUFLEN];
+    char     *domainPtr = NULL;
+
+    /*  Secure attribute memory is cleaned up in HTTPClient_disconnect */
+    SlNetSockSecAttrib_t *secAttribs = NULL;
+
+    /* Extract security parameters */
+    if (exSecParams != NULL)
+    {
+        retVal = createSecAttribs(exSecParams, &secAttribs);
+        if (retVal < 0)
+        {
+            return (retVal);
+        }
+        retVal = parseURI(hostName, &port, domainBuff, &intFlags);
+        if ((retVal == 0) && (intFlags & ISDOMAIN))
+        {
+            /*
+             * Copy the domain into malloced memory to avoid pointing to the
+             * stack's memory inside secAttribs.
+             */
+            domainPtr = malloc((strlen(domainBuff) + 1));
+            if(!domainPtr)
+            {
+                SlNetSock_secAttribDelete(secAttribs);
+                return (SLNETERR_RET_CODE_MALLOC_ERROR);
+            }
+            memcpy(domainPtr, domainBuff, (strlen(domainBuff) + 1));
+            retVal = SlNetSock_secAttribSet(secAttribs, SLNETSOCK_SEC_ATTRIB_DOMAIN_NAME,
+                                            domainPtr, strlen(domainPtr));
+            if (retVal < 0)
+            {
+                free(domainPtr);
+                SlNetSock_secAttribDelete(secAttribs);
+                return (retVal);
+            }
+        }
+        cli->secAttribs = secAttribs;
+        cli->secAttribsAllocated = true;
+    }
+    else if (cli->secAttribs != NULL)
+    {
+        /* We're attempting to reconnect to a server */
+        secAttribs = cli->secAttribs;
+    }
+
+    retVal = HTTPClient_connect2(client, hostName, secAttribs, flags, NULL);
+    if (retVal < 0)
+    {
+        HTTPClient_disconnect(client);
+    }
+    return (retVal);
 }
 
 int16_t HTTPClient_sendRequest(HTTPClient_Handle client, const char *method,const char *requestURI, const char *body, uint32_t bodyLen, uint32_t flags)

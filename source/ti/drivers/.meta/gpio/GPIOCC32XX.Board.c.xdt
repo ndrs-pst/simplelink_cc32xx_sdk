@@ -78,8 +78,9 @@ GPIO_PinConfig gpioPinConfigs[] = {
     /* Pins with callbacks */
 
     % }
-    % if ((GPIO.$static.enableSort == true) && (pinsAreGrouped == false)
-    %      && (callbackCount != 0) && (addCallback[inst.$name] == false)) {
+    % if ((GPIO.$static.optimizeCallbackTableSize == true)
+    %     && (pinsAreGrouped == false)
+    %     && (callbackCount != 0) && (addCallback[inst.$name] == false)) {
     %    pinsAreGrouped = true;
 
     /* Pins without callbacks */
@@ -113,7 +114,8 @@ GPIO_PinConfig gpioPinConfigs[] = {
 % if (GPIO.$static.optimizeCallbackTableSize == false) {
  *
  *  NOTE: Unused callback entries can be omitted from the callbacks array to
- *  reduce memory usage by enabling sorting (GPIO.optimizeCallbackTableSize = true)
+ *  reduce memory usage by enabling callback table optimization
+ *  (GPIO.optimizeCallbackTableSize = true)
 % }
  */
 % if (externs.length > 0) {

@@ -171,7 +171,7 @@ static const uint32_t powerResources[] = {
 /*
  * Device specific interpretation of the GPIO_PinConfig content
  */
-typedef struct PinConfig {
+typedef struct {
     uint8_t pin;
     uint8_t port;
     uint16_t config;
@@ -182,7 +182,7 @@ typedef struct PinConfig {
  * Used by port interrupt function to locate callback assigned
  * to a pin.
  */
-typedef struct PortCallbackInfo {
+typedef struct {
     /*
      * the port's 8 corresponding
      * user defined pinId indices
@@ -218,7 +218,7 @@ static bool initCalled = false;
 /* Notification for going into and waking up from LPDS */
 static Power_NotifyObj powerNotifyObj;
 
-extern const GPIOCC32XX_Config GPIOCC32XX_config;
+__attribute__((weak))extern const GPIOCC32XX_Config GPIOCC32XX_config;
 
 static int powerNotifyFxn(unsigned int eventType, uintptr_t eventArg,
     uintptr_t clientArg);

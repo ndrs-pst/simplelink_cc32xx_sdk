@@ -15,117 +15,117 @@ XDCCFGDIR = package/cfg/
 # in the event that some included BOM script changes.
 #
 ifneq (clean,$(MAKECMDGOALS))
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/utils.js:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/utils.js
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/xdc.tci:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/xdc.tci
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/template.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/template.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/om2.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/om2.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen2.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/xmlgen2.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/Warnings.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/Warnings.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/IPackage.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/IPackage.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/package.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/package.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Clock.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Clock.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Trace.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/services/global/Trace.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/bld.js:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/bld.js
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/BuildEnvironment.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/BuildEnvironment.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/PackageContents.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/PackageContents.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/_gen.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/_gen.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Library.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Library.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Executable.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Executable.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Repository.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Repository.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Configuration.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Configuration.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Script.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Script.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Manifest.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Manifest.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Utils.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/Utils.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget2.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget2.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget3.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITarget3.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITargetFilter.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/ITargetFilter.xs
-/opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/package.xs:
-package.mak: /opt/ti/xdctools_3_51_03_28_core/packages/xdc/bld/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/utils/tiutils.bld:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/utils/tiutils.bld
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs
-/vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs:
-package.mak: /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/utils.js:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/utils.js
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/xdc.tci:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/xdc.tci
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/template.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/template.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/om2.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/om2.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen2.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/xmlgen2.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/Warnings.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/Warnings.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/IPackage.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/IPackage.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/package.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/package.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Clock.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Clock.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Trace.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/services/global/Trace.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/bld.js:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/bld.js
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/BuildEnvironment.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/BuildEnvironment.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/PackageContents.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/PackageContents.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/_gen.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/_gen.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Library.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Library.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Executable.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Executable.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Repository.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Repository.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Configuration.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Configuration.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Script.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Script.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Manifest.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Manifest.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Utils.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/Utils.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget2.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget2.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget3.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITarget3.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITargetFilter.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/ITargetFilter.xs
+/opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/package.xs:
+package.mak: /opt/ti/xdctools_3_60_00_24_core/packages/xdc/bld/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/utils/tiutils.bld:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/utils/tiutils.bld
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_large.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/C28_float.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/IArm.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/_utils.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Linux86.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/Mingw.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv6.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/GCArmv7A.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/IM.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/M3.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A8F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A9F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A15F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/A53F.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/package.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/ITarget.xs
+/vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs:
+package.mak: /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/package.xs
 package.mak: package.bld
 endif
 
-ti.targets.arm.elf.M4.rootDir ?= /opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
-ti.targets.arm.elf.packageBase ?= /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/
+ti.targets.arm.elf.M4.rootDir ?= /opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS
+ti.targets.arm.elf.packageBase ?= /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/ti/targets/arm/elf/
 gnu.targets.arm.M4.rootDir ?= /opt/ti/ccs-latest/ccs/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major
-gnu.targets.arm.packageBase ?= /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/gnu/targets/arm/
+gnu.targets.arm.packageBase ?= /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/gnu/targets/arm/
 iar.targets.arm.M4.rootDir ?= /opt/iar/arm/latest
-iar.targets.arm.packageBase ?= /vagrant/Q2_GA_SDK_23062019/sdk_root/kernel/tirtos/packages/iar/targets/arm/
+iar.targets.arm.packageBase ?= /vagrant/Q3_ENG_SDK_250919/sdk_root/kernel/tirtos/packages/iar/targets/arm/
 .PRECIOUS: $(XDCCFGDIR)/%.oem4
 .PHONY: all,em4 .dlls,em4 .executables,em4 test,em4
 all,em4: .executables,em4

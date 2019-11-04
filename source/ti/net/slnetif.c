@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018, Texas Instruments Incorporated
+ * Copyright (c) 2017-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -381,10 +381,10 @@ SlNetIf_t * SlNetIf_queryIf(uint32_t ifBitmap, uint32_t queryBitmap)
                 /* Check if the connection status bit needs to be set
                    and if it is                                              */
                 if ( (true == IS_CONNECTION_STATUS_BIT_SET(queryBitmap)) &&
-                     (SLNETIF_STATUS_DISCONNECTED == SlNetIf_getConnectionStatus((ifNode->netIf).ifID)) )
+                     (SLNETIF_STATUS_CONNECTED != SlNetIf_getConnectionStatus((ifNode->netIf).ifID)) )
                 {
-                    /* Connection status is disconnected when needed to
-                       be connected, continue to the next interface          */
+                    /* Connection status is not connected when it needed to
+                       be - continue to the next interface                    */
                     ifNode = ifNode->next;
                     continue;
                 }
@@ -600,7 +600,7 @@ int32_t SlNetIf_setPriority(uint16_t ifID, uint8_t priority)
         while (NULL != ifListNode)
         {
             /* If the incoming priority is higher than any present           */
-            if ( (ifListNode == SlNetIf_listHead) )
+            if (ifListNode == SlNetIf_listHead)
             {
                 if ((GET_IF_PRIORITY(ifListNode->netIf)) <= priority)
                 {
@@ -806,7 +806,11 @@ int32_t SlNetIf_loadSecObj(uint16_t objType, char *objName, int16_t objNameLen, 
     uint32_t   ifIDIndex = 1;  /* Set value to highest bit in uint32_t       */
     uint32_t   maxIDIndex = (uint32_t)1 << SLNETIF_MAX_IF;
 
-    if ((NULL == objName) || (NULL == objBuff))
+    /* validate params */
+    if ((objName == NULL) || (strlen(objName) != objNameLen) ||
+            ((objType != SLNETIF_SEC_OBJ_TYPE_RSA_PRIVATE_KEY) &&
+                (objType != SLNETIF_SEC_OBJ_TYPE_CERTIFICATE) &&
+                (objType != SLNETIF_SEC_OBJ_TYPE_DH_KEY)))
     {
         return SLNETERR_RET_CODE_INVALID_INPUT;
     }

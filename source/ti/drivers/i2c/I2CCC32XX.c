@@ -60,41 +60,40 @@
 #include <ti/devices/cc32xx/driverlib/rom.h>
 #include <ti/devices/cc32xx/driverlib/rom_map.h>
 #include <ti/devices/cc32xx/driverlib/i2c.h>
+#include <ti/devices/cc32xx/driverlib/prcm.h>
+#include <ti/devices/cc32xx/inc/hw_i2c.h>
 #include <ti/devices/cc32xx/driverlib/pin.h>
 
 /* Pad configuration defines */
 #define PAD_CONFIG_BASE (OCP_SHARED_BASE + OCP_SHARED_O_GPIO_PAD_CONFIG_0)
 #define PAD_DEFAULT_STATE 0xC60 /* pad reset, plus set GPIO mode to free I2C */
 
-/*
- * Specific I2C CMD MACROs that are not defined in I2C.h are defined here. Their
- * equivalent values are taken from the existing MACROs in I2C.h
- */
-#ifndef I2C_MASTER_CMD_BURST_RECEIVE_START_NACK
-#define I2C_MASTER_CMD_BURST_RECEIVE_START_NACK  I2C_MASTER_CMD_BURST_SEND_START
-#endif
+#define ERROR_INTERRUPTS (I2C_MASTER_INT_NACK | \
+        I2C_MASTER_INT_ARB_LOST)
 
-#ifndef I2C_MASTER_CMD_BURST_RECEIVE_STOP
-#define I2C_MASTER_CMD_BURST_RECEIVE_STOP        I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP
-#endif
-
-#ifndef I2C_MASTER_CMD_BURST_RECEIVE_CONT_NACK
-#define I2C_MASTER_CMD_BURST_RECEIVE_CONT_NACK   I2C_MASTER_CMD_BURST_SEND_CONT
-#endif
+#define DESIRED_INTERRUPTS (I2C_MASTER_INT_STOP | \
+        ERROR_INTERRUPTS)
 
 /* Prototypes */
 static void I2CCC32XX_blockingCallback(I2C_Handle handle, I2C_Transaction *msg,
                                        bool transferStatus);
 void         I2CCC32XX_cancel(I2C_Handle handle);
+void         I2CCC32XX_reset();
 void         I2CCC32XX_close(I2C_Handle handle);
 int_fast16_t I2CCC32XX_control(I2C_Handle handle, uint_fast16_t cmd, void *arg);
 void         I2CCC32XX_init(I2C_Handle handle);
 I2C_Handle   I2CCC32XX_open(I2C_Handle handle, I2C_Params *params);
-bool         I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction);
+int_fast16_t I2CCC32XX_transfer(I2C_Handle handle,
+                                I2C_Transaction *transaction, uint32_t timeout);
 
 static void initHw(I2C_Handle handle);
 static int postNotify(unsigned int eventType, uintptr_t eventArg,
                       uintptr_t clientArg);
+
+static void primeReadBurst(I2CCC32XX_Object *object,
+                           I2CCC32XX_HWAttrsV1 const *hwAttrs);
+static void primeWriteBurst(I2CCC32XX_Object *object,
+                            I2CCC32XX_HWAttrsV1 const *hwAttrs);
 static void I2CCC32XX_primeTransfer(I2CCC32XX_Object          *object,
                                     I2CCC32XX_HWAttrsV1 const *hwAttrs,
                                     I2C_Transaction           *transaction);
@@ -130,10 +129,19 @@ void I2CCC32XX_cancel(I2C_Handle handle)
 
     /* disable interrupts, send STOP to complete any transfer */
     key = HwiP_disable();
-    MAP_I2CMasterIntDisable(hwAttrs->baseAddr);
-
+    MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr, DESIRED_INTERRUPTS);
     MAP_I2CMasterControl(hwAttrs->baseAddr,
-        I2C_MASTER_CMD_BURST_SEND_ERROR_STOP);
+                         I2C_MASTER_CMD_FIFO_BURST_SEND_ERROR_STOP);
+
+    /*
+     * Sometimes after calling I2C_cancel, the clock line can be stuck
+     * low even if we disable and re-enable the I2C peripheral.
+     * Additionally we found that the data of a cancelled transaction
+     * can remain stuck in the TX FIFO and get sent out in the next
+     * transaction, even if we flush the TX FIFO. To avoid this
+     * unwanted behavior we should hard reset the I2C peripheral
+     */
+    I2CCC32XX_reset();
 
     /* call the transfer callback for the current transfer, indicate failure */
     object->transferCallbackFxn(handle, object->currentTransaction, false);
@@ -150,8 +158,7 @@ void I2CCC32XX_cancel(I2C_Handle handle)
     object->tailPtr = NULL;
     object->mode = I2CCC32XX_IDLE_MODE;
 
-    /* disable and the re-initialize master mode */
-    MAP_I2CMasterDisable(hwAttrs->baseAddr);
+    /* Re-initialize the hardware */
     initHw(handle);
 
     HwiP_restore(key);
@@ -170,7 +177,7 @@ void I2CCC32XX_close(I2C_Handle handle)
     DebugP_assert(object->headPtr == NULL);
 
     /* Mask I2C interrupts */
-    MAP_I2CMasterIntDisable(hwAttrs->baseAddr);
+    MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr, DESIRED_INTERRUPTS);
 
     /* Disable the I2C Master */
     MAP_I2CMasterDisable(hwAttrs->baseAddr);
@@ -231,10 +238,10 @@ static void I2CCC32XX_completeTransfer(I2C_Handle handle)
          * primeTransfer().
          */
         object->transferCallbackFxn(handle, object->currentTransaction,
-            (object->mode == I2CCC32XX_IDLE_MODE));
+                                    (object->mode == I2CCC32XX_IDLE_MODE));
 
-       /* release constraint since transaction is done */
-       Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
+        /* release constraint since transaction is done */
+        Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
 
         DebugP_log1("I2C:(%p) ISR No other I2C transaction in queue",
                     ((I2CCC32XX_HWAttrsV1 const *)(handle->hwAttrs))->baseAddr);
@@ -249,7 +256,7 @@ static void I2CCC32XX_completeTransfer(I2C_Handle handle)
          * additional transfer to the queue.
          */
         object->transferCallbackFxn(handle, object->currentTransaction,
-            (object->mode == I2CCC32XX_IDLE_MODE));
+                                    (object->mode == I2CCC32XX_IDLE_MODE));
 
         DebugP_log2("I2C:(%p) ISR Priming next I2C transaction (%p) from queue",
                     ((I2CCC32XX_HWAttrsV1 const *)(handle->hwAttrs))->baseAddr,
@@ -282,215 +289,283 @@ static void I2CCC32XX_hwiFxn(uintptr_t arg)
     /* Get the pointer to the object and hwAttrs */
     I2CCC32XX_Object          *object = ((I2C_Handle)arg)->object;
     I2CCC32XX_HWAttrsV1 const *hwAttrs = ((I2C_Handle)arg)->hwAttrs;
-    uint32_t                   errStatus;
+    uint32_t                   intStatus;
+    size_t                     originalWriteCount;
 
-    /* Get the interrupt status of the I2C controller */
-    errStatus = MAP_I2CMasterErr(hwAttrs->baseAddr);
+    /* Get interrupt status */
+    intStatus = MAP_I2CMasterIntStatusEx(hwAttrs->baseAddr, true);
 
     /* Clear interrupt source to avoid additional interrupts */
-    MAP_I2CMasterIntClear(hwAttrs->baseAddr);
+    MAP_I2CMasterIntClearEx(hwAttrs->baseAddr, intStatus);
 
-    /* Check for I2C Errors */
-    if ((errStatus == I2C_MASTER_ERR_NONE) ||
-        (object->mode == I2CCC32XX_ERROR)) {
-        /* No errors, now check what we need to do next */
+    /* Sometimes we get an 'ghost' interrupt with no status */
+    if(intStatus == 0x00000000) {
+        /*
+         * TODO figure out why we get this ghost interrupt after
+         * refilling/draining the TX/RX FIFOs
+         */
+        return;
+    }
+
+    /*
+     * Don't enter this if statement if this interrupt was caused
+     * by an ERROR_INTERRUPT. But if object->mode == ERROR, then
+     * enter the if statement and complete the transfer.
+     */
+    if (!(intStatus & ERROR_INTERRUPTS) || (object->mode == I2CCC32XX_ERROR)) {
         switch (object->mode) {
-            /*
-             * ERROR case is OK because if an Error is detected, a STOP bit is
-             * sent; which in turn will call another interrupt. This interrupt
-             * call will then post the transferComplete semaphore to unblock the
-             * I2C_transfer function
-             */
-            case I2CCC32XX_ERROR:
-            case I2CCC32XX_IDLE_MODE:
-                I2CCC32XX_completeTransfer((I2C_Handle) arg);
-                break;
+        /*
+         * ERROR case is OK because if an Error is detected, a STOP bit was
+         * sent by the previous hardware interrupt--which in turn called this
+         * interrupt. Now we will post the transferComplete semaphore to
+         * unblock the I2C_transfer function
+         */
+        case I2CCC32XX_ERROR:
+        case I2CCC32XX_TIMEOUT:
+        case I2CCC32XX_IDLE_MODE:
+            I2CCC32XX_completeTransfer((I2C_Handle) arg);
+            break;
+        case I2CCC32XX_WRITE_MODE:
+            if (object->burstWriteCountIdx) {
+                /* The TX FIFO should be empty if we reach here. */
+                if(!(MAP_I2CFIFOStatus(hwAttrs->baseAddr)
+                        & I2C_FIFOSTATUS_TXFE)) {
+                    /* TX FIFO was not empty when it should have been! */
+                    object->mode = I2CCC32XX_ERROR;
+                }
 
-            case I2CCC32XX_WRITE_MODE:
-                /* Decrement write Counter */
-                object->writeCountIdx--;
+                /*
+                 * Fill the TX FIFO until it's full or
+                 * until we have no data left to give it
+                 */
+                while(object->burstWriteCountIdx) {
+                    if(!MAP_I2CFIFODataPutNonBlocking(hwAttrs->baseAddr,
+                                                      *(object->writeBufIdx))){
 
-                /* Check if more data needs to be sent */
-                if (object->writeCountIdx) {
-                    DebugP_log3("I2C:(%p) ISR I2CCC32XX_WRITE_MODE: Data to write: "
-                                "0x%x; To slave: 0x%x",
-                                hwAttrs->baseAddr,
-                                *(object->writeBufIdx),
-                                object->currentTransaction->slaveAddress);
-
-                    /* Write data contents into data register */
-                    MAP_I2CMasterDataPut(hwAttrs->baseAddr, *(object->writeBufIdx));
+                        /* The FIFO is full, break out of while loop */
+                        break;
+                    }
                     object->writeBufIdx++;
-
-                    if ((object->writeCountIdx < 2) && !(object->readCountIdx)) {
-                        /* Everything has been sent, nothing to receive */
-                        /* Next state: Idle mode */
-                        object->mode = I2CCC32XX_IDLE_MODE;
-
-                        /* Send last byte with STOP bit */
-                        MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                             I2C_MASTER_CMD_BURST_SEND_FINISH);
-
-                        DebugP_log1("I2C:(%p) ISR I2CCC32XX_WRITE_MODE: ACK received; "
-                                    "Writing w/ STOP bit",
-                                     hwAttrs->baseAddr);
-                    }
-                    else {
-                        /*
-                         * Either there is more date to be transmitted or some
-                         * data needs to be received next
-                         */
-                        MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                             I2C_MASTER_CMD_BURST_SEND_CONT);
-
-                        DebugP_log1("I2C:(%p) ISR I2CCC32XX_WRITE_MODE: ACK received; "
-                                    "Writing", hwAttrs->baseAddr);
-                    }
+                    object->totalWriteCountIdx--;
+                    object->burstWriteCountIdx--;
                 }
 
-                /* At this point, we know that we need to receive data */
-                else {
+                /* Clear TX FIFO empty interrupt */
+                MAP_I2CMasterIntClearEx(hwAttrs->baseAddr,
+                                        I2C_MASTER_INT_TX_FIFO_EMPTY);
+            }
+            else if(!object->burstWriteCountIdx && object->totalWriteCountIdx) {
+                /*
+                 * If we reached here, we have finished writing the write burst.
+                 * But we still have more data to write for the overall
+                 * transaction! Start another burst.
+                 */
+                originalWriteCount = object->totalWriteCountIdx;
+                primeWriteBurst(object, hwAttrs);
+                if(object->totalReadCountIdx || (originalWriteCount > 255)) {
                     /*
-                     * We need to check after we are done transmitting data, if
-                     * we need to receive any data.
-                     * In a corner case when we have only one byte transmitted
-                     * and no data to receive, the I2C will automatically send
-                     * the STOP bit. In other words, here we only need to check
-                     * if data needs to be received. If so, how much.
-                     */
-                    if (object->readCountIdx) {
-                        /* Next state: Receive mode */
-                        object->mode = I2CCC32XX_READ_MODE;
-
-                        /* Switch into Receive mode */
-                        MAP_I2CMasterSlaveAddrSet(hwAttrs->baseAddr,
-                                                  object->currentTransaction->slaveAddress,
-                                                  true);
-
-                        if (object->readCountIdx > 1) {
-                            /* Send a repeated START */
-                            MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                                 I2C_MASTER_CMD_BURST_RECEIVE_START);
-
-                            DebugP_log1("I2C:(%p) ISR I2CCC32XX_WRITE_MODE: -> "
-                                        "I2CCC32XX_READ_MODE; Reading w/ RESTART and ACK",
-                                        hwAttrs->baseAddr);
-                        }
-                        else {
-                            /*
-                             * Send a repeated START with a NACK since it's the
-                             * last byte to be received.
-                             * I2C_MASTER_CMD_BURST_RECEIVE_START_NACK is
-                             * is locally defined because there is no macro to
-                             * receive data and send a NACK after sending a
-                             * start bit (0x00000003)
-                             */
-                            MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                                 I2C_MASTER_CMD_BURST_RECEIVE_START_NACK);
-
-                            DebugP_log1("I2C:(%p) ISR I2CCC32XX_WRITE_MODE: -> "
-                                        "I2CCC32XX_READ_MODE; Reading w/ RESTART and NACK",
-                                        hwAttrs->baseAddr);
-                        }
-                    }
-                    else {
-                        /* Done with all transmissions */
-                        object->mode = I2CCC32XX_IDLE_MODE;
-                        /*
-                         * No more data needs to be received, so follow up with
-                         * a STOP bit
-                         * Again, there is no equivalent macro (0x00000004) so
-                         * I2C_MASTER_CMD_BURST_RECEIVE_STOP is used.
-                         */
-                        MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                             I2C_MASTER_CMD_BURST_RECEIVE_STOP);
-
-                        DebugP_log1("I2C:(%p) ISR I2CCC32XX_WRITE_MODE: -> "
-                                    "I2CCC32XX_IDLE_MODE; Sending STOP bit",
-                                    hwAttrs->baseAddr);
-                    }
-                }
-                break;
-
-            case I2CCC32XX_READ_MODE:
-                /* Save the received data */
-                *(object->readBufIdx) = MAP_I2CMasterDataGet(hwAttrs->baseAddr);
-
-                DebugP_log2("I2C:(%p) ISR I2CCC32XX_READ_MODE: Read data byte: 0x%x",
-                            hwAttrs->baseAddr, *(object->readBufIdx));
-
-                object->readBufIdx++;
-
-                /* Check if any data needs to be received */
-                object->readCountIdx--;
-                if (object->readCountIdx) {
-                    if (object->readCountIdx > 1) {
-                        /* More data to be received */
-                        MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                             I2C_MASTER_CMD_BURST_RECEIVE_CONT);
-
-                        DebugP_log1("I2C:(%p) ISR I2CCC32XX_READ_MODE: Reading w/ ACK",
-                                    hwAttrs->baseAddr);
-                    }
-                    else {
-                        /*
-                         * Send NACK because it's the last byte to be received
-                         * There is no NACK macro equivalent (0x00000001) so
-                         * I2C_MASTER_CMD_BURST_RECEIVE_CONT_NACK is used
-                         */
-                        MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                             I2C_MASTER_CMD_BURST_RECEIVE_CONT_NACK);
-
-                        DebugP_log1("I2C:(%p) ISR I2CCC32XX_READ_MODE: Reading w/ NACK",
-                                    hwAttrs->baseAddr);
-                    }
-                }
-                else {
-                    /* Next state: Idle mode */
-                    object->mode = I2CCC32XX_IDLE_MODE;
-
-                    /*
-                     * No more data needs to be received, so follow up with a
-                     * STOP bit
-                     * Again, there is no equivalent macro (0x00000004) so
-                     * I2C_MASTER_CMD_BURST_RECEIVE_STOP is used
+                     * Perform N FIFO-serviced TRANSMITs. Master remains in
+                     * TRANSMIT state. If we have data to read, we will change
+                     * to RECEIVE state in the hwiFxn. N is defined as what we
+                     * passed into I2CMasterBurstLengthSet().
+                     * See TRM decoding of I2CMCS register.
                      */
                     MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                         I2C_MASTER_CMD_BURST_RECEIVE_STOP);
+                                         I2C_MASTER_CMD_FIFO_BURST_SEND_CONT);
+                }
+                else {
+                    /*
+                     * We are only writing. Perform N FIFO-serviced TRANSMITs
+                     * and send a STOP condition. Master goes to idle state.
+                     * N is defined as what we passed into I2CMasterBurstLengthSet().
+                     * See TRM decoding of I2CMCS register.
+                     */
+                    MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                         I2C_MASTER_CMD_FIFO_BURST_SEND_FINISH);
+                }
+            }
+            else if(!object->totalWriteCountIdx && !object->totalReadCountIdx) {
+                /*
+                 * If we reached here, we have finished writing and
+                 * and we have no data to read. So we can complete
+                 * the transfer.
+                 */
+                object->mode = I2CCC32XX_IDLE_MODE;
 
-                    DebugP_log1("I2C:(%p) ISR I2CCC32XX_READ_MODE: -> I2CCC32XX_IDLE_MODE; "
-                                "Sending STOP bit", hwAttrs->baseAddr);
+                /* Disable the TX FIFO EMPTY interrupt */
+                MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr,
+                                          I2C_MASTER_INT_TX_FIFO_EMPTY);
+                /*
+                 * The STOP bit should usually occur in another interrupt, but
+                 * it's possible it occurred in this one (TX FIFO EMPTY).
+                 * If the STOP interrupt is already detected
+                 * complete the transfer now. If not, then completeTransfer
+                 * will be called in the next interrupt since
+                 * object->mode == IDLE_MODE
+                 */
+                if((intStatus & I2C_MASTER_INT_STOP)) {
+                    I2CCC32XX_completeTransfer((I2C_Handle) arg);
+                }
+            }
+            else {
+                /*
+                 * If we reached here, we have finished writing and
+                 * now we need to read some data.
+                 */
+                object->mode = I2CCC32XX_READ_MODE;
+
+                /* Disable TX FIFO FULL interrupt */
+                MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr,
+                                      I2C_MASTER_INT_TX_FIFO_EMPTY);
+
+                primeReadBurst(object, hwAttrs);
+
+                /*
+                 * If we are reading more than 255 bytes, don't send a STOP
+                 * condition. The STOP condition will be sent in another burst
+                 * started in the hwiFxn.
+                 */
+                if(object->totalReadCountIdx > 255) {
+                    /*
+                     * Send START condition followed by N FIFO-serviced
+                     * RECEIVE operations. Master goes to master receive state.
+                     * See TRM decoding of I2CMCS register.
+                     */
+                    MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                         I2C_MASTER_CMD_FIFO_BURST_RECEIVE_START);
+                }
+                else {
+                    /*
+                     * Send START condition followed by N FIFO-serviced
+                     * RECEIVE operations with a negative ACK on the last
+                     * RECEIVE and STOP condition (master remains in idle state)
+                     * See TRM decoding of I2CMCS register.
+                     */
+                    MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                         I2C_MASTER_CMD_FIFO_SINGLE_RECEIVE);
+                }
+            }
+            break;
+        case I2CCC32XX_READ_MODE:
+            /* If we have more data to read, empty the RX FIFO */
+            if(object->burstReadCountIdx){
+                /*
+                 * Read from the RX FIFO until it's empty or until we
+                 * have no data left to read
+                 */
+                while(object->burstReadCountIdx) {
+                    if(!MAP_I2CFIFODataGetNonBlocking(hwAttrs->baseAddr,
+                                                      object->readBufIdx)){
+                        break;
+                    }
+                    else {
+                        object->readBufIdx++;
+                        object->totalReadCountIdx--;
+                        object->burstReadCountIdx--;
+                    }
                 }
 
-                break;
+                /* If we still have data left to read, set up the interrupts */
+                if(object->burstReadCountIdx)
+                {
+                    /*
+                     * If we still have between 1 and 8 bytes to
+                     * read, set the RX FIFO REQ interrupt to trigger when we
+                     * finish burstReadCountIdx bytes.
+                     */
+                    if(object->burstReadCountIdx < 8) {
+                        MAP_I2CRxFIFOConfigSet(hwAttrs->baseAddr,
+                                               I2C_FIFO_CFG_RX_MASTER |
+                                               (object->burstReadCountIdx
+                                                       << I2C_FIFOCTL_RXTRIG_S));
+                    }
+                    /*
+                     * Else we are reading more than 8 bytes. Set the RX FIFO
+                     * REQ interrupt to trigger when the RX FIFO is full
+                     */
+                    else {
+                        MAP_I2CRxFIFOConfigSet(hwAttrs->baseAddr,
+                                               I2C_FIFO_CFG_RX_MASTER |
+                                               I2C_FIFO_CFG_RX_TRIG_8);
+                    }
+                }
 
-            default:
-                object->mode = I2CCC32XX_ERROR;
-                break;
+                MAP_I2CMasterIntClearEx(hwAttrs->baseAddr,
+                                        I2C_MASTER_INT_RX_FIFO_REQ);
+            }
+            /*
+             * It is important that this case is not an 'else' because
+             * the above block can modify object->totalReadCountIdx
+             */
+            if(!object->burstReadCountIdx && object->totalReadCountIdx) {
+                /*
+                 * If we reached here, we have finished read the read burst.
+                 * But we still have more data to read for the overall
+                 * transaction! Start another read burst.
+                 */
+                primeReadBurst(object, hwAttrs);
+
+                /*
+                 * If we are reading more than 255 bytes, don't send a STOP
+                 * condition. The STOP condition will be sent in another burst
+                 * started in the hwiFxn.
+                 */
+                if(object->totalReadCountIdx > 255) {
+                    /*
+                     * Perform N FIFO-serviced RECEIVE operations.
+                     * Master remains master receive state.
+                     * See TRM decoding of I2CMCS register.
+                     */
+                    MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                         I2C_MASTER_CMD_FIFO_BURST_RECEIVE_CONT);
+                }
+                else {
+                    /*
+                     * Perform N FIFO-serviced RECEIVE operations with a
+                     * negative ACK on the last RECEIVE and send STOP condition.
+                     * Master goes to idle state.
+                     * See TRM decoding of I2CMCS register.
+                     */
+                    MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                         I2C_MASTER_CMD_FIFO_BURST_RECEIVE_FINISH);
+                }
+            }
+            /*
+             * It is important that this case is not an 'else' because
+             * the above block can modify object->totalReadCountIdx
+             */
+            if(!object->burstReadCountIdx && !object->totalReadCountIdx) {
+                /* Read mode --> Idle mode */
+                object->mode = I2CCC32XX_IDLE_MODE;
+
+                MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr,
+                                          I2C_MASTER_INT_RX_FIFO_REQ);
+
+                /*
+                 * The STOP interrupt probably occurred in the interrupt we are
+                 * in, but it's also possible that it's about to occur in a
+                 * future one. If the STOP interrupt is already detected
+                 * complete the transfer now.
+                 */
+                if((intStatus & I2C_MASTER_INT_STOP)) {
+                    I2CCC32XX_completeTransfer((I2C_Handle) arg);
+                }
+            }
+
+            break;
         }
-
     }
     else {
-        /* Error Handling */
-        if ((errStatus & (I2C_MASTER_ERR_ARB_LOST | I2C_MASTER_ERR_ADDR_ACK)) ||
-            (object->mode == I2CCC32XX_IDLE_MODE)) {
+        object->mode = I2CCC32XX_ERROR;
 
-            /* STOP condition already occurred, complete transfer */
-            object->mode = I2CCC32XX_ERROR;
+        MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr,
+                                  I2C_MASTER_INT_TX_FIFO_EMPTY |
+                                  I2C_MASTER_INT_RX_FIFO_REQ);
+
+        if((intStatus & I2C_MASTER_INT_STOP)) {
             I2CCC32XX_completeTransfer((I2C_Handle) arg);
         }
-        else {
-
-            /* Error occurred during a transfer, send a STOP condition */
-            object->mode = I2CCC32XX_ERROR;
-            MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                 I2C_MASTER_CMD_BURST_SEND_ERROR_STOP);
-        }
-
-        DebugP_log2("I2C:(%p) ISR I2C Bus fault (Status Reg: 0x%x)",
-                    hwAttrs->baseAddr, errStatus);
     }
-
     return;
 }
 
@@ -519,7 +594,9 @@ I2C_Handle I2CCC32XX_open(I2C_Handle handle, I2C_Params *params)
     uint16_t                   mode;
 
     /* Check for valid bit rate */
-    DebugP_assert(params->bitRate <= I2C_400kHz);
+    if (params->bitRate > I2C_400kHz) {
+        return (NULL);
+    }
 
     /* Determine if the device index was already opened */
     key = HwiP_disable();
@@ -553,7 +630,7 @@ I2C_Handle I2CCC32XX_open(I2C_Handle handle, I2C_Params *params)
     MAP_PinTypeI2C((unsigned long)pin, (unsigned long)mode);
 
     Power_registerNotify(&(object->notifyObj), PowerCC32XX_AWAKE_LPDS,
-            postNotify, (uint32_t)handle);
+                         postNotify, (uint32_t)handle);
 
     HwiP_Params_init(&hwiParams);
     hwiParams.arg = (uintptr_t)handle;
@@ -618,85 +695,235 @@ I2C_Handle I2CCC32XX_open(I2C_Handle handle, I2C_Params *params)
 }
 
 /*
+ *  ======== primeReadBurst =======
+ */
+static void primeReadBurst(I2CCC32XX_Object *object,
+                           I2CCC32XX_HWAttrsV1 const *hwAttrs)
+{
+    /* Update the I2C mode */
+    object->mode = I2CCC32XX_READ_MODE;
+
+    /* Disable TX FIFO EMTPY interrupt and RX FIFO REQ interrupt*/
+    MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr,
+                              I2C_MASTER_INT_RX_FIFO_REQ);
+
+    /* Flush the RX FIFO and wait for it to flush */
+    MAP_I2CRxFIFOFlush(hwAttrs->baseAddr);
+    while(!(MAP_I2CFIFOStatus(hwAttrs->baseAddr) & I2C_FIFOSTATUS_RXFE)) {}
+
+    /* Specify the I2C slave address in receive mode */
+    MAP_I2CMasterSlaveAddrSet(hwAttrs->baseAddr,
+                              object->currentTransaction->slaveAddress,
+                              true);
+
+    /*
+     * Set peripheral to expect burstReadCountIdx bytes. The I2CMBLEN burst
+     * register only holds a value from 0 to 255, so if our transaction involves
+     * more than 255 bytes we will have to setup a new burst in the hwiFxn
+     * after we read the first 255 bytes. We use object->burstReadCount
+     * to keep track of our progress for the current burst transaction. We use
+     * object->totalReadCountIdx to keep track of our progress for the
+     * overall read transaction.
+     */
+    if(object->totalReadCountIdx > 255) {
+        object->burstReadCountIdx = 255;
+    }
+    else {
+        object->burstReadCountIdx = object->totalReadCountIdx;
+    }
+
+    MAP_I2CMasterBurstLengthSet(hwAttrs->baseAddr,
+                                object->burstReadCountIdx);
+
+    /*
+     * If we are reading less than 8 bytes, set the RX FIFO REQ
+     * interrupt to trigger when we finish burstReadCountIdx bytes.
+     */
+    if(object->burstReadCountIdx < 8) {
+        MAP_I2CRxFIFOConfigSet(hwAttrs->baseAddr,
+                               I2C_FIFO_CFG_RX_MASTER |
+                               (object->burstReadCountIdx <<
+                                       I2C_FIFOCTL_RXTRIG_S));
+    }
+    /*
+     * Else we are reading more than 8 bytes. set the RX FIFO REQ
+     * interrupt to trigger when full
+     */
+    else {
+        MAP_I2CRxFIFOConfigSet(hwAttrs->baseAddr,
+                               I2C_FIFO_CFG_RX_MASTER |
+                               I2C_FIFO_CFG_RX_TRIG_8);
+    }
+
+    /* Clear and enable relevant interrupts */
+    MAP_I2CMasterIntClearEx(hwAttrs->baseAddr,
+                            I2C_MASTER_INT_RX_FIFO_REQ);
+    MAP_I2CMasterIntEnableEx(hwAttrs->baseAddr,
+                             I2C_MASTER_INT_RX_FIFO_REQ);
+}
+
+/*
+ *  ======== primeWriteBurst =======
+ */
+static void primeWriteBurst(I2CCC32XX_Object *object,
+                            I2CCC32XX_HWAttrsV1 const *hwAttrs)
+{
+
+    /* Update the I2C mode */
+    object->mode = I2CCC32XX_WRITE_MODE;
+
+    /* Disable the TX FIFO empty interrupt */
+    MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr,
+                              I2C_MASTER_INT_TX_FIFO_EMPTY);
+
+    /* Flush the TX FIFO and wait for it to finish flushing */
+    MAP_I2CTxFIFOFlush(hwAttrs->baseAddr);
+    while(!(MAP_I2CFIFOStatus(hwAttrs->baseAddr) & I2C_FIFOSTATUS_TXFE)) {}
+
+    /* Specify the I2C slave address */
+    MAP_I2CMasterSlaveAddrSet(hwAttrs->baseAddr,
+                              object->currentTransaction->slaveAddress,
+                              false);
+
+    /*
+     * Set peripheral to send burstWriteCountIdx bytes. The I2CMBLEN burst
+     * register only holds a value from 0 to 255, so if our transaction involves
+     * more than 255 bytes we will have to setup a new burst in the hwiFxn
+     * after we service the first 255 bytes. We use object->burstWriteCount
+     * to keep track of our progress for the current burst transaction. We use
+     * object->totalWriteCountIdx to keep track of our progress for the
+     * overall write transaction.
+     */
+    if(object->totalWriteCountIdx > 255) {
+        object->burstWriteCountIdx = 255;
+    }
+    else {
+        object->burstWriteCountIdx = object->totalWriteCountIdx;
+    }
+
+    MAP_I2CMasterBurstLengthSet(hwAttrs->baseAddr,
+                                object->burstWriteCountIdx);
+
+    /*
+     * Fill the FIFO until it's full or until we
+     * have no data left to give it
+     */
+    while(object->burstWriteCountIdx) {
+        if(!MAP_I2CFIFODataPutNonBlocking(hwAttrs->baseAddr,
+                                          *(object->writeBufIdx))){
+            /* The FIFO is full, break out of while loop */
+            break;
+        }
+        object->writeBufIdx++;
+        object->totalWriteCountIdx--;
+        object->burstWriteCountIdx--;
+    }
+
+    MAP_I2CMasterIntClearEx(hwAttrs->baseAddr,
+                            I2C_MASTER_INT_TX_FIFO_EMPTY);
+    MAP_I2CMasterIntEnableEx(hwAttrs->baseAddr,
+                             I2C_MASTER_INT_TX_FIFO_EMPTY);
+}
+
+/*
  *  ======== I2CCC32XX_primeTransfer =======
  */
 static void I2CCC32XX_primeTransfer(I2CCC32XX_Object *object,
                                     I2CCC32XX_HWAttrsV1 const *hwAttrs,
                                     I2C_Transaction *transaction)
 {
+    /* Counter to keep track of totalWriteCount before we fill the TX FIFO */
+    size_t originalWriteCount = transaction->writeCount;
+
     /* Store the new internal counters and pointers */
     object->currentTransaction = transaction;
 
     object->writeBufIdx = transaction->writeBuf;
-    object->writeCountIdx = transaction->writeCount;
+    object->totalWriteCountIdx = transaction->writeCount;
 
     object->readBufIdx = transaction->readBuf;
-    object->readCountIdx = transaction->readCount;
+    object->totalReadCountIdx = transaction->readCount;
 
     DebugP_log2("I2C:(%p) Starting transaction to slave: 0x%x",
                 hwAttrs->baseAddr,
                 object->currentTransaction->slaveAddress);
 
     /* Start transfer in Transmit mode */
-    if (object->writeCountIdx) {
-        /* Specify the I2C slave address */
-        MAP_I2CMasterSlaveAddrSet(hwAttrs->baseAddr,
-                                  object->currentTransaction->slaveAddress,
-                                  false);
+    if (object->totalWriteCountIdx) {
+        primeWriteBurst(object, hwAttrs);
 
-        /* Update the I2C mode */
-        object->mode = I2CCC32XX_WRITE_MODE;
-
-        DebugP_log3("I2C:(%p) I2CCC32XX_IDLE_MODE: Data to write: 0x%x; To Slave: 0x%x",
-                    hwAttrs->baseAddr, *(object->writeBufIdx),
-                    object->currentTransaction->slaveAddress);
-
-        /* Write data contents into data register */
-        MAP_I2CMasterDataPut(hwAttrs->baseAddr, *((object->writeBufIdx)++));
-
-        /* Start the I2C transfer in master transmit mode */
-        MAP_I2CMasterControl(hwAttrs->baseAddr, I2C_MASTER_CMD_BURST_SEND_START);
-
-        DebugP_log1("I2C:(%p) I2CCC32XX_IDLE_MODE: -> I2CCC32XX_WRITE_MODE; Writing w/ START",
-                    hwAttrs->baseAddr);
-    }
-
-    /* Start transfer in Receive mode */
-    else {
-        /* Specify the I2C slave address */
-        MAP_I2CMasterSlaveAddrSet(hwAttrs->baseAddr,
-                                  object->currentTransaction->slaveAddress,
-                                  true);
-
-        /* Update the I2C mode */
-        object->mode = I2CCC32XX_READ_MODE;
-
-        if (object->readCountIdx < 2) {
-            /* Start the I2C transfer in master receive mode */
+        /*
+         * If we are sending more than 255 bytes in this transaction, or if we
+         * are going to read data, don't send a STOP bit.
+         */
+        if(object->totalReadCountIdx || (originalWriteCount > 255)) {
+            /*
+             * Send a START condition followed by N FIFO-serviced TRANSMITs. Master
+             * changes to TRANSMIT state. If we have data to read, we will change to
+             * RECEIVE state in the hwiFxn. N is defined as what we passed
+             * into I2CMasterBurstLengthSet(). See TRM decoding of I2CMCS register.
+             */
             MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                 I2C_MASTER_CMD_BURST_RECEIVE_START_NACK);
-
-            DebugP_log1("I2C:(%p) I2CCC32XX_IDLE_MODE: -> I2CCC32XX_READ_MODE; Reading w/ "
-                        "NACK", hwAttrs->baseAddr);
+                                 I2C_MASTER_CMD_FIFO_BURST_SEND_START);
         }
         else {
-            /* Start the I2C transfer in master receive mode */
+            /*
+             * We are only writing. Send a START condition followed by
+             * N FIFO-serviced TRANSMITs and a STOP condition. Master remains
+             * in idle state. See TRM decoding of I2CMCS register. N is defined
+             * as what we passed into I2CMasterBurstLengthSet().
+             */
             MAP_I2CMasterControl(hwAttrs->baseAddr,
-                                 I2C_MASTER_CMD_BURST_RECEIVE_START);
+                                 I2C_MASTER_CMD_FIFO_SINGLE_SEND);
+        }
+    }
+    /* Start transfer in Receive mode */
+    else {
+        primeReadBurst(object, hwAttrs);
 
-            DebugP_log1("I2C:(%p) I2CCC32XX_IDLE_MODE: -> I2CCC32XX_READ_MODE; Reading w/ ACK",
-                        hwAttrs->baseAddr);
+        /*
+         * If we are reading more than 255 bytes, don't send a STOP condition.
+         * The STOP condition will be sent in another burst started in the
+         * hwiFxn.
+         */
+        if(object->totalReadCountIdx > 255) {
+            /*
+             * Send START condition followed by N FIFO-serviced
+             * RECEIVE operations. Master goes to master receive state.
+             * See TRM decoding of I2CMCS register.
+             */
+            MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                 I2C_MASTER_CMD_FIFO_BURST_RECEIVE_START);
+        }
+        else {
+            /*
+             * Send START condition followed by N FIFO-serviced
+             * RECEIVE operations with a negative ACK on the last RECEIVE
+             * and STOP condition (master remains in idle state)
+             * See TRM decoding of I2CMCS register.
+             */
+            MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                 I2C_MASTER_CMD_FIFO_SINGLE_RECEIVE);
         }
     }
 }
 
 /*
+ *  ======== I2CC32XX_reset ========
+ */
+void I2CCC32XX_reset()
+{
+    PRCMPeripheralReset(PRCM_I2CA0);
+    while(!PRCMPeripheralStatusGet(PRCM_I2CA0)) {}
+}
+
+/*
  *  ======== I2CCC32XX_transfer ========
  */
-bool I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction)
+int_fast16_t I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction, uint32_t timeout)
 {
     uintptr_t                  key;
-    bool                       ret = false;
+    int_fast16_t               ret = I2C_STATUS_ERROR;
     I2CCC32XX_Object          *object = handle->object;
     I2CCC32XX_HWAttrsV1 const *hwAttrs = handle->hwAttrs;
 
@@ -724,7 +951,7 @@ bool I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction)
 
             /* I2C is still being used */
             HwiP_restore(key);
-            return (true);
+            return (I2C_STATUS_SUCCESS);
         }
     }
 
@@ -735,15 +962,30 @@ bool I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction)
     HwiP_restore(key);
 
     /* Get the lock for this I2C handle */
-    if (SemaphoreP_pend(object->mutex, SemaphoreP_NO_WAIT) == SemaphoreP_TIMEOUT) {
+    if (SemaphoreP_pend(object->mutex, SemaphoreP_NO_WAIT)
+            == SemaphoreP_TIMEOUT) {
 
         /* An I2C_transfer() may complete before the calling thread post the
          * mutex due to preemption. We must not block in this case. */
         if (object->transferMode == I2C_MODE_CALLBACK) {
-            return (false);
+            return (I2C_STATUS_ERROR);
         }
 
-        SemaphoreP_pend(object->mutex, SemaphoreP_WAIT_FOREVER);
+        /* Wait for the I2C lock. If it times-out before we retrieve it, then
+         * return I2C_STATUS_TIMEOUT to cancel the transaction. */
+        if(SemaphoreP_pend(object->mutex, timeout) == SemaphoreP_TIMEOUT) {
+            return (I2C_STATUS_TIMEOUT);
+        }
+    }
+
+    if (object->transferMode == I2C_MODE_BLOCKING) {
+       /*
+        * In the case of a timeout, It is possible for the timed-out transaction
+        * to call the hwi function and post the object->transferComplete Semaphore
+        * To clear this, we simply do a NO_WAIT pend on (binary)
+        * object->transferComplete, so that it resets the Semaphore count.
+        */
+        SemaphoreP_pend(object->transferComplete, SemaphoreP_NO_WAIT);
     }
 
     Power_setConstraint(PowerCC32XX_DISALLOW_LPDS);
@@ -764,7 +1006,35 @@ bool I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction)
          * It's OK to block from here because the I2C's Hwi will unblock
          * upon errors
          */
-        SemaphoreP_pend(object->transferComplete, SemaphoreP_WAIT_FOREVER);
+
+        if (SemaphoreP_pend(object->transferComplete, timeout) == SemaphoreP_TIMEOUT) {
+            /*
+             * Timeout occurred, set current state to TIMEOUT and
+             * return status to I2C_STATUS_TIMEOUT
+             */
+            DebugP_log1("I2C:(%p) Transfer timed-out!", hwAttrs->baseAddr);
+
+            object->mode = I2CCC32XX_TIMEOUT;
+            ret = I2C_STATUS_TIMEOUT;
+
+            /* Disable interrupts, send STOP to complete any transfer */
+            key = HwiP_disable();
+            MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr, DESIRED_INTERRUPTS);
+            MAP_I2CMasterControl(hwAttrs->baseAddr,
+                                 I2C_MASTER_CMD_FIFO_BURST_SEND_ERROR_STOP);
+
+            /*
+             * Since we timed-out, we want to cancel any existing transaction.
+             * But because we run the risk of leaving the I2C hardware in a bad
+             * state, we need to hard-reset the peripheral
+             */
+            I2CCC32XX_reset();
+
+            /* Re-initialize the hardware */
+            initHw(handle);
+
+            HwiP_restore(key);
+        }
 
         DebugP_log1("I2C:(%p) Transaction completed",
                     hwAttrs->baseAddr);
@@ -772,12 +1042,12 @@ bool I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction)
         /* Hwi handle has posted a 'transferComplete' check for Errors */
         if (object->mode == I2CCC32XX_IDLE_MODE) {
             DebugP_log1("I2C:(%p) Transfer OK", hwAttrs->baseAddr);
-            ret = true;
+            ret = I2C_STATUS_SUCCESS;
         }
     }
     else {
         /* Always return true if in Asynchronous mode */
-        ret = true;
+        ret = I2C_STATUS_SUCCESS;
     }
 
     /* Release the lock for this particular I2C handle */
@@ -791,8 +1061,8 @@ bool I2CCC32XX_transfer(I2C_Handle handle, I2C_Transaction *transaction)
  *  ======== I2CCC32XX_blockingCallback ========
  */
 static void I2CCC32XX_blockingCallback(I2C_Handle handle,
-                                     I2C_Transaction *msg,
-                                     bool transferStatus)
+                                       I2C_Transaction *msg,
+                                       bool transferStatus)
 {
     I2CCC32XX_Object  *object = handle->object;
 
@@ -827,14 +1097,36 @@ static void initHw(I2C_Handle handle)
     MAP_I2CMasterInitExpClk(hwAttrs->baseAddr, freq.lo,
                             bitRate[object->bitRate]);
 
+
+    /* Disable select I2C interrupts */
+    MAP_I2CMasterIntDisableEx(hwAttrs->baseAddr,
+                              I2C_MASTER_INT_DATA |
+                              I2C_MASTER_INT_TX_FIFO_EMPTY |
+                              I2C_MASTER_INT_RX_FIFO_REQ |
+                              I2C_MASTER_INT_START);
+
+    /* Flush the FIFOs. They must be empty before re-assignment */
+    MAP_I2CTxFIFOFlush(hwAttrs->baseAddr);
+    MAP_I2CRxFIFOFlush(hwAttrs->baseAddr);
+
+    /* Set TX and RX FIFOs to master mode */
+    MAP_I2CTxFIFOConfigSet(hwAttrs->baseAddr,
+                           I2C_FIFO_CFG_TX_MASTER);
+    MAP_I2CRxFIFOConfigSet(hwAttrs->baseAddr,
+                           I2C_FIFO_CFG_RX_MASTER);
+
     /* Clear any pending interrupts */
-    MAP_I2CMasterIntClear(hwAttrs->baseAddr);
+    MAP_I2CMasterIntClearEx(hwAttrs->baseAddr,
+                            DESIRED_INTERRUPTS |
+                            I2C_MASTER_INT_TX_FIFO_EMPTY |
+                            I2C_MASTER_INT_RX_FIFO_REQ);
+
+    /* Enable desired interrupts */
+    MAP_I2CMasterIntEnableEx(hwAttrs->baseAddr,
+                             DESIRED_INTERRUPTS);
 
     /* Enable the I2C Master for operation */
     MAP_I2CMasterEnable(hwAttrs->baseAddr);
-
-    /* Unmask I2C interrupts */
-    MAP_I2CMasterIntEnable(hwAttrs->baseAddr);
 }
 
 /*
@@ -845,7 +1137,7 @@ static void initHw(I2C_Handle handle)
  *  been opened.
  */
 static int postNotify(unsigned int eventType,
-        uintptr_t eventArg, uintptr_t clientArg)
+                      uintptr_t eventArg, uintptr_t clientArg)
 {
     /* Reconfigure the hardware when returning from LPDS */
     initHw((I2C_Handle)clientArg);

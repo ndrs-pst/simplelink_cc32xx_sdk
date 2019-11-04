@@ -125,9 +125,5 @@
 			<name>SDK_ROOT</name>
 			<value>$%7BPARENT-4-PROJECT_LOC%7D</value>
 		</variable>
-		<variable>
-			<name>XDC_TOOLS_DIR</name>
-			<value>file:/C:/TI/xdctools_3_32_00_06_core</value>
-		</variable>
 	</variableList>
 </projectDescription>

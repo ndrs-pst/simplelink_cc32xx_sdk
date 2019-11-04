@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,8 +49,6 @@ intPriority.name = "interruptPriority";
  *  Device-specific extensions to be added to base I2C configuration
  */
 let devSpecific = {
-    maxInstances: 1,
-
     config : [
         intPriority
     ],
@@ -58,8 +56,30 @@ let devSpecific = {
     templates: {
         boardc : "/ti/drivers/i2c/I2CCC32XX.Board.c.xdt",
         boardh : "/ti/drivers/i2c/I2C.Board.h.xdt"
-    }
+    },
+
+    _getPinResources: _getPinResources
 };
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+    let pin;
+
+    if (inst.i2c) {
+        let sclPin = "P" + inst.i2c.sclPin.$solution.packagePinName.padStart(2, "0");
+        let sdaPin = "P" + inst.i2c.sdaPin.$solution.packagePinName.padStart(2, "0");
+        pin = "\nSCL: " + sclPin + "\nSDA: " + sdaPin;
+
+        if (inst.$hardware && inst.$hardware.displayName) {
+            pin += "\n" + inst.$hardware.displayName;
+        }
+    }
+
+    return (pin);
+}
 
 /*
  *  ======== extend ========

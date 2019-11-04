@@ -39,11 +39,12 @@
     /* passed by /ti/drivers/templates/Board.c.xdt */
     let I2C = args[0];
     let instances = I2C.$instances;
+    if (instances.length == 0) return;
 
     /* get ti/drivers common utility functions */
     let Common = system.getScript("/ti/drivers/Common.js");
 
-    /* Board_XXXCOUNT string, derived from defaultInstanceName */
+    /* CONFIG_XXXCOUNT string, derived from defaultInstanceName */
     let countDef = I2C.defaultInstanceName + "COUNT";
 %%}
 /*
@@ -76,10 +77,8 @@ const I2CCC32XX_HWAttrsV1 i2cCC32XXHWAttrs[`countDef`] = {
     % /* name is the peripheral name: EUSCI_A<num> or EUSCI_B<num> ... */
     % let name = inst.i2c.$solution.peripheralName;
     % let id = name.substring(3);      /* A0 or A1 or B0 or ... */
-    % let sclPin = i2c.sclPin.$solution.packagePinName;
-    % if (sclPin.length == 1) sclPin = "0" + sclPin;
-    % let sdaPin = i2c.sdaPin.$solution.packagePinName;
-    % if (sdaPin.length == 1) sdaPin = "0" + sdaPin;
+    % let sclPin = i2c.sclPin.$solution.packagePinName.padStart(2, "0");
+    % let sdaPin = i2c.sdaPin.$solution.packagePinName.padStart(2, "0");
     /* `inst.$name` */
     % if (inst.$hardware) {
     %    if (inst.$hardware.displayName) {

@@ -1189,30 +1189,22 @@ static int32_t SlNetUtil_str2BinIpV4(char *strAddr, SlNetSock_InAddr_t *binaryAd
     /* run 4 times as IPv4 contain of four octets and separated by periods   */
     while(ipOctet < 4)
     {
-        /* Check Whether IP is valid */
-        if(token != NULL)
+        /* Parses the token strAddr, interpreting its content as an integral
+           number of the specified base 10                               */
+        decNumber = (int)strtoul(token, &end, 10);
+
+        /* Check if the octet holds valid number between the range 0-255.
+           end points the end of the numeric portion of the input string
+           for strtoul, so if end == token that means no conversion has
+           occured as there was no numeric portion detected              */
+        if (decNumber < 256 && end != token)
         {
-            /* Parses the token strAddr, interpreting its content as an integral
-               number of the specified base 10                               */
-            decNumber = (int)strtoul(token, &end, 10);
+            /* manually place each byte in network order */
+            ((int8_t *)&ipv4Address)[ipOctet] = (uint8_t)decNumber;
 
-            /* Check if the octet holds valid number between the range 0-255.
-               end points the end of the numeric portion of the input string
-               for strtoul, so if end == token that means no conversion has
-               occured as there was no numeric portion detected              */
-            if (decNumber < 256 && end != token)
-            {
-                /* manually place each byte in network order */
-                ((int8_t *)&ipv4Address)[ipOctet] = (uint8_t)decNumber;
-
-                /* split strAddr into tokens separated by "."                */
-                SlNetUtil_strTok(&modifiedStr, token, 4, ".");
-                ipOctet++;
-            }
-            else
-            {
-                return SLNETERR_RET_CODE_INVALID_INPUT;
-            }
+            /* split strAddr into tokens separated by "."                */
+            SlNetUtil_strTok(&modifiedStr, token, 4, ".");
+            ipOctet++;
         }
         else
         {

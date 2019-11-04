@@ -171,9 +171,5 @@
 			<name>FREERTOS_INSTALL_DIR</name>
 			<value>file:/C:/FreeRTOSv10.0.0</value>
 		</variable>
-		<variable>
-			<name>XDC_TOOLS_DIR</name>
-			<value>file:/C:/ti/cc32xx-ws/tools/xdctools_3_32_00_06_core</value>
-		</variable>
 	</variableList>
 </projectDescription>

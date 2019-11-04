@@ -43,6 +43,7 @@
 <li><a href="#upgrade-and-compatibility-information">Upgrade and Compatibility Information</a></li>
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#device-support">Device Support</a></li>
+<li><a href="#fixed-issues">Fixed Issues</a></li>
 <li><a href="#known-issues">Known Issues</a></li>
 <li><a href="#versioning">Versioning</a></li>
 <li><a href="#technical-support-and-product-updates">Technical Support and Product Updates</a></li>
@@ -61,15 +62,15 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td>sp_3.12.0.1_2.0.0.0_2.2.0.6.bin</td>
+<td>sp_3.13.0.3_2.0.0.0_2.2.0.6.bin</td>
 <td>ServicePack binary for UniFlash</td>
 </tr>
 <tr class="even">
-<td>sp_3.12.0.1_2.0.0.0_2.2.0.6.ucf</td>
+<td>sp_3.13.0.3_2.0.0.0_2.2.0.6.ucf</td>
 <td>ServicePack UCF for host driver API</td>
 </tr>
 <tr class="odd">
-<td>sp_3.12.0.1_2.0.0.0_2.2.0.6.ucf.signed.bin</td>
+<td>sp_3.13.0.3_2.0.0.0_2.2.0.6.ucf.signed.bin</td>
 <td>ServicePack UCF signature</td>
 </tr>
 </tbody>
@@ -85,7 +86,7 @@
 <tbody>
 <tr class="odd">
 <td>NWP</td>
-<td>3.12.0.1</td>
+<td>3.13.0.3</td>
 </tr>
 <tr class="even">
 <td>MAC</td>
@@ -99,6 +100,11 @@
 </table>
 <p><strong>Note:</strong> Upon successful ServicePack programming, version can be retrieved using ‘sl_DeviceGet()’ API, with SL_DEVICE_GENERAL_VERSION option.</p>
 <h2 id="whats-new">What’s New</h2>
+<ul>
+<li>Pass bonjour test version 1.5</li>
+<li>Support enterprise connection with 4096bits RSA key</li>
+<li>Support file signing with SHA-256 including mcu image file through OTA or SimpleLink host driver API - Uniflash is not supported</li>
+</ul>
 <p>Fixed IOP issue - Some AP vendors learn the power save mode of the CC32xx from managment frames sent to the AP</p>
 <h2 id="upgrade-and-compatibility-information">Upgrade and Compatibility Information</h2>
 <p>The ServicePack can be programmed using UniFlash utility. Latest UniFlash utility can be downloaded from <a href="http://www.ti.com/tool/UniFlash" class="uri">http://www.ti.com/tool/UniFlash</a>.</p>
@@ -107,7 +113,7 @@
 <p>This release requires the following software components and tools:</p>
 <ul>
 <li>UniFlash latest version - <a href="http://www.ti.com/tool/UniFlash">Download page</a>.</li>
-<li>The ServicePack is bounded to host driver 3.0.1.54</li>
+<li>The ServicePack is bounded to host driver 3.0.1.55</li>
 </ul>
 <h2 id="device-support">Device Support</h2>
 <ul>
@@ -125,6 +131,25 @@
 <li>CC3220S_LAUNCHXL</li>
 <li>CC3220SF_LAUNCHXL</li>
 </ul>
+<h2 id="fixed-issues">Fixed Issues</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center">ID</th>
+<th align="left">Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">SL_WIFI_R2-1555</td>
+<td align="left"><span>Pass Bonjour tests version 1.5</span></td>
+</tr>
+<tr class="even">
+<td align="center">SL_WIFI_R2-1553</td>
+<td align="left"><span>Internal http server may corrupt external host sockets cause host driver a fatal abort</span></td>
+</tr>
+</tbody>
+</table>
 <h2 id="known-issues">Known Issues</h2>
 <table>
 <thead>
@@ -135,16 +160,24 @@
 </thead>
 <tbody>
 <tr class="odd">
+<td align="center">SL_WIFI_R2-1552</td>
+<td align="left"><span>When trying to retrieve the DTIM period and the STA is disconnected from the AP, no error returned to host</span></td>
+</tr>
+<tr class="even">
 <td align="center">SL_WIFI_R2-1495</td>
 <td align="left"><span>Smart Config WEP with key set as ascii is not working (only hex)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">SL_WIFI_R2-1446</td>
 <td align="left"><span>RX filter : createfilter functionality does not work as excepted</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">SL_WIFI_R2-1405</td>
 <td align="left"><span>GetSockOpt RCVBUF return wrong value</span></td>
+</tr>
+<tr class="odd">
+<td align="center">GENTWOARCH-520</td>
+<td align="left"><span>Setting connection policy with system persistent configuration disabled fails with unknown error code (-30964)</span></td>
 </tr>
 <tr class="even">
 <td align="center">GENTWOARCH-518</td>

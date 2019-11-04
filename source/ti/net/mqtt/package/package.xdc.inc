@@ -3,7 +3,7 @@ package/ti.net.mqtt.sch
 package/.vers_g200
 package/.vers_r200
 package/.vers_b200
-package/.xdc-F14
+package/.xdc-H25
 package/ti_net_mqtt.java
 package/ti_net_mqtt.class
 package/package_ti.net.mqtt.c

@@ -35,15 +35,12 @@
 
 #define Board_CC3220S_LAUNCHXL
 
+#include <ti/drivers/Board.h>
+#include "CC3220S_LAUNCHXL.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include <ti/drivers/Board.h>
-
-#define Board_initGeneral()     Board_init()  /* deprecated */
-
-#include "CC3220S_LAUNCHXL.h"
 
 /* These #defines allow us to reuse TI-RTOS across other device families */
 

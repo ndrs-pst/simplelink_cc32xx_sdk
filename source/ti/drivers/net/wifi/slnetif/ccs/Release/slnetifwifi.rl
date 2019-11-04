@@ -1,4 +1,4 @@
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c"
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c"
 N/*
 N * Copyright (c) 2017, Texas Instruments Incorporated
 N * All rights reserved.
@@ -37,7 +37,7 @@ N/* Include files                                                             */
 N/*****************************************************************************/
 N
 N#include <ti/drivers/net/wifi/slnetifwifi.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 1
 N/*
 N * Copyright (c) 2017, Texas Instruments Incorporated
 N * All rights reserved.
@@ -75,7 +75,7 @@ N/*****************************************************************************/
 N/* Include files                                                             */
 N/*****************************************************************************/
 N#include <ti/drivers/net/wifi/simplelink.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
 N/*
 N * simplelink.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -319,7 +319,7 @@ N#define _volatile volatile
 N#define _const    const
 N
 N#include <ti/drivers/net/wifi/porting/user.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 1
 N/*
 N * user.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -369,7 +369,7 @@ N#endif
 N
 N  
 N#include <string.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/string.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/string.h" 1
 N/*****************************************************************************/
 N/* string.h                                                                  */
 N/*                                                                           */
@@ -442,7 +442,7 @@ N#endif
 N#endif
 N
 N#include <_ti_config.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_ti_config.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/_ti_config.h" 1
 N/*****************************************************************************/
 N/* _ti_config.h                                                              */
 N/*                                                                           */
@@ -547,7 +547,7 @@ N#endif
 N
 N/* Target-specific definitions */
 N#include <linkage.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/linkage.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/linkage.h" 1
 N/*****************************************************************************/
 N/* linkage.h                                                                 */
 N/*                                                                           */
@@ -611,12 +611,12 @@ N
 N#pragma diag_pop
 N
 N#endif /* ifndef _LINKAGE */
-L 99 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_ti_config.h" 2
+L 99 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/_ti_config.h" 2
 N
 N#pragma diag_pop
 N
 N#endif /* ifndef __TI_CONFIG_H */
-L 71 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/string.h" 2
+L 71 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/string.h" 2
 N
 N#pragma diag_push
 N#pragma CHECK_MISRA("-19.4") /* macros required for implementation */
@@ -1008,7 +1008,7 @@ N/*----------------------------------------------------------------------------*
 N#if __has_include(<sys/cdefs.h>)
 X#if 1
 N#include <sys/cdefs.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/cdefs.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/cdefs.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-3-Clause
 N *
@@ -2025,7 +2025,7 @@ N#pragma diag_pop
 N#endif
 N
 N#endif /* !_SYS_CDEFS_H_ */
-L 431 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/string.h" 2
+L 431 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/string.h" 2
 N#endif
 N
 N/*----------------------------------------------------------------------------*/
@@ -2043,9 +2043,9 @@ N
 N#pragma diag_pop
 N
 N#endif /* ! _STRING_H_ */
-L 50 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
+L 50 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
 N#include <ti/drivers/net/wifi/porting/cc_pal.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 1
 N/*
 N * cc_pal.h - CC32xx Host Driver Implementation
 N *
@@ -2096,9 +2096,9 @@ N#endif
 N
 N
 N#include <ti/drivers/dpl/ClockP.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/dpl/ClockP.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 1
 N/*
-N * Copyright (c) 2016-2018, Texas Instruments Incorporated
+N * Copyright (c) 2016-2019, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -2156,12 +2156,8 @@ N
 N#ifndef ti_dpl_ClockP__include
 N#define ti_dpl_ClockP__include
 N
-N#ifdef __cplusplus
-Sextern "C" {
-N#endif
-N
 N#include <stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdint.h" 1
 N/*****************************************************************************/
 N/* STDINT.H                                                                  */
 N/*                                                                           */
@@ -2202,7 +2198,7 @@ N#ifndef _STDINT_H_
 N#define _STDINT_H_
 N
 N#include <_stdint40.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_stdint40.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/_stdint40.h" 1
 N/*****************************************************************************/
 N/* _STDINT40.H                                                               */
 N/*                                                                           */
@@ -2282,11 +2278,11 @@ N#endif
 N
 N#endif /* !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS) */
 N#endif /* __STDINT40_H_ */
-L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h" 2
+L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdint.h" 2
 N#if __has_include(<sys/stdint.h>) 
 X#if 1 
 N#include <sys/stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -2322,7 +2318,7 @@ N#define _SYS_STDINT_H_
 N
 N#include <sys/cdefs.h>
 N#include <sys/_types.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_types.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_types.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -2358,7 +2354,7 @@ N#define _SYS__TYPES_H_
 N
 N#include <sys/cdefs.h>
 N#include <machine/_types.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_types.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/machine/_types.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-4-Clause
 N *
@@ -2523,7 +2519,7 @@ N#pragma diag_pop
 N#endif
 N
 N#endif /* !_MACHINE__TYPES_H_ */
-L 36 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_types.h" 2
+L 36 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_types.h" 2
 N
 N#if defined(__TI_COMPILER_VERSION__)
 X#if 1L
@@ -2664,10 +2660,10 @@ N#pragma diag_pop
 N#endif
 N
 N#endif /* !_SYS__TYPES_H_ */
-L 36 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h" 2
+L 36 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 2
 N
 N#include <machine/_stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/machine/_stdint.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-NetBSD
 N *
@@ -2836,9 +2832,9 @@ N
 N#pragma diag_pop
 N
 N#endif /* !_MACHINE__STDINT_H_ */
-L 38 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h" 2
+L 38 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 2
 N#include <sys/_stdint.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_stdint.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_stdint.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -2937,7 +2933,7 @@ N#define	_UINTMAX_T_DECLARED
 N#endif
 N
 N#endif /* !_SYS__STDINT_H_ */
-L 39 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h" 2
+L 39 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/stdint.h" 2
 N
 Ntypedef	__int_least8_t		int_least8_t;
 Ntypedef	__int_least16_t		int_least16_t;
@@ -2983,7 +2979,7 @@ N#endif
 N#endif /* __EXT1_VISIBLE */
 N
 N#endif /* !_SYS_STDINT_H_ */
-L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h" 2
+L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdint.h" 2
 N#else
 S/* 7.18.1.1 Exact-width integer types */
 S
@@ -3444,9 +3440,9 @@ S
 S#endif /* !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS) */
 N#endif
 N#endif /* _STDINT_H_ */
-L 65 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
+L 61 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
 N#include <stdbool.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdbool.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdbool.h" 1
 N/*
 N * Copyright (c) 2000 Jeroen Ruigrok van der Werven <asmodai@FreeBSD.org>
 N * All rights reserved.
@@ -3493,9 +3489,9 @@ N#endif
 N
 N#endif /* !__cplusplus */
 N#endif /* __bool_true_false_are_defined */
-L 66 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
+L 62 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
 N#include <stddef.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stddef.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stddef.h" 1
 N/*****************************************************************************/
 N/* stddef.h                                                                  */
 N/*                                                                           */
@@ -3616,7 +3612,11 @@ N
 N#pragma diag_pop
 N
 N#endif  /* _STDDEF */
-L 67 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
+L 63 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/dpl/ClockP.h" 2
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif
 N
 N/*!
 N *  @brief    Number of bytes greater than or equal to the size of any RTOS
@@ -3642,7 +3642,7 @@ N
 N/*!
 N *  @brief  Frequency-in-hertz struct
 N */
-Ntypedef struct ClockP_FreqHz {
+Ntypedef struct {
 N    uint32_t hi;      /*!< most significant 32-bits of frequency */
 N    uint32_t lo;      /*!< least significant 32-bits of frequency */
 N} ClockP_FreqHz;
@@ -3650,7 +3650,7 @@ N
 N/*!
 N *  @brief    Status codes for ClockP APIs
 N */
-Ntypedef enum ClockP_Status {
+Ntypedef enum {
 N    ClockP_OK = 0,
 N    ClockP_FAILURE = -1
 N} ClockP_Status;
@@ -3691,7 +3691,7 @@ N *  periodically at the period rate (in system clock ticks), after the
 N *  clock is initially started and set to expire with the 'timeout'
 N *  argument.
 N */
-Ntypedef struct ClockP_Params {
+Ntypedef struct {
 N    bool      startFlag; /*!< Start immediately after instance is created. */
 X    _Bool      startFlag;  
 N    uint32_t  period;    /*!< Period of clock object. */
@@ -3877,15 +3877,15 @@ S}
 N#endif
 N
 N#endif /* ti_dpl_ClockP__include */
-L 51 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 51 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#if defined(SL_PLATFORM_MULTI_THREADED)
 X#if 1L
 N#if defined(__TI_COMPILER_VERSION__)
 X#if 1L
 N#include <ti/posix/ccs/pthread.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/pthread.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 1
 N/*
-N * Copyright (c) 2015-2018 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2015-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -3933,10 +3933,16 @@ N#endif
 N
 N#include <stdint.h>
 N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
+N#endif
+N
 N#include "sys/types.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/sys/types.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/types.h" 1
 N/*
-N * Copyright (c) 2017-2018 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -3982,6 +3988,12 @@ Swith a Texas Instruments compiler. You appear to be using a different compiler.
 X#error Incompatible compiler: use this include path (.../ti/posix/ccs) only with a Texas Instruments compiler. You appear to be using a different compiler.
 N#endif
 N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
+N#endif
+N
 N#include <stddef.h>
 N#include <stdint.h>
 N
@@ -3991,7 +4003,7 @@ N *  able to use it because of type collisions (off_t in file.h).
 N */
 N
 N#include "_internal.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/sys/_internal.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/_internal.h" 1
 N/*
 N * Copyright (c) 2017-2018 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -4143,7 +4155,7 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_sys__internal__include */
-L 55 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/sys/types.h" 2
+L 60 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/types.h" 2
 N
 N#ifdef __cplusplus
 Sextern "C" {
@@ -4204,7 +4216,7 @@ S/* TI ARM CLang Compiler */
 S#include <../../include/c/time.h>
 N#else
 N#include <../include/time.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/../include/time.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/time.h" 1
 N/*****************************************************************************/
 N/* time.h                                                                    */
 N/*                                                                           */
@@ -4247,7 +4259,7 @@ N#define _TIME_H_
 N
 N#include <_ti_config.h>
 N#include <abi_prefix.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/abi_prefix.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/abi_prefix.h" 1
 N/*****************************************************************************/
 N/* ABI_PREFIX.H                                                              */
 N/*                                                                           */
@@ -4317,7 +4329,7 @@ S#error "TARGET NOT DEFINED"
 N#endif
 N
 N#endif
-L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/../include/time.h" 2
+L 43 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/time.h" 2
 N#if __has_include(<sys/_types.h>)
 X#if 1
 N#include <sys/_types.h>
@@ -4566,7 +4578,7 @@ X#if (1L && 200809 >= 200809) || 0L
 N__BEGIN_DECLS
 X
 N#include <xlocale/_time.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/xlocale/_time.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/xlocale/_time.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -4628,14 +4640,14 @@ S           struct tm * __restrict, locale_t);
 S
 S#endif /* _XLOCALE_LOCALE2_H */
 N#endif /* _XLOCALE_H_ */
-L 253 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/../include/time.h" 2
+L 253 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/time.h" 2
 N__END_DECLS
 X
 N#endif
 N
 N#endif /* _TIME_H_ */
 N
-L 113 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/sys/types.h" 2
+L 118 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/types.h" 2
 N#endif
 N
 N
@@ -4706,9 +4718,9 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_sys_types__include */
-L 49 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/pthread.h" 2
+L 54 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 2
 N#include "time.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/time.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/time.h" 1
 N/*
 N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
@@ -4756,6 +4768,12 @@ Swith a Texas Instruments compiler. You appear to be using a different compiler.
 X#error Incompatible compiler: use this include path (.../ti/posix/ccs) only with a Texas Instruments compiler. You appear to be using a different compiler.
 N#endif
 N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
+N#endif
+N
 N#include <stddef.h>
 N#include <stdint.h>
 N
@@ -4769,9 +4787,9 @@ N#include <../include/time.h>
 N#endif
 N
 N#include "signal.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/signal.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/signal.h" 1
 N/*
-N * Copyright (c) 2017-2018 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -4817,6 +4835,12 @@ Swith a Texas Instruments compiler. You appear to be using a different compiler.
 X#error Incompatible compiler: use this include path (.../ti/posix/ccs) only with a Texas Instruments compiler. You appear to be using a different compiler.
 N#endif
 N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
+N#endif
+N
 N#include "sys/types.h"
 N
 N/* include toolchain's header file */
@@ -4826,7 +4850,7 @@ S/* TI ARM CLang Compiler */
 S#include <../../include/c/signal.h>
 N#else
 N#include <../include/signal.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/../include/signal.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/signal.h" 1
 N/*-
 N * Copyright (c) 1982, 1986, 1989, 1991, 1993
 N *	The Regents of the University of California.  All rights reserved.
@@ -4882,7 +4906,8 @@ X int raise(int);
 N
 Ntypedef void __sighandler_t(int);
 N
-N#if __PRU__
+N#if defined(__PRU__)
+X#if 0L
 S/* Avoid warning by first converting to short */
 S#define SIG_DFL ((__sighandler_t *) (short)0)
 S#define SIG_IGN ((__sighandler_t *) (short)1)
@@ -4913,7 +4938,7 @@ S}
 N#endif
 N
 N#endif
-L 54 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/signal.h" 2
+L 59 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/signal.h" 2
 N#endif
 N
 N#ifdef __cplusplus
@@ -4977,7 +5002,7 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_signal__include */
-L 58 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/time.h" 2
+L 63 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/time.h" 2
 N#include "sys/types.h"
 N
 N#ifdef __cplusplus
@@ -5011,9 +5036,9 @@ N#define TIMER_ABSTIME 4
 N#endif
 N
 N#if defined(__TMS470__) && (__TI_COMPILER_VERSION__ >= 18001000)
-X#if 1L && (18012002 >= 18001000)
+X#if 1L && (18012003 >= 18001000)
 N#include <../include/sys/timespec.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/../include/sys/timespec.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/sys/timespec.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-3-Clause
 N *
@@ -5054,7 +5079,7 @@ N#define _SYS_TIMESPEC_H_
 N
 N#include <sys/cdefs.h>
 N#include <sys/_timespec.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_timespec.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/sys/_timespec.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-3-Clause
 N *
@@ -5106,7 +5131,7 @@ N	long	tv_nsec;	/* and nanoseconds */
 N};
 N
 N#endif /* !_SYS__TIMESPEC_H_ */
-L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/../include/sys/timespec.h" 2
+L 41 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/sys/timespec.h" 2
 N
 N#if __BSD_VISIBLE
 X#if 1
@@ -5135,7 +5160,7 @@ N	struct timespec  it_value;
 N};
 N
 N#endif /* _SYS_TIMESPEC_H_ */
-L 92 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/time.h" 2
+L 97 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/time.h" 2
 N#else
 Sstruct timespec {
 S    time_t  tv_sec;   /* Seconds */
@@ -5187,11 +5212,11 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_time__include */
-L 50 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/pthread.h" 2
+L 55 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 2
 N#include "sched.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/sched.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sched.h" 1
 N/*
-N * Copyright (c) 2016-2018 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2016-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -5235,6 +5260,12 @@ X#if !1L && !0L
 S#error Incompatible compiler: use this include path (.../ti/posix/ccs) only \
 Swith a Texas Instruments compiler. You appear to be using a different compiler.
 X#error Incompatible compiler: use this include path (.../ti/posix/ccs) only with a Texas Instruments compiler. You appear to be using a different compiler.
+N#endif
+N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
 N#endif
 N
 N#include <stdint.h>
@@ -5283,7 +5314,7 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_sched__include */
-L 51 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/pthread.h" 2
+L 56 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/pthread.h" 2
 N
 N#ifdef __cplusplus
 Sextern "C" {
@@ -5526,11 +5557,11 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_pthread__include */
-L 54 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 54 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#include <ti/posix/ccs/semaphore.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/semaphore.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/semaphore.h" 1
 N/*
-N * Copyright (c) 2015-2018 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2015-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -5576,6 +5607,12 @@ Swith a Texas Instruments compiler. You appear to be using a different compiler.
 X#error Incompatible compiler: use this include path (.../ti/posix/ccs) only with a Texas Instruments compiler. You appear to be using a different compiler.
 N#endif
 N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
+N#endif
+N
 N#include <stdint.h>
 N#include "sys/_internal.h"
 N
@@ -5609,11 +5646,11 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_semaphore__include */
-L 55 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 55 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#include <ti/posix/ccs/unistd.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/unistd.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/unistd.h" 1
 N/*
-N * Copyright (c) 2015-2018 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2015-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -5659,6 +5696,12 @@ Swith a Texas Instruments compiler. You appear to be using a different compiler.
 X#error Incompatible compiler: use this include path (.../ti/posix/ccs) only with a Texas Instruments compiler. You appear to be using a different compiler.
 N#endif
 N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
+N#endif
+N
 N#include "sys/types.h"
 N
 N#ifdef __cplusplus
@@ -5673,7 +5716,7 @@ S}
 N#endif
 N
 N#endif /* ti_posix_ccs_unistd__include */
-L 56 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
+L 56 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/cc_pal.h" 2
 N#elif defined(__IAR_SYSTEMS_ICC__)
 S#include <ti/posix/iar/pthread.h>
 S#include <ti/posix/iar/semaphore.h>
@@ -6062,7 +6105,7 @@ N#endif // __cplusplus
 N
 N#endif
 N
-L 51 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
+L 51 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
 N
 Ntypedef signed int _SlFd_t;
 N
@@ -6109,7 +6152,7 @@ N#ifdef SL_MEMORY_MGMT_DYNAMIC
 N
 N
 N#include <stdlib.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdlib.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/stdlib.h" 1
 N/*****************************************************************************/
 N/* stdlib.h                                                                  */
 N/*                                                                           */
@@ -6655,7 +6698,7 @@ S__END_DECLS
 N#endif
 N
 N#pragma diag_pop
-L 97 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
+L 97 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/porting/user.h" 2
 N/*!
 N    \brief
 N    \sa
@@ -8080,7 +8123,7 @@ S}
 N#endif // __cplusplus
 N
 N#endif // __USER_H__
-L 244 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 244 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N
 N#ifdef    __cplusplus
 Sextern "C"
@@ -8119,11 +8162,11 @@ N
 N/*****************************************************************************/
 N/* Macro declarations for Host Driver version                                */
 N/*****************************************************************************/
-N#define SL_DRIVER_VERSION   "3.0.1.54"
+N#define SL_DRIVER_VERSION   "3.0.1.55"
 N#define SL_MAJOR_VERSION_NUM    3L
 N#define SL_MINOR_VERSION_NUM    0L
 N#define SL_VERSION_NUM          1L
-N#define SL_SUB_VERSION_NUM      54L
+N#define SL_SUB_VERSION_NUM      55L
 N
 N/*****************************************************************************/
 N/* Macro declarations for predefined configurations                          */
@@ -8186,7 +8229,7 @@ N   objInclusion.h must be the last arrangement just before including the API he
 N   since it based on the other configurations to decide which object should be included
 N*/
 N#include "source/objInclusion.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 1
 N/*
 N * objInclusion.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -8225,7 +8268,7 @@ N*/
 N
 N
 N#include <ti/drivers/net/wifi/simplelink.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 1
 N/*
 N * simplelink.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -8507,11 +8550,11 @@ S
 S/*****************************************************************************/
 S/* Macro declarations for Host Driver version                                */
 S/*****************************************************************************/
-S#define SL_DRIVER_VERSION   "3.0.1.54"
+S#define SL_DRIVER_VERSION   "3.0.1.55"
 S#define SL_MAJOR_VERSION_NUM    3L
 S#define SL_MINOR_VERSION_NUM    0L
 S#define SL_VERSION_NUM          1L
-S#define SL_SUB_VERSION_NUM      54L
+S#define SL_SUB_VERSION_NUM      55L
 S
 S/*****************************************************************************/
 S/* Macro declarations for predefined configurations                          */
@@ -9421,7 +9464,7 @@ S#endif /* __cplusplus */
 S
 N#endif    /*  __SIMPLELINK_H__ */
 N
-L 39 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 2
+L 39 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/source/objInclusion.h" 2
 N
 N
 N#ifndef OBJINCLUSION_H_
@@ -9747,9 +9790,9 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /*OBJINCLUSION_H_  */
-L 345 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 345 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "trace.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/trace.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/trace.h" 1
 N/*
 N * trace.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -9985,9 +10028,9 @@ N
 N
 N#endif /*__SIMPLELINK_TRACE_H__*/
 N
-L 346 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 346 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "fs.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/fs.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/fs.h" 1
 N/*
 N * fs.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -10398,7 +10441,7 @@ N    \brief Close file in storage device
 N
 N    \param[in]      FileHdl               Pointer to the file (assigned from sl_FsOpen)
 N    \param[in]      pCeritificateFileName Certificate file, or NULL if irrelevant.
-N    \param[in]      pSignature            The signature is SHA-1, the certificate chain may include SHA-256
+N    \param[in]      pSignature            The signature is either SHA-1 or SHA-256, the certificate chain may include SHA-256
 N    \param[in]      SignatureLen          The signature actual length
 N
 N    \return         Zero on success, or a negative value if an error occurred
@@ -10898,9 +10941,9 @@ N#endif /*  __cplusplus */
 N
 N#endif /*  __FS_H__ */
 N
-L 347 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 347 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "sl_socket.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/sl_socket.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/sl_socket.h" 1
 N/*
 N * sl_socket.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -11996,7 +12039,7 @@ N    - SL_SO_NONBLOCKING:
 N    \code
 N    
 N           SlSockNonblocking_t enableOption;
-N           enableOption.NonblockingEnabled = 1;
+N           enableOption.NonBlockingEnabled = 1;
 N           sl_SetSockOpt(SockID,SL_SOL_SOCKET,SL_SO_NONBLOCKING, (_u8 *)&enableOption,sizeof(enableOption)); // Enable/disable nonblocking mode
 N    \endcode
 N    <br>
@@ -12614,9 +12657,9 @@ N
 N#endif /* __SOCKET_H__ */
 N
 N
-L 348 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 348 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "netapp.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/netapp.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/netapp.h" 1
 N/*
 N * netapp.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -14184,9 +14227,9 @@ N#endif /*  __cplusplus */
 N
 N#endif    /*  __NETAPP_H__ */
 N
-L 349 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 349 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "wlan.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/wlan.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/wlan.h" 1
 N/*
 N * wlan.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -14394,6 +14437,7 @@ N#define SL_WLAN_SEC_TYPE_P2P_PIN_KEYPAD                                        
 N#define SL_WLAN_SEC_TYPE_P2P_PIN_DISPLAY                                             (8)
 N#define SL_WLAN_SEC_TYPE_P2P_PIN_AUTO                                                (9) /* NOT Supported yet */
 N#define SL_WLAN_SEC_TYPE_WEP_SHARED                                                  (10)
+N#define SL_WLAN_SEC_TYPE_WPA_PMK                                                     (15)
 N
 N#define SL_TLS                                                                       (0x1)
 N#define SL_MSCHAP                                                                    (0x0)
@@ -15627,6 +15671,7 @@ N                                - SL_WLAN_SEC_TYPE_WPA_WPA2
 N                                - SL_WLAN_SEC_TYPE_WPA_ENT
 N                                - SL_WLAN_SEC_TYPE_WPS_PBC
 N                                - SL_WLAN_SEC_TYPE_WPS_PIN
+N                                - SL_WLAN_SEC_TYPE_WPA_PMK - insert preprocessed PMK as key
 N
 N    \param[in]      pSecExtParams  Enterprise parameters (set NULL in case Enterprise parameters is not in use)
 N
@@ -15695,6 +15740,7 @@ N                                - SL_WLAN_SEC_TYPE_WPA_WPA2
 N                                - SL_WLAN_SEC_TYPE_WPA_ENT
 N                                - SL_WLAN_SEC_TYPE_WPS_PBC
 N                                - SL_WLAN_SEC_TYPE_WPS_PIN
+N                                - SL_WLAN_SEC_TYPE_WPA_PMK - insert preprocessed PMK as key
 N
 N    \param[in]      pSecExtParams  Enterprise parameters - identity, identity length,
 N                                   Anonymous, Anonymous length, CertIndex (not supported,
@@ -17116,9 +17162,9 @@ N#endif /*  __cplusplus */
 N
 N#endif    /*  __WLAN_H__ */
 N
-L 350 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 350 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "device.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/device.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/device.h" 1
 N/*
 N * device.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -17317,6 +17363,7 @@ N/*
 N    Declare the different Options for SL_DEVICE_IOT in sl_DeviceGet and sl_DeviceSet
 N*/  
 N#define SL_DEVICE_IOT_UDID              (41)
+N#define SL_DEVICE_DICE_VERSION          (14)
 N
 N/* Events list to mask/unmask*/
 N#define SL_DEVICE_EVENT_CLASS_DEVICE                     (1)
@@ -17711,6 +17758,7 @@ N                                                    - SL_DEVICE_GENERAL_DATE_TI
 N                                                    - SL_DEVICE_GENERAL_PERSISTENT   
 N                                                - SL_DEVICE_IOT:
 N                                                    - SL_DEVICE_IOT_UDID
+N                                                    - SL_DEVICE_DICE_VERSION 
 N                                        
 N    \param[out] pConfigLen   The length of the allocated memory as input, when the
 N                             function complete, the value of this parameter would be
@@ -17780,6 +17828,15 @@ N    \code
 N        _i16 configLen = sizeof(_u8); 
 N        _i8 configOpt = SL_DEVICE_GENERAL_PERSISTENT;
 N        sl_DeviceGet(SL_DEVICE_GENERAL,&configOpt, &configLen,&persistent); 
+N    \endcode
+N    
+N    - Getting DICE version:
+N    \code
+N        _i8 ver[2] = {0};
+N        _i16 configSize = sizeof(ver);
+N        _i8 configOpt = SL_DEVICE_DICE_VERSION;
+N       
+N        sl_DeviceGet(SL_DEVICE_IOT, &configOpt, &configSize,(uint8_t*)(&ver));
 N    \endcode
 N
 N*/
@@ -18120,9 +18177,9 @@ N
 N#endif  /*  __DEVICE_H__ */
 N
 N
-L 351 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 351 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "netcfg.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/netcfg.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/netcfg.h" 1
 N/*
 N * netcfg.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -18855,9 +18912,9 @@ N#endif /*  __cplusplus */
 N
 N#endif    /*  __NETCFG_H__ */
 N
-L 352 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 352 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "netutil.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/netutil.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/netutil.h" 1
 N/*
 N * netutil.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -19263,7 +19320,8 @@ N                                    will hold the output\n
 N                                    On output - provides the actual length of the received output-values
 N    \return     Zero on success, or negative error code on failure
 N    \sa         sl_NetUtilGet sl_NetUtilSet  
-N    \note       The host driver API sl_NetUtilCmd is not valid for use with the CC3220R device.
+N    \note       The host driver API sl_NetUtilCmd is not valid for use with the CC3220R device. \n
+N                The SL_NETUTIL_CMD_ARP_LOOKUP cmd is only valid for the CC3235S/SF devices.
 N    \warning
 N    \par   Examples
 N
@@ -19383,7 +19441,7 @@ N    <br>
 N
 N   \endcode
 N
-N                - SL_NETUTIL_CMD_ARP_LOOKUP, (Mapping MAC address to IPv4 or IPv6 address):
+N                - SL_NETUTIL_CMD_ARP_LOOKUP, (Mapping MAC address to IPv4 or IPv6 address), CC3235S/SF devices only:
 N    \code
 N
 N    NetUtilCmdArpLookupAttrib_t  arpAttr;
@@ -19437,9 +19495,9 @@ N
 N#endif  /*  __NETUTIL_H__ */
 N
 N
-L 353 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 353 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "errors.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/errors.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/errors.h" 1
 N/*
 N * errors.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -20204,9 +20262,9 @@ S}
 N#endif /*  __cplusplus */
 N
 N#endif  /*  __ERROR_H__ */
-L 354 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 354 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "eventreg.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/eventreg.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/eventreg.h" 1
 N/*
 N * eventreg.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -20365,9 +20423,9 @@ N#endif /* __cplusplus */
 N
 N
 N#endif /* EVENTREG_H_ */
-L 355 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 355 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#include "wlanconfig.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/wlanconfig.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/wlanconfig.h" 1
 N/*
 N * wlan.c - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -20452,7 +20510,7 @@ X    unsigned char          const ProvisioningStop;
 N    _u8          const DeleteAllProfile;
 X    unsigned char          const DeleteAllProfile;
 N}SlWifiCC32XXConfig_t;
-L 356 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 356 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N/*!
 N    \cond DOXYGEN_IGNORE
 N*/
@@ -20918,7 +20976,7 @@ N#define SL_SPAWN_FLAG_FROM_CMD_PROCESS       (0x3)
 N
 N#ifdef SL_PLATFORM_MULTI_THREADED
 N    #include "source/spawn.h"
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/source/spawn.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/source/spawn.h" 1
 N/*
 N * spawn.h - CC31xx/CC32xx Host Driver Implementation
 N *
@@ -20982,7 +21040,7 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif
-L 819 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
+L 819 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/simplelink.h" 2
 N#else
 S    #include "source/nonos.h"
 N#endif
@@ -21379,11 +21437,11 @@ N#endif /* __cplusplus */
 N
 N#endif    /*  __SIMPLELINK_H__ */
 N
-L 38 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 38 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slnetsock.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/net/slnetsock.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetsock.h" 1
 N/*
-N * Copyright (c) 2017-2018, Texas Instruments Incorporated
+N * Copyright (c) 2017-2019, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -21437,6 +21495,7 @@ N
 N
 N \section modules_sec Module Names
 N TI's SlNetSock layer is divided into the following software modules:
+N     -# \ref SlNet      - Interface for general SlNet services
 N     -# \ref SlNetSock  - Controls standard client/server sockets options and capabilities
 N     -# \ref SlNetIf    - Controls standard stack/interface options and capabilities
 N     -# \ref SlNetUtils - Provides sockets related commands and configuration
@@ -21575,9 +21634,9 @@ N#define __SL_NET_SOCK_H__
 N
 N#include <stdint.h>
 N#include <sys/time.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/sys/time.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/time.h" 1
 N/*
-N * Copyright (c) 2017-2018 Texas Instruments Incorporated - http://www.ti.com
+N * Copyright (c) 2017-2019 Texas Instruments Incorporated - http://www.ti.com
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -21623,8 +21682,14 @@ Swith a Texas Instruments compiler. You appear to be using a different compiler.
 X#error Incompatible compiler: use this include path (.../ti/posix/ccs) only with a Texas Instruments compiler. You appear to be using a different compiler.
 N#endif
 N
+N/* CODEGEN-6425 work-around; remove when bug is fixed */
+N#if defined(__clang__) && defined(__ti_version__)
+X#if 0L && 0L
+S#pragma clang system_header
+N#endif
+N
 N#if !defined(__TMS470__) || (__TI_COMPILER_VERSION__ < 18001000)
-X#if !1L || (18012002 < 18001000)
+X#if !1L || (18012003 < 18001000)
 S#include <stdint.h>
 S#include <stddef.h>
 S
@@ -21653,7 +21718,7 @@ S#endif
 S
 N#else
 N#include <../include/sys/_timeval.h>
-L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/../include/sys/_timeval.h" 1
+L 1 "/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include/../include/sys/_timeval.h" 1
 N/*-
 N * SPDX-License-Identifier: BSD-2-Clause-FreeBSD
 N *
@@ -21708,11 +21773,11 @@ N	suseconds_t	tv_usec;	/* and microseconds */
 N};
 N
 N#endif /* !_SYS__TIMEVAL_H_ */
-L 75 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/posix/ccs/sys/time.h" 2
+L 80 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/posix/ccs/sys/time.h" 2
 N#endif
 N
 N#endif /* ti_posix_ccs_sys_time__include */
-L 194 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/net/slnetsock.h" 2
+L 195 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetsock.h" 2
 N
 N#ifdef    __cplusplus
 Sextern "C" {
@@ -21854,11 +21919,11 @@ N     SLNETSOCK_SEC_ATTRIB_DOMAIN_NAME               = 8,
 N
 N     /*!
 N            @c SLNETSOCK_SEC_ATTRIB_DISABLE_CERT_STORE is
-N            currently only supported on CC3x20 devices.
+N            currently only supported on CC3xxx devices.
 N
 N            The certificate store is a file, provided by TI,
 N            containing a list of known and trusted root CAs by TI.
-N            For more information, see the CC3x20 documentation.
+N            For more information, see the CC3xxx documentation.
 N
 N            The certificate store is used only in client mode. Servers
 N            use a proprietary root CA to authenticate clients, and
@@ -23381,11 +23446,11 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /* __NET_SOCK_H__ */
-L 39 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 39 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slnetif.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/net/slnetif.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetif.h" 1
 N/*
-N * Copyright (c) 2017-2018, Texas Instruments Incorporated
+N * Copyright (c) 2017-2019, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -23622,11 +23687,11 @@ N                               is defined with the prefix SLNETIF_ID_
 N                               which defined in slnetif.h
 N    \param[in] ifName          Specifies the name of the interface,
 N                               \b Note: Can be set to NULL, but when set to NULL
-N                                     cannot be used with SlNetIf_getIDByName
+N                                     cannot be used with SlNetIf_getIDByName()
 N    \param[in] ifConf          Specifies the function list for the
 N                               interface
-N    \param[in] priority        Specifies the priority needs to be
-N                               set (In ascending order).
+N    \param[in] priority        Specifies the priority of the interface
+N                               (In ascending order).
 N                               Note: maximum priority is 15
 N
 N    \return                    Zero on success, or negative error code on failure
@@ -23917,43 +23982,85 @@ Nint32_t SlNetIf_getIPAddr(uint16_t ifID, SlNetIfAddressType_e addrType, uint16_
 N
 N
 N/*!
-N    \brief Load secured buffer to the network stack
+N    \brief Load/unload/replace a secure object into a network interface/stack
 N
-N    The SlNetSock_secLoadObj function loads buffer/files into the inputted
-N    network stack for future usage of the socket SSL/TLS connection.
-N    This option is relevant for network stacks with file system and also for
-N    network stacks that lack file system that can store the secured files.
+N    SlNetIf_loadSecObj() loads a named secure object into specific
+N    network stack for future use by secure sockets. To unload the
+N    named secure object, pass a NULL object buffer with the
+N    appropriate name.
 N
-N    \param[in] objType          Specifies the security object type which
-N                                could be one of the following:\n
+N    \param[in] objType          The secure object type:
 N                                   - #SLNETIF_SEC_OBJ_TYPE_RSA_PRIVATE_KEY
 N                                   - #SLNETIF_SEC_OBJ_TYPE_CERTIFICATE
 N                                   - #SLNETIF_SEC_OBJ_TYPE_DH_KEY
-N    \param[in] objName          Specifies the name/input identifier of the
-N                                secured buffer loaded
-N                                for file systems - this can be the file name
-N                                for plain text buffer loading this can be the
-N                                name of the object
-N    \param[in] objNameLen       Specifies the buffer name length to be loaded.\n
-N    \param[in] objBuff          Specifies the pointer to the secured buffer to
-N                                be loaded.\n
-N    \param[in] objBuffLen       Specifies the buffer length to be loaded.\n
-N    \param[in] ifBitmap         Specifies the interfaces which the security
-N                                objects needs to be added to.\n
-N                                The values of the interface identifiers
-N                                is defined with the prefix SLNETIF_ID_
-N                                which defined in slnetif.h
+N    \param[in] objName          The secure object name
+N    \param[in] objNameLen       The secure object name length
+N    \param[in] objBuff          The secure object buffer to be loaded, or
+N                                NULL if the named object is to be unloaded
+N    \param[in] objBuffLen       The secure object buffer length
+N    \param[in] ifBitmap         The interfaces which the secure
+N                                objects should be loaded to
 N
-N    \return                     On success, buffer type handler index to be
-N                                used when attaching the secured buffer to a
-N                                socket.\n
-N                                A successful return code should be a positive
-N                                number (int16)\n
-N                                On error, a negative value will be returned
-N                                specifying the error code.
-N                                - #SLNETERR_STATUS_ERROR - load operation failed
+N    \remark     Loaded secure objects are added to secure attributes using
+N                the SlNetSock_secAttribCreate(),
+N                SlNetSock_secAttribSet(), and
+N                SlNetSock_secAttribDelete() lifecycle APIs.  The
+N                loading/unloading of secure objects (via
+N                SlNetIf_loadSecObj()) must be done while the secure
+N                object is not associated with any existing secure
+N                attributes.  Restating, you must delete any existing
+N                secure attributes before changing any secure objects
+N                associated with them.
 N
-N    \sa                         SlNetSock_setOpt()
+N    \remark     The values of @c ifBitmap typically have the prefix
+N                @c SLNETIF_ID_.
+N
+N    \remark     SlNetIf_loadSecObj() internally validates the @c objName,
+N                @c objNameLen, and @c objType arguments, so the
+N                underlying interface/stack functions do not need to
+N                check them again.
+N
+N    \remark     For stacks that use file systems (e.g. CC3XXX), @c objName
+N                will be the file name used on the file system.
+N
+N    \remark     Note that ownership of @c objBuff after returning from
+N                SlNetIf_loadSecObj() varies by stack/interface, often
+N                depending on how the underlying stack implements it's
+N                TLS support.
+N                  - On CC3XXX-based stacks, the TLS support is managed
+N                    on a separate network processor, and loading a
+N                    secure object results in persisting the secure
+N                    object to a file system.  As a result, after
+N                    successfully calling SlNetIf_loadSecObj(), the @c
+N                    objBuff is no longer needed, and can be considered
+N                    "owned" by the application.
+N
+N                  - On NDK-based stacks, the TLS support is typically
+N                    managed by a software library like mbedTLS.  As a
+N                    result, only a reference to @c objBuff is made
+N                    within the SlNetIf_loadSecObj() call, and the
+N                    buffer must persist as long as the secure object
+N                    remains loaded.  Ownership of the buffer returns
+N                    to the user only after unloading the secure
+N                    object (or resetting the device).
+N
+N    \remark     To replace an existing named secure object with another
+N                secure object of the same name, call
+N                SlNetIf_loadSecObj() with the same @c objName.
+N                Resources associated with the previously loaded secure
+N                object will be released and replaced by the new secure
+N                object.
+N
+N    \remark     When unloading a named secure object, @c objBuffLen is
+N                ignored.
+N
+N    \return     0 on success, negative on failure.  Common errors include:
+N                   - #SLNETERR_RET_CODE_INVALID_INPUT
+N                   - #SLNETERR_RET_CODE_NO_FREE_SPACE
+N                   - #SLNETERR_RET_CODE_MALLOC_ERROR
+N
+N    \sa         SlNetSock_setOpt()
+N    \sa         SlNetSock_secAttribSet()
 N
 N    \slnetif_not_threadsafe
 N
@@ -23972,11 +24079,11 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /* __SL_NET_IF_H__ */
-L 40 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 40 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slneterr.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/net/slneterr.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slneterr.h" 1
 N/*
-N * Copyright (c) 2017-2018, Texas Instruments Incorporated
+N * Copyright (c) 2017-2019, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -24116,7 +24223,7 @@ N
 N/* proprietary secure */
 N#define SLNETERR_ESEC_GENERAL                                           (-450L)  /**< error secure level general error                                               */
 N#define SLNETERR_ESEC_DECRYPT                                           (-451L)  /**< error secure level, decrypt recv packet fail                                   */
-N#define SLNETERR_ESEC_CLOSED                                            (-452L)  /**< secure layer is closed by other size, tcp is still connected                   */
+N#define SLNETERR_ESEC_CLOSED                                            (-452L)  /**< secure layer is closed by other side, tcp is still connected                   */
 N#define SLNETERR_ESEC_SNO_VERIFY                                        (-453L)  /**< Connected without server verification                                          */
 N#define SLNETERR_ESEC_NO_CA_FILE                                        (-454L)  /**< error secure level CA file not found                                           */
 N#define SLNETERR_ESEC_MEMORY                                            (-455L)  /**< error secure level No memory  space available                                  */
@@ -24131,7 +24238,7 @@ N#define SLNETERR_ESEC_TX_BUFFER_NOT_EMPTY                               (-463L)
 N#define SLNETERR_ESEC_RX_BUFFER_NOT_EMPTY                               (-464L)  /**< cannot start ssl connection while recv buffer is full                          */
 N#define SLNETERR_ESEC_SSL_DURING_HAND_SHAKE                             (-465L)  /**< cannot use while in handshaking                                                */
 N#define SLNETERR_ESEC_NOT_ALLOWED_WHEN_LISTENING                        (-466L)  /**< the operation is not allowed when listening, do before listen                  */
-N#define SLNETERR_ESEC_CERTIFICATE_REVOKED                               (-467L)  /**< connected but on of the certificates in the chain is revoked                   */
+N#define SLNETERR_ESEC_CERTIFICATE_REVOKED                               (-467L)  /**< connected but one of the certificates in the chain is revoked                  */
 N#define SLNETERR_ESEC_UNKNOWN_ROOT_CA                                   (-468L)  /**< connected but the root CA used to validate the peer is unknown                 */
 N#define SLNETERR_ESEC_WRONG_PEER_CERT                                   (-469L)  /**< wrong peer cert (server cert) was received while trying to connect to server   */
 N#define SLNETERR_ESEC_TCP_DISCONNECTED_UNCOMPLETE_RECORD                (-470L)  /**< the other side disconnected the TCP layer and didn't send the whole ssl record */
@@ -24673,11 +24780,11 @@ S}
 N#endif /*  __cplusplus */
 N
 N#endif  /*  __SL_NET_ERR_H__ */
-L 41 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 41 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N#include <ti/net/slnetutils.h>
-L 1 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/net/slnetutils.h" 1
+L 1 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/net/slnetutils.h" 1
 N/*
-N * Copyright (c) 2017-2018, Texas Instruments Incorporated
+N * Copyright (c) 2017-2019, Texas Instruments Incorporated
 N * All rights reserved.
 N *
 N * Redistribution and use in source and binary forms, with or without
@@ -25029,7 +25136,8 @@ N                               For example:
 N                                 - #SLNETSOCK_AF_INET for network address IPv4
 N                                 - #SLNETSOCK_AF_INET6 for network address IPv6
 N    \param[in]  binaryAddr     Pointer to an IP address structure indicating the
-N                               address in binary representation
+N                               address in binary representation. The address
+N                               is assumed to be in network-byte order
 N    \param[out] strAddr        Pointer to the address string representation
 N                               for IPv4 or IPv6 according to the address
 N                               family
@@ -25068,11 +25176,11 @@ N                               socket
 N                               For example:
 N                                 - #SLNETSOCK_AF_INET for network address IPv4
 N                                 - #SLNETSOCK_AF_INET6 for network address IPv6
-N    \param[out] strAddr        Specifies the IP address in string representation
-N                               for IPv4 or IPv6 according to the address
-N                               family
-N    \param[in]  binaryAddr     Pointer to an address structure that will be
-N                               filled by the IP address in Binary representation
+N    \param[in]  strAddr        Specifies the IP address in string representation
+N                               for IPv4 or IPv6 according to the address family
+N    \param[out] binaryAddr     Pointer to an address structure that will be
+N                               filled by the IP address in Binary representation.
+N                               The address is returned in network-byte order
 N
 N    \return                    1 on success, -1 on failure, or 0 if the input
 N                               isn't a valid IP address
@@ -25103,7 +25211,7 @@ S}
 N#endif /* __cplusplus */
 N
 N#endif /* __SL_NET_UTILS_H__ */
-L 42 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
+L 42 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetifwifi.h" 2
 N
 N#ifndef __SLNETWIFI_SOCKET_H__
 N#define __SLNETWIFI_SOCKET_H__
@@ -26293,7 +26401,7 @@ N
 N#endif /* __SOCKET_H__ */
 N
 N
-L 39 "/vagrant/Q2_GA_SDK_23062019/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c" 2
+L 39 "/vagrant/Q3_ENG_SDK_250919/sdk_root/source/ti/drivers/net/wifi/slnetif/slnetifwifi.c" 2
 N
 N/*****************************************************************************/
 N/* Macro declarations                                                        */

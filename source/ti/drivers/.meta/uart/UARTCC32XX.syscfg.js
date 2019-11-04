@@ -37,9 +37,6 @@
 
 "use strict";
 
-/* $super is used to call generic module's methods */
-let $super = {};
-
 /* get Common /ti/drivers utility functions */
 let Common = system.getScript("/ti/drivers/Common.js");
 
@@ -67,12 +64,19 @@ let devSpecific = {
             name        : "flowControl",
             displayName : "Flow Control",
             default     : false,
-            description : "Enable hardware flow control"
+            description : "Enable hardware flow control",
+            longDescription : `Hardware flow control between two devices is
+accomplished by connecting the UART Request-To-Send (RTS) pin to the
+Clear-To-Send (CTS) input on the receiving device, and connecting the
+RTS output of the receiving device to the UART CTS pin`
         },
         {
             name        : "ringBufferSize",
             displayName : "Ring Buffer Size",
-            description : "Number of elements bytes in the ring buffer",
+            description : "Number of bytes in the ring buffer",
+            longDescription : `The ring buffer serves as an extension of the
+FIFO. If data is received when UART_read() is not called, data will be stored
+in the ring buffer. The size can be changed to suit the application.`,
             default     : 32
         },
         intPriority
@@ -87,12 +91,74 @@ let devSpecific = {
         boardh : "/ti/drivers/uart/UART.Board.h.xdt"
     },
 
-    /* override generic validation with ours */
-    validate              : validate,
+    /* override generic modules and filterHardware with ours */
     modules               : modules,
     filterHardware        : filterHardware,
-    maxInstances          : 2
+    onHardwareChanged     : onHardwareChanged,
+
+    _getPinResources: _getPinResources
 };
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+    let pin;
+    let rxPin = "Unassigned";
+    let txPin = "Unassigned";
+    let ctsPin;
+    let rtsPin;
+
+    if (inst.uart) {
+        if (inst.uart.rxPin) {
+            rxPin = "P" + inst.uart.rxPin.$solution.packagePinName.padStart(2, "0");
+        }
+        if (inst.uart.txPin) {
+            txPin = "P" + inst.uart.txPin.$solution.packagePinName.padStart(2, "0");
+        }
+
+        pin = "\nTX: " + txPin + "\nRX: " + rxPin;
+
+        if (inst.uart.ctsPin) {
+            ctsPin = "P" + inst.uart.ctsPin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nCTS: " + ctsPin;
+        }
+        if (inst.uart.rtsPin) {
+            rtsPin = "P" + inst.uart.rtsPin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nRTS: " + rtsPin;
+        }
+
+        if (inst.$hardware && inst.$hardware.displayName) {
+            pin += "\n" + inst.$hardware.displayName;
+        }
+    }
+
+    return (pin);
+}
+
+/*
+ *  ======== onHardwareChanged ========
+ */
+function onHardwareChanged(inst, ui)
+{
+    if (inst.$hardware) {
+        let component = inst.$hardware;
+
+        /* Determine if hardware supports flow control */
+        if (Common.findSignalTypes(component, ["UART_CTS", "UART_RTS"])) {
+            inst.flowControl = true;
+        }
+        else {
+            inst.flowControl = false;
+        }
+        ui.flowControl.readOnly = true;
+    }
+    else {
+        inst.flowControl = false;
+        ui.flowControl.readOnly = false;
+    }
+}
 
 /*
  *  ======== modules ========
@@ -234,8 +300,10 @@ function filterHardware(component)
  *
  *  param inst       - UART instance to be validated
  *  param validation - object to hold detected validation issues
+ *
+ *  @param $super    - needed to call the generic module's functions
  */
-function validate(inst, validation)
+function validate(inst, validation, $super)
 {
     if (!inst.useDMA) {
 
@@ -265,8 +333,10 @@ function validate(inst, validation)
  */
 function extend(base)
 {
-    /* save base properies/methods, to use in our methods */
-    $super = base;
+    /* override base validate */
+    devSpecific.validate = function (inst, validation) {
+        return validate(inst, validation, base);
+    };
 
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);

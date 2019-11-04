@@ -21,6 +21,9 @@ SDFatFS.h
 ./utils/List.h
 ./utils/RingBuf.h
 ./utils/Random.h
+./utils/StructRingBuf.h
+./apps/LED.h
+./apps/Button.h
 ADC.h
 ./adc/ADCCC32XX.h
 Camera.h
@@ -28,6 +31,7 @@ Camera.h
 Capture.h
 ./capture/CaptureCC32XX.h
 ./crypto/CryptoCC32XX.h
+./cryptoutils/utils/CryptoUtils.h
 ./dma/UDMACC32XX.h
 GPIO.h
 ./gpio/GPIOCC32XX.h
@@ -49,7 +53,6 @@ UART.h
 ./uart/UARTCC32XXDMA.h
 Watchdog.h
 ./watchdog/WatchdogCC32XX.h
-.meta
 package/package.cfg.xdc.inc
 lib/drivers_cc32xx.aem4
 package/package_ti.drivers.c
@@ -62,6 +65,9 @@ SDFatFS.c
 ./utils/List.c
 ./utils/RingBuf.c
 ./utils/Random.c
+./utils/StructRingBuf.c
+./apps/LED.c
+./apps/Button.c
 ADC.c
 ./adc/ADCCC32XX.c
 Camera.c
@@ -69,6 +75,7 @@ Camera.c
 Capture.c
 ./capture/CaptureCC32XX.c
 ./crypto/CryptoCC32XX.c
+./cryptoutils/utils/CryptoUtils.c
 ./dma/UDMACC32XX.c
 ./gpio/GPIOCC32XX.c
 I2C.c

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, Texas Instruments Incorporated
+ * Copyright (c) 2015-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -146,8 +146,10 @@ extern "C" {
     char *validBufEnd;
     /* Internal buffer iterator which points to the valid data */
     char *validBufStart;
-    /* Names of the files need for secure connection TLS */
-    HTTPClient_extSecParams *secParams;
+    /* Security attributes required for secure connections (TLS) */
+    SlNetSockSecAttrib_t *secAttribs;
+    /* True if the client internally created security attributes - used for memory clean up */
+    bool secAttribsAllocated;
     /* Non persistent request header fields */
     Req_HField * reqHField;
     /* Persistent request header fields */

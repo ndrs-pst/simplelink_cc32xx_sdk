@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018, Texas Instruments Incorporated
+ * Copyright (c) 2017-2019, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@
 #include <ti/net/slneterr.h>
 
 /* POSIX Header files */
-#include <pthread.h>
+#include <semaphore.h>
 
 /*****************************************************************************/
 /* Macro declarations                                                        */
@@ -63,8 +63,8 @@
 
 #define SLNETSOCK_SIZEOF_ONE_SDSETBITMAP_SLOT_IN_BITS (sizeof(uint32_t)*8)
 
-#define SLNETSOCK_LOCK()   pthread_mutex_lock(&VirtualSocketMutex) // forever
-#define SLNETSOCK_UNLOCK() pthread_mutex_unlock(&VirtualSocketMutex)
+#define SLNETSOCK_LOCK()   sem_wait(&VirtualSocketSem)
+#define SLNETSOCK_UNLOCK() sem_post(&VirtualSocketSem)
 
 #define ENABLE_DEFAULT_QUERY_FLAGS()    (SLNETSOCK_CREATE_IF_STATE_ENABLE | SLNETSOCK_CREATE_IF_STATUS_CONNECTED | SLNETSOCK_CREATE_ALLOW_PARTIAL_MATCH)
 #define GET_QUERY_FLAGS(flags)          (flags & (SLNETSOCK_CREATE_IF_STATE_ENABLE | SLNETSOCK_CREATE_IF_STATUS_CONNECTED | SLNETSOCK_CREATE_ALLOW_PARTIAL_MATCH))
@@ -101,14 +101,10 @@ typedef struct SlNetSock_RealToVirtualIndexes_t
 /*****************************************************************************/
 
 static SlNetSock_VirtualSocket_t *VirtualSockets[SLNETSOCK_MAX_CONCURRENT_SOCKETS];
-
-/* Variable That is true when the SlNetSock layer is initialized (Mutex
-   created and VirtualSockets array initialized) and false when the layer
-   isn't initialized.                                                        */
 static uint8_t SlNetSock_Initialized = false;
 
-/* Lock Object to secure access to the Virtual Sockets array                 */
-static pthread_mutex_t VirtualSocketMutex;
+/* semaphore to protect VirtualSockets[] */
+static sem_t VirtualSocketSem;
 
 
 /*****************************************************************************/
@@ -129,7 +125,6 @@ static int32_t SlNetSock_getVirtualSdConf(int16_t virtualSdIndex, int16_t *realS
 {
     int32_t retVal = SLNETERR_RET_CODE_OK;
 
-    /* Check if the SlNetSock layer initialized, means that the mutex exists */
     if (false == SlNetSock_Initialized)
     {
         return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;
@@ -192,7 +187,6 @@ static int32_t SlNetSock_AllocVirtualSocket(int16_t *virtualSdIndex, SlNetSock_V
     uint16_t arrayIndex = 0;
     int32_t  retVal     = SLNETERR_RET_CODE_NO_FREE_SPACE;
 
-    /* Check if the SlNetSock layer initialized, means that the mutex exists */
     if (false == SlNetSock_Initialized)
     {
         return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;
@@ -249,7 +243,6 @@ static int32_t SlNetSock_freeVirtualSocket(int16_t virtualSdIndex)
 {
     int32_t retVal = SLNETERR_RET_CODE_OK;
 
-    /* Check if the SlNetSock layer initialized, means that the mutex exists */
     if (false == SlNetSock_Initialized)
     {
         return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;
@@ -300,8 +293,7 @@ int32_t SlNetSock_init(int32_t flags)
     /* If the SlNetSock layer isn't initialized, initialize it               */
     if (false == SlNetSock_Initialized)
     {
-        /* Setup the mutex operations */
-        retVal = pthread_mutex_init(&VirtualSocketMutex, (const pthread_mutexattr_t *)NULL);
+        retVal = sem_init(&VirtualSocketSem, 0, 1);
         if (0 != retVal)
         {
             return SLNETERR_RET_CODE_MUTEX_CREATION_FAILED;

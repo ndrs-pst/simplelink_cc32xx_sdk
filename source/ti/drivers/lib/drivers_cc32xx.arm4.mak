@@ -256,6 +256,81 @@ package/lib/lib/drivers_cc32xx/./utils/Random.srm4: ./utils/Random.c lib/drivers
 	
 
 ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4.dep
+package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4: ./utils/StructRingBuf.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.srm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.srm4: ./utils/StructRingBuf.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/./apps/LED.orm4.dep
+package/lib/lib/drivers_cc32xx/./apps/LED.orm4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/./apps/LED.orm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./apps/LED.orm4: ./apps/LED.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+package/lib/lib/drivers_cc32xx/./apps/LED.srm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./apps/LED.srm4: ./apps/LED.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/./apps/Button.orm4.dep
+package/lib/lib/drivers_cc32xx/./apps/Button.orm4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/./apps/Button.orm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./apps/Button.orm4: ./apps/Button.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+package/lib/lib/drivers_cc32xx/./apps/Button.srm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./apps/Button.srm4: ./apps/Button.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+ifeq (,$(MK_NOGENDEPS))
 -include package/lib/lib/drivers_cc32xx/ADC.orm4.dep
 package/lib/lib/drivers_cc32xx/ADC.orm4.dep: ;
 endif
@@ -422,6 +497,31 @@ package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4: ./crypto/CryptoCC32XX
 
 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.srm4: | .interfaces
 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.srm4: ./crypto/CryptoCC32XX.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+ifeq (,$(MK_NOGENDEPS))
+-include package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4.dep
+package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4.dep: ;
+endif
+
+package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4: ./cryptoutils/utils/CryptoUtils.c lib/drivers_cc32xx.arm4.mak
+	@$(RM) $@.dep
+	$(RM) $@
+	@$(MSG) clrm4 $< ...
+	LC_ALL=C $(iar.targets.arm.M4.rootDir)/bin/iccarm  --silent --aeabi --cpu=Cortex-M4 --diag_suppress=Pa050,Go005 --endian=little -e --thumb  -Dxdc_target_name__=M4 -Dxdc_target_types__=iar/targets/arm/std.h -Dxdc_bld__profile_release -Dxdc_bld__vers_1_0_8_32_2 -Ohs --dlib_config $(iar.targets.arm.M4.rootDir)/inc/c/DLib_Config_Normal.h  -DUSE_CC3220_ROM_DRV_API -DDeviceFamily_CC3220 -Dxdc_runtime_Log_DISABLE_ALL -Dxdc_runtime_Assert_DISABLE_ALL  $(XDCINCS)  -o $@  $<
+	
+	-@$(FIXDEP) $@.dep $@.dep
+	
+
+package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.srm4: | .interfaces
+package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.srm4: ./cryptoutils/utils/CryptoUtils.c lib/drivers_cc32xx.arm4.mak
 	@$(RM) $@.dep
 	$(RM) $@
 	@$(MSG) clrm4 $< ...
@@ -931,6 +1031,9 @@ clean,rm4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/List.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/Random.orm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./apps/LED.orm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./apps/Button.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/ADC.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/Camera.orm4
@@ -938,6 +1041,7 @@ clean,rm4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/Capture.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4
 	-$(RM) package/lib/lib/drivers_cc32xx/I2C.orm4
@@ -968,6 +1072,9 @@ clean,rm4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/List.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/RingBuf.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./utils/Random.srm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.srm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./apps/LED.srm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./apps/Button.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/ADC.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/Camera.srm4
@@ -975,6 +1082,7 @@ clean,rm4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/Capture.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.srm4
+	-$(RM) package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/I2C.srm4
@@ -995,7 +1103,7 @@ clean,rm4 ::
 	-$(RM) package/lib/lib/drivers_cc32xx/Watchdog.srm4
 	-$(RM) package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.srm4
 
-lib/drivers_cc32xx.arm4: package/lib/lib/drivers_cc32xx/package/package_ti.drivers.orm4 package/lib/lib/drivers_cc32xx/NVS.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.orm4 package/lib/lib/drivers_cc32xx/SD.orm4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.orm4 package/lib/lib/drivers_cc32xx/SDFatFS.orm4 package/lib/lib/drivers_cc32xx/./utils/List.orm4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4 package/lib/lib/drivers_cc32xx/./utils/Random.orm4 package/lib/lib/drivers_cc32xx/ADC.orm4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4 package/lib/lib/drivers_cc32xx/Camera.orm4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Capture.orm4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.orm4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2C.orm4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2S.orm4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.orm4 package/lib/lib/drivers_cc32xx/PWM.orm4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.orm4 package/lib/lib/drivers_cc32xx/SPI.orm4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Timer.orm4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/UART.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Watchdog.orm4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.orm4 lib/drivers_cc32xx.arm4.mak
+lib/drivers_cc32xx.arm4: package/lib/lib/drivers_cc32xx/package/package_ti.drivers.orm4 package/lib/lib/drivers_cc32xx/NVS.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSRAM.orm4 package/lib/lib/drivers_cc32xx/./nvs/NVSSPI25X.orm4 package/lib/lib/drivers_cc32xx/SD.orm4 package/lib/lib/drivers_cc32xx/./sd/SDSPI.orm4 package/lib/lib/drivers_cc32xx/SDFatFS.orm4 package/lib/lib/drivers_cc32xx/./utils/List.orm4 package/lib/lib/drivers_cc32xx/./utils/RingBuf.orm4 package/lib/lib/drivers_cc32xx/./utils/Random.orm4 package/lib/lib/drivers_cc32xx/./utils/StructRingBuf.orm4 package/lib/lib/drivers_cc32xx/./apps/LED.orm4 package/lib/lib/drivers_cc32xx/./apps/Button.orm4 package/lib/lib/drivers_cc32xx/ADC.orm4 package/lib/lib/drivers_cc32xx/./adc/ADCCC32XX.orm4 package/lib/lib/drivers_cc32xx/Camera.orm4 package/lib/lib/drivers_cc32xx/./camera/CameraCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Capture.orm4 package/lib/lib/drivers_cc32xx/./capture/CaptureCC32XX.orm4 package/lib/lib/drivers_cc32xx/./crypto/CryptoCC32XX.orm4 package/lib/lib/drivers_cc32xx/./cryptoutils/utils/CryptoUtils.orm4 package/lib/lib/drivers_cc32xx/./dma/UDMACC32XX.orm4 package/lib/lib/drivers_cc32xx/./gpio/GPIOCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2C.orm4 package/lib/lib/drivers_cc32xx/./i2c/I2CCC32XX.orm4 package/lib/lib/drivers_cc32xx/I2S.orm4 package/lib/lib/drivers_cc32xx/./i2s/I2SCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./power/PowerCC32XX_asm.orm4 package/lib/lib/drivers_cc32xx/PWM.orm4 package/lib/lib/drivers_cc32xx/./pwm/PWMTimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/./sd/SDHostCC32XX.orm4 package/lib/lib/drivers_cc32xx/SPI.orm4 package/lib/lib/drivers_cc32xx/./spi/SPICC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Timer.orm4 package/lib/lib/drivers_cc32xx/./timer/TimerCC32XX.orm4 package/lib/lib/drivers_cc32xx/UART.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XX.orm4 package/lib/lib/drivers_cc32xx/./uart/UARTCC32XXDMA.orm4 package/lib/lib/drivers_cc32xx/Watchdog.orm4 package/lib/lib/drivers_cc32xx/./watchdog/WatchdogCC32XX.orm4 lib/drivers_cc32xx.arm4.mak
 
 clean::
 	-$(RM) lib/drivers_cc32xx.arm4.mak

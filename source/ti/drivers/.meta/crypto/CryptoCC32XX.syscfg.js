@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,8 +42,6 @@
  *  Device-specific extensions to be added to base Crypto configuration
  */
 let devSpecific = {
-//    maxInstances: 1,
-
     templates : {
         boardc: "/ti/drivers/crypto/CryptoCC32XX.Board.c.xdt",
         boardh: "/ti/drivers/crypto/Crypto.Board.h.xdt"

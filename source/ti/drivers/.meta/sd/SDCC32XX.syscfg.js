@@ -54,11 +54,13 @@ let devSpecific = {
         {
             name: "clockRate",
             displayName: "Clock Rate",
+            description: "The SD interface clock rate",
             default: 8000000
         },
         {
             name: "interfaceType",
             displayName: "Interface Type",
+            description: "Select the SD driver interface",
             default: "SD Host",
             options: [
                 { name: "SD SPI" },
@@ -73,10 +75,6 @@ let devSpecific = {
 
     pinmuxRequirements: pinmuxRequirements,
 
-    sharedModuleInstances : sharedModuleInstances,
-
-    moduleInstances : moduleInstances,
-
     modules: Common.autoForceModules(["Board", "Power", "DMA"]),
 
     filterHardware: filterHardware,
@@ -84,45 +82,45 @@ let devSpecific = {
     templates: {
         boardc: "/ti/drivers/sd/SDCC32XX.Board.c.xdt",
         boardh: "/ti/drivers/sd/SD.Board.h.xdt"
-    }
+    },
+
+    _getPinResources: _getPinResources
 };
 
 /*
- *  ======== sharedModuleInstances ========
+ *  ======== _getPinResources ========
  */
-function sharedModuleInstances(inst)
+function _getPinResources(inst)
 {
-    if (inst.interfaceType === "SD SPI") {
-        return ([{
-            name: "spiInstance",
-            displayName: "SPI",
-            moduleName: "/ti/drivers/SPI",
-            hardware: inst.$hardware ? inst.$hardware.subComponents.spi : null
-        }]);
-    }
-    return ([]);
-}
+    let pin;
+    let mod = system.getScript("/ti/drivers/SPI.syscfg.js");
 
-/*
- *  ======== moduleInstances ========
- */
-function moduleInstances(inst)
-{
     if (inst.interfaceType === "SD SPI") {
-        return ([{
-            name: "slaveSelect",
-            displayName: "Slave Select",
-            moduleName: "/ti/drivers/GPIO",
-            hardware: inst.$hardware ? inst.$hardware.subComponents.select : null,
-            args: {
-                comment: "%l    /* SD SPI Chip Select */",
-                mode: "Output",
-                outputType: "Standard",
-                initialOutputState:"High"
-            }
-        }]);
+        if (inst.spiInstance) {
+            pin = mod._getPinResources(inst.spiInstance);
+        }
+
+        if (inst.slaveSelect) {
+            let mod = system.getScript("/ti/drivers/GPIO.syscfg.js");
+            pin += "SS: " + mod._getPinResources(inst.slaveSelect);
+        }
     }
-    return ([]);
+    else {
+        if (inst.sdHost) {
+            let clkPin = "P" + inst.sdHost.clkPin.$solution.packagePinName.padStart(2, "0");
+            let cmdPin = "P" + inst.sdHost.cmdPin.$solution.packagePinName.padStart(2, "0");
+            let dataPin = "P" + inst.sdHost.dataPin.$solution.packagePinName.padStart(2, "0");
+
+            pin = "\nDATA: " + dataPin + " \nCMD: "
+                + cmdPin + "\nCLK: " + clkPin;
+
+            if (inst.$hardware && inst.$hardware.displayName) {
+                pin += "\n" + inst.$hardware.displayName;
+            }
+        }
+    }
+
+    return (pin);
 }
 
 /*
@@ -170,7 +168,7 @@ function pinmuxRequirements(inst)
                 dataPin: ["SDHost_DATA"]
             }
         };
-        
+
         return ([sdHost]);
     }
 
@@ -182,23 +180,17 @@ function pinmuxRequirements(inst)
  */
 function filterHardware(component)
 {
-    let clk, cmd, data;
 
-    /* component must have SD Host signals */
-    for (let sig in component.signals) {
-        if (component.signals[sig].type) {
-            let type = component.signals[sig].type;
-            if (Common.typeMatches(type,["SDHost_CLK"])) clk = sig;
-            if (Common.typeMatches(type,["SDHost_CMD"])) cmd = sig;
-            if (Common.typeMatches(type,["SDHost_DATA"])) data = sig;
+    if (component.type) {
+        /* Check for know component types */
+        if (Common.typeMatches(component.type, ["SD_SPI_FLASH", "SD_HOST"])) {
+            return (true);
         }
     }
 
-    /*
-     * confirm that this component has all the signals required
-     * to be an SDHost
-     */
-    if (clk && cmd && data) {
+    /* Check for other types with know SD signals */
+    if (Common.findSignalTypes(component,
+        ["SDHost_CLK", "SDHost_CMD", "SDHost_DATA"])) {
         return (true);
     }
 
@@ -212,9 +204,18 @@ function interfaceChange(inst, ui)
 {
     if (inst.interfaceType === "SD Host") {
         ui.interruptPriority.hidden = false;
+        ui.clockRate.hidden = false;
     }
     else {
         ui.interruptPriority.hidden = true;
+        ui.clockRate.hidden = true;
+    }
+
+    if (inst.$hardware) {
+        ui.interfaceType.readOnly = true;
+    }
+    else {
+        ui.interfaceType.readOnly = false;
     }
 }
 
@@ -224,25 +225,22 @@ function interfaceChange(inst, ui)
 function onHardwareChanged(inst, ui)
 {
     if (inst.$hardware) {
+
         let component = inst.$hardware;
-        for (let sig in component.signals) {
-            if (component.signals[sig].type) {
-                let type = component.signals[sig].type;
-                if (Common.typeMatches(type, ["SDHost_CLK"])) {
-                    inst.interfaceType = "SD Host";
-                    ui.interfaceType.readOnly = true;
-                    return;
-                }
-                if (Common.typeMatches(type, ["SPI_CLK"])) {
-                    inst.interfaceType = "SD SPI";
-                    ui.interfaceType.readOnly = true;
-                    return;
-                }
-            }
+
+        if (Common.typeMatches(component.type, ["SD_HOST"])) {
+            inst.interfaceType = "SD Host";
+        } else if (Common.typeMatches(component.type, ["SD_SPI_FLASH"])) {
+            inst.interfaceType = "SD SPI";
         }
     }
+    else {
+        /* Set defaults */
+        inst.interfaceType = "SD Host";
+        inst.clockRate = 8000000;
+    }
 
-    ui.interfaceType.readOnly = false;
+    interfaceChange(inst, ui);
 }
 
 /*

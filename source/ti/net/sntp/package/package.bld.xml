@@ -35,12 +35,12 @@
     </makefiles>
     <targets>
         <target name="ti.targets.arm.elf.M4"
-            version="ti.targets.arm.elf.M4{1,0,18.12,2"
-            rawVersion="18.12.2"
+            version="ti.targets.arm.elf.M4{1,0,18.12,3"
+            rawVersion="18.12.3"
             platform="ti.platforms.tiva:TM4C1294NCPDT:1"
             isa="v7M4"
             suffix="em4"
-            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS"
+            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS"
             os="undefined"
             rts="ti.targets.arm.rtsarm">
             <model endian="little"

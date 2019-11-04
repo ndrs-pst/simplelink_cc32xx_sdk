@@ -440,19 +440,48 @@ int16_t HTTPClient_destroy(HTTPClient_Handle client);
 
 /*!
     \brief  Open a connection to an HTTP server.
-            A user can connect to a HTTP server using TLS,proxy or both.
+            A user can connect to a HTTP server using TLS, proxy or both.
+            HTTPClient_connect2 allows the user more control over security by
+            accepting a secure attribute object and returning the value of the
+            attempted secure connection.
 
     \param[in]  client         Instance of an HTTP client
 
     \param[in]  hostName       IP address or URL of the HTTP server.
 
-    \param[in]  exSecParams    external parameters for configuring security.
+    \param[in]  secAttribs     A secure attributes object for configuring security.
+
+    \param[in]  flags          Special flags for connection:
+                               - #HTTPClient_IGNORE_PROXY -  Ignore the proxy even if set.
+                               - #HTTPClient_HOST_EXIST   -  Host header was added manually, HTTPClient_connect() won't
+                                                             add host internally.
+    \param[out] secureRetVal   Optional - If an error occurred while establishing
+                               a secure connection, the error code will be contained
+                               here. NULL should be passed if this is not desired.
+
+    \return 0 on success or error code on failure.
+
+    \sa         HTTPClient_connect()
+ */
+int16_t HTTPClient_connect2(HTTPClient_Handle client, const char *hostName, SlNetSockSecAttrib_t *secAttribs, uint32_t flags, int16_t *secureRetVal);
+
+/*!
+    \brief  Open a connection to an HTTP server.
+            A user can connect to a HTTP server using TLS, proxy or both.
+
+    \param[in]  client         Instance of an HTTP client
+
+    \param[in]  hostName       IP address or URL of the HTTP server.
+
+    \param[in]  exSecParams    Optional - External parameters for configuring security.
 
     \param[in]  flags          Special flags for connection:
                                - #HTTPClient_IGNORE_PROXY -  Ignore the proxy even if set.
                                - #HTTPClient_HOST_EXIST   -  Host header was added manually, HTTPClient_connect() won't
                                                              add host internally.
     \return 0 on success or error code on failure.
+
+    \sa         HTTPClient_connect2()
  */
 int16_t HTTPClient_connect(HTTPClient_Handle client, const char *hostName, HTTPClient_extSecParams *exSecParams, uint32_t flags);
 
@@ -654,9 +683,27 @@ int16_t HTTPClient_setOpt(HTTPClient_Handle client, uint32_t option, void *value
 int16_t HTTPClient_getOpt(HTTPClient_Handle client, uint32_t option, void *value, uint32_t *len ,uint32_t flags);
 
 /*!
-    \brief Set the proxy address
+    \brief Uses the http CONNECT method to create a tunnel through a remote proxy server to the host designated in HTTPClient_connect
 
-    \param[in]  addr IP address of the proxy server
+    \param[in]  addr    Pointer to SlNetSock_Addr_t struct containing ip and port number of proxy server
+
+    \return             none
+
+    \code
+        uint32_t ipAddress;
+        uint16_t portNumber = ####; //Proxy server port
+        char strip[] = "###.###.###.###"; //Proxy server address
+        SlNetUtil_inetPton(SLNETSOCK_AF_INET, strip, &ipAddress); //Function transform address string into binary
+        SlNetSock_Addr_t    *sa;
+        SlNetSock_AddrIn_t sAddr;
+        sAddr.sin_family = SLNETSOCK_AF_INET;
+        sAddr.sin_port = SlNetUtil_htons((unsigned short)portNumber);
+        sAddr.sin_addr.s_addr = (unsigned int)ipAddress;
+        sa = (SlNetSock_Addr_t*)&sAddr; //HTTPClient_setProxy() expects a SlNetSock_Addr_t, but the input
+                                       //is treated like a SlNetSock_AddrIn_t when the socket is created
+        HTTPClient_setProxy(sa);
+    \endcode
+
  */
 void HTTPClient_setProxy(const SlNetSock_Addr_t *addr);
 

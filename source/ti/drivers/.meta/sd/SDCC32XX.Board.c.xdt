@@ -79,15 +79,6 @@
 
     /* get ti/drivers common utility functions */
     let Common = system.getScript("/ti/drivers/Common.js");
-
-    /* insert leading '0' for pin numbers less than 10 */
-    function addLeadingZero(pin)
-    {
-        if (pin.length == 1) {
-            pin = "0" + pin;
-        }
-        return (pin);
-    }
 %%}
 /*
  *  =============================== SD ===============================
@@ -143,9 +134,9 @@ const SDHostCC32XX_HWAttrsV1 sdhostHWattrs[`hostCount`] = {
     % let inst = instances[i];
     % i++;
     % let sdHost = inst.sdHost;
-    % let clkPin = addLeadingZero(sdHost.clkPin.$solution.packagePinName);
-    % let cmdPin = addLeadingZero(sdHost.cmdPin.$solution.packagePinName);
-    % let dataPin = addLeadingZero(sdHost.dataPin.$solution.packagePinName);
+    % let clkPin = sdHost.clkPin.$solution.packagePinName.padStart(2, "0");
+    % let cmdPin = sdHost.cmdPin.$solution.packagePinName.padStart(2, "0");
+    % let dataPin = sdHost.dataPin.$solution.packagePinName.padStart(2, "0");
     % let rdmach = sdHost.dmaRxChannel.$solution.devicePinName.substring(7); /* UDMA_CHXX */
     % let tdmach = sdHost.dmaTxChannel.$solution.devicePinName.substring(7); /* UDMA_CHXX */
     /* `inst.$name` */

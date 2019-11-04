@@ -43,6 +43,7 @@
 <li><a href="#upgrade-and-compatibility-information">Upgrade and Compatibility Information</a></li>
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#device-support">Device Support</a></li>
+<li><a href="#fixed-issues">Fixed Issues</a></li>
 <li><a href="#known-issues">Known Issues</a></li>
 <li><a href="#versioning">Versioning</a></li>
 <li><a href="#technical-support-and-product-updates">Technical Support and Product Updates</a></li>
@@ -61,15 +62,15 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td>sp_4.3.0.5_3.1.0.5_3.1.0.18.bin</td>
+<td>sp_4.4.1.3_3.1.0.5_3.1.0.19.bin</td>
 <td>ServicePack binary for UniFlash</td>
 </tr>
 <tr class="even">
-<td>sp_4.3.0.5_3.1.0.5_3.1.0.18.ucf</td>
+<td>sp_4.4.1.3_3.1.0.5_3.1.0.19.ucf</td>
 <td>ServicePack UCF for host driver API</td>
 </tr>
 <tr class="odd">
-<td>sp_4.3.0.5_3.1.0.5_3.1.0.18.ucf.signed.bin</td>
+<td>sp_4.4.1.3_3.1.0.5_3.1.0.19.ucf.signed.bin</td>
 <td>ServicePack UCF signature</td>
 </tr>
 </tbody>
@@ -85,7 +86,7 @@
 <tbody>
 <tr class="odd">
 <td>NWP</td>
-<td>4.3.0.5</td>
+<td>4.4.1.3</td>
 </tr>
 <tr class="even">
 <td>MAC</td>
@@ -93,13 +94,25 @@
 </tr>
 <tr class="odd">
 <td>PHY</td>
-<td>3.1.0.18</td>
+<td>3.1.0.19</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Note:</strong> Upon successful ServicePack programming, version can be retrieved using ‘sl_DeviceGet()’ API, with SL_DEVICE_GENERAL_VERSION option.</p>
 <h2 id="whats-new">What’s New</h2>
-<p>Fixed IOP issue - Some AP vendors learn the power save mode of the CC32xx from managment frames sent to the AP</p>
+<p><strong>SIMPLELINK-CC32XX-SDK_3.30.01.02:</strong></p>
+<ul>
+<li>Added DICE unique Certificate Extensions to the Alias key certificate</li>
+<li>Added downgrade protection to the SP when the DICE or the vendor certificate catalog features exists as from this version the NWP SP contains code implemented for those features</li>
+</ul>
+<p><strong>SIMPLELINK-CC32XX-SDK_3.30.00.04:</strong></p>
+<ul>
+<li>Support bonjour test 1.5<br />
+</li>
+<li>Support for DICE - a security standard which based hardware and software authentication using manufacturer servers based on Azure cloud service<br />
+</li>
+<li>Support enterprise connection with 4096bits RSA key</li>
+</ul>
 <h2 id="upgrade-and-compatibility-information">Upgrade and Compatibility Information</h2>
 <p>The ServicePack can be programmed using UniFlash utility. Latest UniFlash utility can be downloaded from <a href="http://www.ti.com/tool/UniFlash" class="uri">http://www.ti.com/tool/UniFlash</a>.</p>
 <p>The ServicePack can also be flushed using host driver API’s or OTA application (please refer for the SimpleLink CC32xx SDK for more information)</p>
@@ -107,7 +120,7 @@
 <p>This release requires the following software components and tools:</p>
 <ul>
 <li>UniFlash latest version - <a href="http://www.ti.com/tool/UniFlash">Download page</a>.</li>
-<li>The ServicePack is bounded to host driver 3.0.1.54</li>
+<li>The ServicePack is bounded to host driver 3.0.1.55</li>
 </ul>
 <h2 id="device-support">Device Support</h2>
 <ul>
@@ -122,6 +135,25 @@
 <li>CC3235S_LAUNCHXL</li>
 <li>CC3235SF_LAUNCHXL</li>
 </ul>
+<h2 id="fixed-issues">Fixed Issues</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center">ID</th>
+<th align="left">Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">SL_WIFI_R3-1447</td>
+<td align="left"><span>Internal http server may corrupt external host sockets cause host driver a fatal abort</span></td>
+</tr>
+<tr class="even">
+<td align="center">SL_WIFI_R3-1441</td>
+<td align="left"><span>Pass Bonjour tests version 1.5</span></td>
+</tr>
+</tbody>
+</table>
 <h2 id="known-issues">Known Issues</h2>
 <table>
 <thead>
@@ -132,62 +164,66 @@
 </thead>
 <tbody>
 <tr class="odd">
+<td align="center">SL_WIFI_R3-1442</td>
+<td align="left"><span>When trying to retrieve the DTIM period and the STA is disconnected from the AP, no error returned to host</span></td>
+</tr>
+<tr class="even">
 <td align="center">SL_WIFI_R3-1254</td>
 <td align="left"><span>gethostbyname6(&lt;“IPv6 address”&gt;) with explicit IP address return error</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">SL_WIFI_R3-1232</td>
 <td align="left"><span>Smart Config WEP with key set as ascii is not working (only hex)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">GENTHREEARCH-325</td>
 <td align="left"><span>Reg Domain SUT: When STA is set to ‘World Wide’ country, it doesn't perform scanning on channels 12 &amp; 13.</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">GENTHREEARCH-274</td>
 <td align="left"><span>DHCP Server - Might assign the device's IP address to a client if it is in the address range</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">GENTHREEARCH-273</td>
 <td align="left"><span>P2P IOP: Could not establish connection with Google Pixel mobile phone</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">GENTHREEARCH-272</td>
 <td align="left"><span>SoftRoaming: Sometimes roaming fails when trigger set to EDGE type</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">GENTHREEARCH-269</td>
 <td align="left"><span>Cannot configure (Scan) RSSI threashold for 5G, the 2.4 RSSI configuration override the results.</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">GENTHREEARCH-268</td>
 <td align="left"><span>HTTP webserver not correctly handling multi-TCP-segment POST requests with user tokens</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">GENTHREEARCH-267</td>
 <td align="left"><span>RX filtering promiscuous mode: filter for IP header protocol field doesn't always work</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">GENTHREEARCH-266</td>
 <td align="left"><span>Update profile: updating a profile from (WEP to Open) and (WPA to Open) doesn't work</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">GENTHREEARCH-259</td>
 <td align="left"><span>sl_WlanProfleUpdate() fails with enterprise when extended parameter supplied</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">GENTHREEARCH-177</td>
 <td align="left"><span>(APUT GUI) DHCP Server: If start address and last address are the same, the configuration doesn't apply</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">GENTHREEARCH-158</td>
 <td align="left"><span>Select: Setting unopened socket in SlFdSet_t rdListSet in select() does not return an error</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">GENTHREEARCH-137</td>
 <td align="left"><span>HTTP Server GUI: Ipv6 global stateless not show as expected</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">GENTHREEARCH-9</td>
 <td align="left"><span>mDNS: NetAppDnsGetHostByService does not return service name, can be retrived from NetAppGetServiceList.</span></td>
 </tr>

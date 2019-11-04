@@ -70,12 +70,12 @@
     </makefiles>
     <targets>
         <target name="ti.targets.arm.elf.M4"
-            version="ti.targets.arm.elf.M4{1,0,18.12,2"
-            rawVersion="18.12.2"
+            version="ti.targets.arm.elf.M4{1,0,18.12,3"
+            rawVersion="18.12.3"
             platform="ti.platforms.tiva:TM4C1294NCPDT:1"
             isa="v7M4"
             suffix="em4"
-            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS"
+            rootDir="/opt/ti/ccs-latest/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS"
             os="undefined"
             rts="ti.targets.arm.rtsarm">
             <model endian="little"
@@ -153,6 +153,7 @@
         <file name="slnetif.h"/>
         <file name="slnetsock.h"/>
         <file name="slnetutils.h"/>
+        <file name="slnet.h"/>
         <file name="bsd/netdb.h"/>
         <file name="bsd/sys/socket.h"/>
         <file name="bsd/sys/select.h"/>
@@ -160,6 +161,11 @@
         <file name="bsd/netinet/in.h"/>
         <file name="bsd/netinet/tcp.h"/>
         <file name="bsd/arpa/inet.h"/>
+        <file name=".meta/ns.component.js"/>
+        <file name=".meta/SlNet.Config.c.xdt"/>
+        <file name=".meta/SlNet.syscfg.js"/>
+        <file name=".meta/SecObj.syscfg.js"/>
+        <file name=".meta/Config.c.xdt"/>
         <file name="package.bld"/>
         <file name="package/package.cfg.xdc.inc"/>
         <file name="lib/ccs/m4/slnetsock_debug.a"/>

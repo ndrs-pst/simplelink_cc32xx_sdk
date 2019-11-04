@@ -209,7 +209,7 @@
  *      i2sParams.readCallback          =  readCallbackFxn ;
  *      i2sParams.errorCallback         =  errCallbackFxn;
  *
- *      i2sHandle = I2S_open(Board_I2S0, &i2sParams);
+ *      i2sHandle = I2S_open(CONFIG_I2S0, &i2sParams);
  *
  *      // Initialize the read-transactions
  *      I2S_Transaction_init(&i2sRead1);
@@ -385,7 +385,7 @@
  *      i2sParams.readCallback          =  readCallbackFxn ;
  *      i2sParams.errorCallback         =  errCallbackFxn;
  *
- *      i2sHandle = I2S_open(Board_I2S0, &i2sParams);
+ *      i2sHandle = I2S_open(CONFIG_I2S0, &i2sParams);
  *
  *      // Initialize the read-transactions
  *      I2S_Transaction_init(&i2sRead1);
@@ -506,7 +506,7 @@
  *      i2sParams.readCallback          =  readCallbackFxn ;
  *      i2sParams.errorCallback         =  errCallbackFxn;
  *
- *      i2sHandle = I2S_open(Board_I2S0, &i2sParams);
+ *      i2sHandle = I2S_open(CONFIG_I2S0, &i2sParams);
  *
  *      // Initialize the read-transactions
  *      I2S_Transaction_init(&i2sRead);
@@ -636,15 +636,33 @@ extern "C" {
  #define I2S_PTR_WRITE_ERROR                     (0x1000U)
  /** @}*/
 
+/*! @brief  I2S Global configuration
+ *
+ *  The I2S_Config structure contains a set of pointers used to characterize
+ *  the I2S driver implementation.
+ *
+ *  This structure needs to be defined before calling I2S_init() and it must
+ *  not be changed thereafter.
+ *
+ *  @sa     I2S_init()
+ */
+typedef struct {
+    /*! Pointer to a driver specific data object */
+    void                   *object;
+
+    /*! Pointer to a driver specific hardware attributes structure */
+    void          const    *hwAttrs;
+} I2S_Config;
+
 /*!
  *  @brief      A handle that is returned from a I2S_open() call.
  */
-typedef struct I2S_Config_ *I2S_Handle;
+typedef I2S_Config *I2S_Handle;
 
 /*!
  *  @brief I2S transaction descriptor.
  */
-typedef struct I2S_Transaction_ {
+typedef struct {
     /*! Used internally to link descriptors together */
     List_Elem               queueElement;
     /*! Pointer to the buffer */
@@ -700,7 +718,7 @@ typedef void (*I2S_StopInterface)(I2S_Handle handle);
  *  The enum defines if the module uses a 16 bits or a 24 bits buffer in memory.
  *  This value has no influence on the number of bit transmitted.
  */
-typedef enum I2S_MemoryLength_ {
+typedef enum {
 
     I2S_MEMORY_LENGTH_8BITS  =  8U,   /*!<    Buffer used is 8 bits length. Not available for CC26XX. */
     I2S_MEMORY_LENGTH_16BITS = 16U,   /*!<    Buffer used is 16 bits length. */
@@ -715,7 +733,7 @@ typedef enum I2S_MemoryLength_ {
  *  The enum defines if the module acts like a master (clocks are internally generated)
  *  or a slave (the clocks are externally generated).
  */
-typedef enum I2S_Role_ {
+typedef enum {
 
     I2S_SLAVE  = 0,    /*!<    Module is a slave, clocks are externally generated. */
     I2S_MASTER = 1     /*!<    Module is a master, clocks are internally generated. */
@@ -727,7 +745,7 @@ typedef enum I2S_Role_ {
  *
  *  The enum defines if sampling is done on BLCK rising or falling edges.
  */
-typedef enum I2S_SamplingEdge_ {
+typedef enum {
 
     I2S_SAMPLING_EDGE_FALLING  = 0,    /*!<    Sampling on falling edges. */
     I2S_SAMPLING_EDGE_RISING   = 1     /*!<    Sampling on rising edges. */
@@ -739,7 +757,7 @@ typedef enum I2S_SamplingEdge_ {
  *
  *  The enum defines if the I2S if set with single or dual phase.
  */
-typedef enum I2S_PhaseType_ {
+typedef enum {
 
     I2S_PHASE_TYPE_SINGLE  = 0U,   /*!<    Single phase */
     I2S_PHASE_TYPE_DUAL    = 1U,   /*!<    Dual phase */
@@ -751,7 +769,7 @@ typedef enum I2S_PhaseType_ {
  *
  *  The enum defines the different settings for the data interfaces (SD0 and SD1).
  */
-typedef enum I2S_DataInterfaceUse_ {
+typedef enum {
 
     I2S_SD0_DISABLED       = 0x00U,   /*!<    SD0 is disabled */
     I2S_SD0_INPUT          = 0x01U,   /*!<    SD0 is an input */
@@ -767,7 +785,7 @@ typedef enum I2S_DataInterfaceUse_ {
  *
  *  The enum defines different settings to activate the expected channels.
  */
-typedef enum I2S_ChannelConfig_ {
+typedef enum {
 
     I2S_CHANNELS_NONE       = 0x00U,   /*!<   No channel activated */
     I2S_CHANNELS_MONO       = 0x01U,   /*!<   MONO: only channel one is activated */
@@ -793,7 +811,7 @@ typedef enum I2S_ChannelConfig_ {
  *
  *  @sa       I2S_Params_init()
  */
-typedef struct I2S_Params_ {
+typedef struct {
 
     bool                  trueI2sFormat;
     /*!< Activate "true I2S format".
@@ -945,24 +963,6 @@ typedef struct I2S_Params_ {
  *  @sa     I2S_Params_init()
  */
 extern const I2S_Params I2S_defaultParams;
-
-/*! @brief  I2S Global configuration
- *
- *  The I2S_Config structure contains a set of pointers used to characterize
- *  the I2S driver implementation.
- *
- *  This structure needs to be defined before calling I2S_init() and it must
- *  not be changed thereafter.
- *
- *  @sa     I2S_init()
- */
-typedef struct I2S_Config_ {
-    /*! Pointer to a driver specific data object */
-    void                   *object;
-
-    /*! Pointer to a driver specific hardware attributes structure */
-    void          const    *hwAttrs;
-} I2S_Config;
 
 /*!
  *  @brief  Function to close a given I2S peripheral specified by the I2S

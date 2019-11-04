@@ -135,7 +135,7 @@ extern "C" {
  *  };
  *  @endcode
  */
-typedef struct I2SCC32XX_HWAttrs_ {
+typedef struct {
     uint32_t                        pinSD1;                  /*!< Pin used for SD1 signal.
                                                                   Must be chosen between I2SCC32XX_PIN_50_SD1 and I2SCC32XX_PIN_60_SD1.
                                                                   Signal can be deactivated using I2SCC32XX_PIN_UNUSED. */
@@ -164,7 +164,7 @@ typedef struct I2SCC32XX_HWAttrs_ {
  *  This struct defines how the physical I2S interface (SD0/SD1) behaves.
  *  Do not modify.
  */
-typedef struct I2SCC32XX_DataInterface_ {
+typedef struct {
     I2S_DataInterfaceUse            interfaceConfig;          /*!< IN / OUT / UNUSED */
     I2S_ChannelConfig               channelsUsed;             /*!< List of the used channels. */
     uint8_t                         numberOfChannelsUsed;     /*!< Number of channels used on SDx. */
@@ -179,7 +179,7 @@ typedef struct I2SCC32XX_DataInterface_ {
  *  This enum defines one of the interfaces (READ or WRITE) of the I2S module.
  *  Do not modify.
  */
-typedef struct I2SCC32XX_Interface_ {
+typedef struct {
     uint16_t                        delay;                    /*!< Number of WS cycles to wait before starting the first transfer. This value is mostly used when performing constant latency transfers. */
     I2S_Transaction                *activeTransfer;           /*!< Pointer on the ongoing transfer */
     I2S_Callback                    callback;                 /*!< Pointer to callback */
@@ -202,7 +202,7 @@ typedef void (*I2SCC32XX_FifoUpdate)(uintptr_t arg);
  *  I2S Object.  The application must not access any member variables
  *  of this structure!
  */
-typedef struct I2SCC32XX_Object_ {
+typedef struct {
 
     bool                            isOpen;                  /*!< To avoid multiple openings of the I2S. */
     bool                            invertWS;                /*!< WS inversion.

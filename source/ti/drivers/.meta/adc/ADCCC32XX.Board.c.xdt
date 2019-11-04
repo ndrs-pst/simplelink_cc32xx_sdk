@@ -39,8 +39,9 @@
     /* passed by /ti/drivers/templates/Board.c.xdt */
     let ADC = args[0];
     let instances = ADC.$instances;
+    if (instances.length == 0) return;
 
-    /* Board_XXXCOUNT string, derived from defaultInstanceName */
+    /* CONFIG_XXXCOUNT string, derived from defaultInstanceName */
     let countDef = ADC.defaultInstanceName + "COUNT";
 %%}
 /*

@@ -205,6 +205,7 @@ typedef enum
 #define SL_WLAN_SEC_TYPE_P2P_PIN_DISPLAY                                             (8)
 #define SL_WLAN_SEC_TYPE_P2P_PIN_AUTO                                                (9) /* NOT Supported yet */
 #define SL_WLAN_SEC_TYPE_WEP_SHARED                                                  (10)
+#define SL_WLAN_SEC_TYPE_WPA_PMK                                                     (15)
 
 #define SL_TLS                                                                       (0x1)
 #define SL_MSCHAP                                                                    (0x0)
@@ -1235,6 +1236,7 @@ typedef struct
                                 - SL_WLAN_SEC_TYPE_WPA_ENT
                                 - SL_WLAN_SEC_TYPE_WPS_PBC
                                 - SL_WLAN_SEC_TYPE_WPS_PIN
+                                - SL_WLAN_SEC_TYPE_WPA_PMK - insert preprocessed PMK as key
 
     \param[in]      pSecExtParams  Enterprise parameters (set NULL in case Enterprise parameters is not in use)
 
@@ -1299,6 +1301,7 @@ _i16 sl_WlanDisconnect(void);
                                 - SL_WLAN_SEC_TYPE_WPA_ENT
                                 - SL_WLAN_SEC_TYPE_WPS_PBC
                                 - SL_WLAN_SEC_TYPE_WPS_PIN
+                                - SL_WLAN_SEC_TYPE_WPA_PMK - insert preprocessed PMK as key
 
     \param[in]      pSecExtParams  Enterprise parameters - identity, identity length,
                                    Anonymous, Anonymous length, CertIndex (not supported,

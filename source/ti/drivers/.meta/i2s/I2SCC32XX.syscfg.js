@@ -45,8 +45,6 @@ let Common = system.getScript("/ti/drivers/Common.js");
  *  Device-specific extensions to be added to base I2S configuration
  */
 let devSpecific = {
-    maxInstances: 1,
-
     config: [
         {
             name        : "enableDMA",
@@ -70,8 +68,57 @@ let devSpecific = {
     },
 
     modules: modules,
-    pinmuxRequirements: pinmuxRequirements
+    pinmuxRequirements: pinmuxRequirements,
+
+    _getPinResources: _getPinResources
 };
+
+/*
+ *  ======== _getPinResources ========
+ */
+function _getPinResources(inst)
+{
+    let pin;
+    let sckPin;
+    let sckxPin;
+    let wsPin;
+    let sd0Pin;
+    let sd1Pin;
+
+    if (inst.i2s) {
+
+        if (inst.i2s.SCKPin) {
+            sckPin = "P" + inst.i2s.SCKPin.$solution.packagePinName.padStart(2, "0");
+            pin = "\nSCK: " + sckPin;
+        }
+
+        if (inst.i2s.SCKXPin) {
+            sckxPin = "P" + inst.i2s.SCKXPin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nSCKX: " + sckxPin;
+        }
+
+        if (inst.i2s.WSPin) {
+            wsPin = "P" + inst.i2s.WSPin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nWS: " + wsPin;
+        }
+
+        if (inst.i2s.SD0Pin) {
+            sd0Pin = "P" + inst.i2s.SD0Pin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nSD0: " + sd0Pin;
+        }
+
+        if (inst.i2s.SD1Pin) {
+            sd1Pin = "P" + inst.i2s.SD1Pin.$solution.packagePinName.padStart(2, "0");
+            pin += "\nSD1: " + sd1Pin;
+        }
+
+        if (inst.$hardware && inst.$hardware.displayName) {
+            pin += "\n" + inst.$hardware.displayName;
+        }
+    }
+
+    return (pin);
+}
 
 /*
  *  ======== modules ========

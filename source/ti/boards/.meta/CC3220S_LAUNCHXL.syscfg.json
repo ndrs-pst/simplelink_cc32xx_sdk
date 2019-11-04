@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 
 /*
  *  ======== CC3220S_LAUNCHXL.syscfg.json ========
+ *  Board schematic: http://www.ti.com/lit/zip/sprcag0
  */
 
 {
@@ -93,17 +94,12 @@
 
                 // Header pin 6 is not connected by default. modification of the
                 // LaunchPad is required to get the mapping to device pin below.
-                // Header pin 6 will connect to device pin 59 if the modification to
-                // the LaunchPad is made.
+                // Uncomment the "ball" member to connect this header pin.
                 //
-                // Header pin 6 is aliased to the same device pin as Header Pin 26.
-                //
-                // Header pin 6 has been aliased here to device pin 3 to be
-                // compatible with TI-RTOS examples.
+                // Header Pin 6 is an alias of Header Pin 26
                 {
                     "number" : 6,
-                    //"ball"   : "59",
-                    "ball"   : "3",
+                    // "ball"   : "59",
                     "name"   : "P59*"
                 },
                 {
@@ -366,21 +362,21 @@
             "displayName" : "LaunchPad LED D10 (Red)",
             "definition"  : "/ti/boards/components/led_dimmable.json",
             "connections" : {
-                "output" : "64" /* device pin number */
+                "OUTPUT": "64" /* device pin number */
             }
         },
         "LED_GREEN": {
             "displayName" : "LaunchPad LED D8 (Green)",
             "definition"  : "/ti/boards/components/led_dimmable.json",
             "connections" : {
-                "output" : "2" /* device pin number */
+                "OUTPUT": "2" /* device pin number */
             }
         },
         "LED_YELLOW": {
             "displayName" : "LaunchPad LED D9 (Yellow)",
             "definition"  : "/ti/boards/components/led_dimmable.json",
             "connections" : {
-                "output" : "1" /* device pin number */
+                "OUTPUT": "1" /* device pin number */
             }
         },
 
@@ -411,25 +407,33 @@
         },
 
         "SW2": {
-            "type"        : "BUTTON",
-            "displayName" : "LaunchPad User Button SW2 (left)",
+            "displayName" : "LaunchPad User Button SW2 (Left)",
             "definition"  : "/ti/boards/components/button.json",
+            "longDescription" : "SW2 (Left) LaunchPad button with an external pull-down.",
+            /* See schematic linked at top of file */
             "settings": {
-                "pull": "None"
+                "DIN": {
+                    "pull": "None",
+                    "interruptTrigger": "Rising Edge"
+                }
             },
             "connections" : {
-                "input" : "4" /* device pin number */
+                "INPUT": "4" /* device pin number */
             }
         },
         "SW3": {
-            "type"        : "BUTTON",
-            "displayName" : "LaunchPad User Button SW3 (right)",
+            "displayName" : "LaunchPad User Button SW3 (Right)",
             "definition"  : "/ti/boards/components/button.json",
+            "longDescription" : "SW3 (Right) LaunchPad button with an external pull-down.",
+            /* See schematic linked at top of file */
             "settings": {
-                "pull": "None"
+                "DIN": {
+                    "pull": "None",
+                    "interruptTrigger": "Rising Edge"
+                }
             },
             "connections" : {
-                "input" : "15" /* device pin number */
+                "INPUT": "15" /* device pin number */
             }
         },
 
@@ -441,10 +445,35 @@
             "link": "SW3"
         },
 
-        "xds110Uart": {
-            "displayName" : "XDS110 UART",
-            "description" : "XDS110 backchannel UART",
-            "definition"  : "/ti/boards/components/uart.json",
+        "ANTSEL1": {
+            "displayName" : "LaunchPad Antenna Select 1 (ANTSEL1)",
+            "description" : "LaunchPad Antenna Select 1 Pin, ANTESEL1",
+            "longDescription" : "Antenna Select GPIO. Exposed for advance use cases.",
+            "signals": {
+                "OUTPUT": {
+                    "type": "DOUT"
+                }
+            },
+            "connections" : {
+                "OUTPUT": "29"
+            }
+        },
+        "ANTSEL2": {
+            "displayName" : "LaunchPad Antenna Select 2 (ANTSEL2)",
+            "description" : "LaunchPad Antenna Select 2 Pin, ANTESEL2",
+            "longDescription" : "Antenna Select GPIO. Exposed for advance use cases.",
+            "signals": {
+                "OUTPUT": {
+                    "type": "DOUT"
+                }
+            },
+            "connections" : {
+                "OUTPUT": "30"
+            }
+        },
+
+        "XDS110UART": {
+            "definition"  : "/ti/boards/components/xds110Uart.json",
             "connections" : {
                 "RXD" : "57", /* device pin number */
                 "TXD" : "55"  /* device pin number */
@@ -461,19 +490,21 @@
         },
 
         /*
-         * From https://ae-bst.resource.bosch.com/media/_tech/media/datasheets
+         * From https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/
          * BST-BMA222E-DS004-06.pdf:
          *     The default I2C address of the device is 0011000b (0x18). It
          *     is used if the SDO pin is pulled to GND. The alternative
          *     address 0011001b (0x19) is selected by pulling the SDO pin
          *     to VDDIO
-         * 
-         *     The BMA222E supports I2C standard mode and fast mode, only 
+         *
+         *     The BMA222E supports I2C standard mode and fast mode, only
          *     7-bit address mode is supported.
          */
         "BMA222E": {
-            "type": "BMA222E",
-            "displayName": "Inertial Measurement Unit",
+            "type": "I2C_SENSOR",
+            "displayName": "BMA222E Accelerometer",
+            "description": "BMA222E Inertial Measurement Unit",
+            "longDescription" : "The [__BMA222E__](https://www.bosch-sensortec.com/bst/products/all_products/bma222e) is an advanced, ultra-small, triaxial, low-g acceleration sensor with digital interfaces, aiming for low-power consumer electronics applications. Featuring 8 bit digital resolution, the BMA222E allows low-noise measurement of accelerations in 3 perpendicular axes.",
             "settings": {
                 "address":  24,   /* 0x18 = 16 + 8 = 24 */
                 "maxSpeed": "400" /* 400 Kbps (fast-mode) */
@@ -483,11 +514,13 @@
                     "link": "LP_I2C"
                 },
 
-                "BMA_INT1": {
+                "INTERRUPT": {
                     "type": "SENSOR_INT",
-                    "displayName": "Temperature Interrupt",
+                    "displayName": "BMA222E Temperature Interrupt",
+                    "description": "BMA222E Temperature Interrupt",
+                    "longDescription": "BMA222E active high temperature interrupt",
                     "signals": {
-                        "BMA_INT1": {
+                        "INTERRUPT": {
                             "type": "DIN",
                             "settings": {
                                 "interruptTrigger": "Rising Edge",
@@ -502,9 +535,9 @@
 
         /* From http://www.ti.com/ww/eu/sensampbook/tmp006.pdf:
          *     Serial Interface
-         *     The TMP006 and TMP006B support the transmission protocol for 
+         *     The TMP006 and TMP006B support the transmission protocol for
          *     fast (1 kHz to 400 kHz) and high-speed (1 kHz to 3.4 MHz) modes.
-         * 
+         *
          *     Serial Bus Address
          *     ADR1 ADR0 address
          *     ---- ---- -------
@@ -518,13 +551,15 @@
          *       1   SCL 1000111 (0x47)
          */
         "TMP006": {
-            "type": "TMP006",
-            "displayName": "Temperature Sensor",
+            "type": "I2C_SENSOR",
+            "displayName": "TMP006 Temperature Sensor",
+            "description" : "TMP006 Infrared Thermopile Sensor",
+            "longDescription": "The [__TMP006__](http://www.ti.com/ww/eu/sensampbook/tmp006.pdf) measures the temperature of an object without the need to make contact with the object. This sensor uses a thermopile to absorb the infrared energy emitted from the object being measured and uses the corresponding change in thermopile voltage to determine the object's temperature.",
+            "partNum" : "TI-TMP006",
             "settings": {
                 "address":  65,    /* 0x41 = 65 */
                 "maxSpeed": "3400" /* 3400 Kbps (high-speed mode) */
             },
-
             "subComponents": {
                 "I2C": {
                     "link": "LP_I2C"
