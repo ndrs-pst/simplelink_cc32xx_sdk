@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,8 +47,6 @@
 #include <ti/sysbios/knl/Clock.h>
 #include <ti/sysbios/knl/Task.h>
 
-uint32_t ClockP_tickPeriod;
-
 
 /*
  *  ======== ClockP_construct ========
@@ -73,9 +71,6 @@ ClockP_Handle ClockP_construct(ClockP_Struct *handle, ClockP_Fxn clockFxn,
     }
 
     clock = Clock_handle((Clock_Struct *)handle);
-
-    /* temp workaround, need to reconsider */
-    ClockP_tickPeriod = Clock_tickPeriod;
 
     return ((ClockP_Handle)clock);
 }
@@ -102,9 +97,6 @@ ClockP_Handle ClockP_create(ClockP_Fxn clockFxn, uint32_t timeout,
         handle = Clock_create((Clock_FuncPtr)clockFxn, timeout, &clockParams,
                 Error_IGNORE);
     }
-
-    /* temp workaround, need to reconsider */
-    ClockP_tickPeriod = Clock_tickPeriod;
 
     return ((ClockP_Handle)handle);
 }
@@ -183,6 +175,14 @@ void ClockP_Params_init(ClockP_Params *params)
 void ClockP_setTimeout(ClockP_Handle handle, uint32_t timeout)
 {
     Clock_setTimeout((Clock_Handle)handle, timeout);
+}
+
+/*
+ *  ======== ClockP_setPeriod ========
+ */
+void ClockP_setPeriod(ClockP_Handle handle, uint32_t period)
+{
+    Clock_setPeriod((Clock_Handle)handle, period);
 }
 
 /*

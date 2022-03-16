@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,6 +72,13 @@ let config = [
             {
                 name: "SPI",
                 description: "SPI driver asserts SPI flash slave select."
+            },
+            {
+                name: "User",
+                description: "User application asserts SPI flash slave select."
+                + " The user application must include implementations to"
+                + " NVSSPI25X_initSpiCs, NVSSPI25X_deinitSpiCs,"
+                + " NVSSPI25X_assertSpiCs, and NVSSPI25X_deassertSpiCs"
             }
         ],
         onChange: updateConfigs
@@ -135,16 +142,20 @@ function validate(inst, validation) {
 
 }
 
-/*
- *  ======== gpioInit ========
- */
-function gpioInit() {
-    return ({
-        comment: "%l    /* SPI Flash Slave Select GPIO Instance */",
-        mode: "Output",
-        outputType: "Standard",
-        initialOutputState: "High"
-    });
+function pinmuxRequirements(inst)
+{
+    let requirements = [];
+    if (inst.slaveSelectManager == "NVS") {
+        requirements.push({
+            name: "slaveSelect",
+            hidden: true,
+            displayName: "Slave Select",
+            interfaceName: "GPIO",
+            signalTypes: ["DOUT"]
+        });
+    }
+
+    return requirements;
 }
 
 /*
@@ -156,10 +167,19 @@ function moduleInstances(inst) {
     if (inst.slaveSelectManager == "NVS") {
         modules.push(
             {
-                name: "slaveSelectGpioInstance",
+                name: "slaveSelectPinInstance",
                 displayName: "Slave Select GPIO Instance",
                 moduleName: "/ti/drivers/GPIO",
-                args: gpioInit(),
+                args: {
+                    mode: "Output",
+                    outputType: "Standard",
+                    initialOutputState: "High"
+                },
+                requiredArgs: {
+                    parentInterfaceName: "GPIO",
+                    parentSignalName: "slaveSelect",
+                    parentSignalDisplayName: "Button GPIO"
+                },
                 hardware: inst.$hardware ? inst.$hardware.subComponents.SELECT : null
             }
         );
@@ -173,6 +193,17 @@ function moduleInstances(inst) {
                 moduleName: "/ti/drivers/SPI",
                 hardware: inst.$hardware ? inst.$hardware : null,
                 args: { mode: "Four Pin SS Active Low" }
+            }
+        );
+    }
+    else if (inst.manager == "NVS" && inst.slaveSelectManager == "User") {
+        modules.push(
+            {
+                name: "spiInstance",
+                displayName: "SPI Flash SPI Instance",
+                moduleName: "/ti/drivers/SPI",
+                hardware: inst.$hardware ? inst.$hardware : null,
+                requiredArgs: { mode: "Three Pin" }
             }
         );
     }
@@ -229,6 +260,7 @@ exports = {
     filterHardware: filterHardware,
     sharedModuleInstances: sharedModuleInstances,
     moduleInstances: moduleInstances,
+    pinmuxRequirements: pinmuxRequirements,
     onHardwareChanged: onHardwareChanged,
     validate: validate
 };

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,10 @@
 
 "use strict";
 
+/* get ti/drivers common utility functions */
+let Common = system.getScript("/ti/drivers/Common.js");
+let convertPinName = Common.cc32xxPackage2DevicePin;
+
 /*
  *  ======== devSpecific ========
  *  Device-specific extensions to be added to base ADC configuration
@@ -62,6 +66,9 @@ let devSpecific = {
         boardc: "/ti/drivers/adc/ADCCC32XX.Board.c.xdt",
         boardh: "/ti/drivers/adc/ADC.Board.h.xdt"
     },
+
+    /* GPIO instances */
+    moduleInstances: moduleInstances,
 
     _getPinResources: _getPinResources
 };
@@ -99,12 +106,41 @@ function pinmuxRequirements(inst)
 }
 
 /*
+ *  ======== moduleInstances ========
+ *  returns GPIO instances
+ */
+function moduleInstances(inst)
+{
+    /* This avoids constructions like CONFIG_GPIO_CONFIG_ADC_0_AIN */
+    let shortName = inst.$name.replace("CONFIG_", "");
+    let gpioInstances = new Array();
+
+    gpioInstances.push(
+        {
+            name: "adcPinInstance",
+            displayName: "ADC Pin configuration while not in use",
+            moduleName: "/ti/drivers/GPIO",
+            collapsed: true,
+            args: {
+                parentInterfaceName: "adc",
+                parentSignalName: "adcPin",
+                parentSignalDisplayName: "ADC Pin",
+                $name: "CONFIG_GPIO_" + shortName + "_AIN",
+                mode: "Input"
+            }
+        }
+    );
+
+    return (gpioInstances);
+}
+
+/*
  *  ======== _getPinResources ========
  */
 function _getPinResources(inst)
 {
 
-    let pin = "P" + inst.adc.adcPin.$solution.packagePinName;
+    let pin = "P" + convertPinName(inst.adc.adcPin.$solution.packagePinName);
 
     if (inst.$hardware && inst.$hardware.displayName) {
         pin += ", " + inst.$hardware.displayName;
@@ -122,6 +158,10 @@ function _getPinResources(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "ADC", null,
+        [{name: "ADCCC32XX"}], null);
+
     /* merge and overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

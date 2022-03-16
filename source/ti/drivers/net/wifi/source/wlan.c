@@ -83,7 +83,7 @@ _i16 sl_WlanConnect(const _i8*  pName,const _i16 NameLen,const _u8 *pMacAddr,con
     CmdCtrl.RxDescLen = (_SlArgSize_t)sizeof(_BasicResponse_t);
 
     /* verify SSID length */
-    VERIFY_PROTOCOL(NameLen <= SL_WLAN_SSID_MAX_LENGTH);
+    VERIFY_PROTOCOL(NameLen >= 0 && NameLen <= SL_WLAN_SSID_MAX_LENGTH);
     /* verify SSID is not NULL */
     if( NULL == pName )
     {
@@ -368,7 +368,7 @@ _i16 sl_WlanProfileAdd(const _i8*  pName,const  _i16 NameLen,const  _u8 *pMacAdd
         return SL_INVALPARAM;
     }
     /* verify SSID length */
-    VERIFY_PROTOCOL(NameLen <= SL_WLAN_SSID_MAX_LENGTH);
+    VERIFY_PROTOCOL(NameLen >= 0 && NameLen <= SL_WLAN_SSID_MAX_LENGTH);
     /* update SSID length */
     Msg.Cmd.Args.Common.SsidLen = (_u8)NameLen;
 
@@ -545,7 +545,7 @@ _i16 sl_WlanProfileUpdate(const _u32  Index, const _i8*  pName,const  _i16 NameL
     Msg.Cmd.Args.Priority = (_u8)Priority;
 
     /* verify SSID length */
-    VERIFY_PROTOCOL(NameLen <= MAX_SSID_LEN);
+    VERIFY_PROTOCOL(NameLen >= 0 && NameLen <= MAX_SSID_LEN);
     /* update SSID length */
     Msg.Cmd.Args.SsidLen = (_u8)NameLen;
 
@@ -752,12 +752,10 @@ _i16 sl_WlanProfileGet(const _i16 Index,_i8*  pName, _i16 *pNameLen, _u8 *pMacAd
 
         *pNameLen  = (_i16)(Msg.Rsp.Args.Common.SsidLen);      
         *pPriority = Msg.Rsp.Args.Common.Priority;       
-
-        if (NULL != Msg.Rsp.Args.Common.Bssid)
+        if (NULL != pMacAddr)
         {
             sl_Memcpy(pMacAddr, Msg.Rsp.Args.Common.Bssid, sizeof(Msg.Rsp.Args.Common.Bssid));
         }
-
         sl_Memset(pName, 0, SL_WLAN_SSID_MAX_LENGTH);
         sl_Memcpy(pName, EAP_PROFILE_SSID_STRING(&Msg), *pNameLen);
     }

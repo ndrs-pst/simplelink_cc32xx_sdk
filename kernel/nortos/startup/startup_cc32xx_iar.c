@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017, Texas Instruments Incorporated
+ * Copyright (c) 2016-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,6 +71,7 @@ static void busFaultHandler(void);
 //
 //*****************************************************************************
 extern void __iar_program_start(void);
+int localProgramStart(void);
 
 extern void ClockP_sysTickHandler(void);
 
@@ -117,13 +118,12 @@ unsigned long ramVectors[195] @ ".noinit";
 
 //*****************************************************************************
 //
-// This function is called by __iar_program_start() early in the boot sequence.
 // Copy the first 16 vectors from the read-only/reset table to the runtime
 // RAM table. Fill the remaining vectors with a stub. This vector table will
 // be updated at runtime.
 //
 //*****************************************************************************
-int __low_level_init(void)
+int localProgramStart(void)
 {
     int i;
 
@@ -148,6 +148,31 @@ int __low_level_init(void)
     /* Return: 0 to omit seg_init       */
     /*         1 to run seg_init        */
     /*==================================*/
+    return 1;
+}
+
+
+//*****************************************************************************
+//
+// This function is called by __iar_program_start() early in the boot sequence.
+//
+//*****************************************************************************
+int __low_level_init(void)
+{
+    /*
+     *  Initialize the stack pointer and branch to localProgramStart().
+     *  Some debuggers do not load the stack pointer from the reset vector.
+     *  This code ensures that the stack pointer is initialized.
+     *  The first entry of the vector table is the address of the stack.
+     */
+    __asm(
+        "    mov32 r0, __vector_table\n"
+        "    ldr r0, [r0]\n"
+        "    mov sp, r0\n"
+        "    b localProgramStart"
+    );
+
+    // This code is unreachable but the compiler expects a return statement
     return 1;
 }
 

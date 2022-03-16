@@ -82,8 +82,10 @@ extern int Report(const char *format, ...);
 /* USER SHOULD DEFINE HERE WHICH CLOUD TO USE */
 /* -------------------------------------------*/
 //#define OTA_SERVER_TYPE    OTA_SERVER_GITHUB
-#define OTA_SERVER_TYPE    OTA_SERVER_DROPBOX_V2
-//#define OTA_SERVER_TYPE      OTA_FILE_DOWNLOAD
+//#define OTA_SERVER_TYPE    OTA_SERVER_DROPBOX_V2
+#define OTA_SERVER_TYPE      OTA_FILE_DOWNLOAD
+
+#define OTA_VERSION_SUPPORT  (0)
 
 /* OTA server info */
 /* --------------- */
@@ -110,7 +112,35 @@ extern int Report(const char *format, ...);
 #error "Please define your personal cloud account token in OTA_VENDOR_TOKEN above"
 #endif
 
-#define OTA_SERVER_ROOT_CA_CERT         "DigCert_High_Assurance_CA.der"
+/******************************************************************************
+ * An Important Note regarding the GitHub Certificates:
+ * GitHub is about to replace the servers' certificates. The change may impact
+ * the GitHub OTA server, the GitHub Content server or both. OTA Library Users 
+ * should prepare in advance by updating the root CA certificates (for devices
+ * in the field).
+ * Up to now both servers were verified using "DigCert_High_Assurance_CA.der".
+ * Recently GitHub updated their OTA Server to use a certificate that needs to 
+ * be verified with "DigiCert_Global_Root_CA.der" (This requires update of
+ * OTA_SERVER_ROOT_CA_CERT). 
+ * Working with GitHub, TI was able to postpone the change so the library users 
+ * can update their devices.
+ * The exact date of the change and the content of the change are TBD by GitHub
+ * (customers are encouraged to contact GitHub for details).
+ *
+ * For CC323x customers, TI offer an easier approach. The 
+ * "RootCACerts.pem" contains both the old and the new root CA certificates.
+ * If used here, this PEM file will enable the connection before and after the
+ * change. Unfortunately, this method is not supported by CC3220 devices
+ * and thus specific certificate needs to be defined per server.
+ * 
+ * Having this, it is very important to include a backup method in your code.
+ * In case of GitHub failure, the backup can trigger a load from a secondary 
+ * server or it can enable the Local OTA method.
+ ******************************************************************************/
+//#define OTA_SERVER_ROOT_CA_CERT         "DigCert_High_Assurance_CA.der"
+//#define OTA_CONTENT_SERVER_ROOT_CA_CERT "DigCert_High_Assurance_CA.der"
+#define OTA_SERVER_ROOT_CA_CERT           "RootCACerts.pem"
+#define OTA_CONTENT_SERVER_ROOT_CA_CERT   "RootCACerts.pem"
 #define OTA_SERVER_AUTH_IGNORE_DATA_TIME_ERROR
 #define OTA_SERVER_AUTH_DISABLE_CERT_STORE
 
@@ -126,8 +156,35 @@ extern int Report(const char *format, ...);
 #ifndef OTA_VENDOR_TOKEN
 #error "Please define your personal cloud account token in OTA_VENDOR_TOKEN above"
 #endif
-
-#define OTA_SERVER_ROOT_CA_CERT         "DigCert_High_Assurance_CA.der"
+/******************************************************************************
+ * An Important Note regarding the DropBox Certificates:
+ * DropBox is about to replace the servers' certificates. The change may impact
+ * the DropBox OTA server, the DropBox Content server or both. OTA Library Users
+ * should prepare in advance by updating the root CA certificates (for devices
+ * in the field).
+ * Up to now both servers were verified using "DigCert_High_Assurance_CA.der".
+ * Recently DropBox updated their OTA Content Server to use a certificate that 
+ * needs to be verified with "DigiCert_Global_Root_CA.der" (This requires update 
+ * of OTA_CONTENT_SERVER_ROOT_CA_CERT).
+ * Working with GitHub, TI was able to postpone the change so the library users
+ * can update their devices.
+ * The change is planned for August 2021. The exact content of the change is TBD 
+ * by DropBox (customers are encouraged to contact DropBox for details).
+ *
+ * For CC323x customers, TI offer an easier approach. The
+ * "RootCACerts.pem" contains both the old and the new root CA certificates.
+ * If used here, this PEM file will enable the connection before and after the
+ * change. Unfortunately, this method is not supported by CC3220 devices
+ * and thus specific certificate needs to be defined per server.
+ *
+ * Having this, it is very important to include a backup method in your code.
+ * A fallabck in case of DropBox failure may include triggering a load from 
+ * a secondary server or enabling the Local OTA method.
+ ******************************************************************************/
+//#define OTA_SERVER_ROOT_CA_CERT         "DigCert_High_Assurance_CA.der"
+//#define OTA_CONTENT_SERVER_ROOT_CA_CERT "DigCert_High_Assurance_CA.der"
+#define OTA_SERVER_ROOT_CA_CERT           "RootCACerts.pem"
+#define OTA_CONTENT_SERVER_ROOT_CA_CERT   "RootCACerts.pem"
 #define OTA_SERVER_AUTH_IGNORE_DATA_TIME_ERROR
 #define OTA_SERVER_AUTH_DISABLE_CERT_STORE
 
@@ -151,7 +208,9 @@ extern int Report(const char *format, ...);
 
 #elif OTA_SERVER_TYPE == OTA_FILE_DOWNLOAD
 #define OTA_SERVER_SECURED              1
-#define OTA_SERVER_ROOT_CA_CERT         "DigCert_High_Assurance_CA.der"
+//#define OTA_CONTENT_SERVER_ROOT_CA_CERT "DigCert_High_Assurance_CA.der"
+#define OTA_CONTENT_SERVER_ROOT_CA_CERT   "RootCACerts.pem"
+
 #endif
 
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018, Texas Instruments Incorporated
+ * Copyright (c) 2016-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,21 +39,11 @@
 
 #include <ti/devices/DeviceFamily.h>
 
-#if (DeviceFamily_ID == DeviceFamily_ID_MSP432E401Y) || \
-    (DeviceFamily_ID == DeviceFamily_ID_MSP432E411Y)
-#include <ti/devices/msp432e4/inc/msp432.h>
-#include <third_party/CMSIS/Include/core_cm4.h>
-
-#define CPU_CLOCK_HZ            ((uint32_t) 120000000)
-#define CPU_CLOCK_MHZ           ((uint32_t) 120)
-
-#else
 #include DeviceFamily_constructPath(inc/hw_nvic.h)
 #include DeviceFamily_constructPath(inc/hw_types.h)
 
 #define CPU_CLOCK_HZ            ((uint32_t) 80000000)
 #define CPU_CLOCK_MHZ           ((uint32_t) 80)
-#endif
 
 #include DeviceFamily_constructPath(driverlib/rom.h)
 #include DeviceFamily_constructPath(driverlib/rom_map.h)
@@ -150,12 +140,7 @@ static void sysTickInit(void)
     }
 
     /* Reload the counter by writing to it */
-#if (DeviceFamily_ID == DeviceFamily_ID_MSP432E401Y) || \
-    (DeviceFamily_ID == DeviceFamily_ID_MSP432E411Y)
-    SysTick->VAL = 0;
-#else
     HWREG(NVIC_ST_CURRENT) = 0;
-#endif
 
     MAP_SysTickEnable();
     MAP_SysTickIntEnable();
@@ -388,6 +373,16 @@ void ClockP_setTimeout(ClockP_Handle handle, uint32_t timeout)
     ClockP_Obj *obj = (ClockP_Obj*)handle;
 
     obj->startTimeout = timeout;
+}
+
+/*
+*  ======== ClockP_setPeriod ========
+*/
+void ClockP_setPeriod(ClockP_Handle handle, uint32_t period)
+{
+    ClockP_Obj *obj = (ClockP_Obj*)handle;
+
+    obj->period = period;
 }
 
 /*

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,10 @@
 
 "use strict";
 
+/* get ti/drivers common utility functions */
+let Common = system.getScript("/ti/drivers/Common.js");
+let convertPinName = Common.cc32xxPackage2DevicePin;
+
 /*
  *  ======== devSpecific ========
  *  Device-specific extensions to be added to base GPIO configuration
@@ -57,11 +61,14 @@ let devSpecific = {
     templates:
     {
         boardc : "/ti/drivers/gpio/GPIOCC32XX.Board.c.xdt",
+        board_initc : "/ti/drivers/gpio/GPIO.Board_init.c.xdt",
         boardh : "/ti/drivers/gpio/GPIO.Board.h.xdt"
     },
 
-    _getPinResources: _getPinResources
-
+    _getPinResources: _getPinResources,
+    _getDefaultAttrs: _getDefaultAttrs,
+    _getHwSpecificAttrs: _getHwSpecificAttrs,
+    _pinToDio: _pinToDio
 };
 
 /*
@@ -72,7 +79,7 @@ function _getPinResources(inst)
     let pin;
 
     if (inst.gpioPin) {
-        pin = "P" + inst.gpioPin.$solution.packagePinName.padStart(2, "0");
+        pin = "P" + convertPinName(inst.gpioPin.$solution.packagePinName);
 
         if (inst.$hardware && inst.$hardware.displayName) {
             pin += ", " + inst.$hardware.displayName;
@@ -80,6 +87,46 @@ function _getPinResources(inst)
     }
 
     return (pin);
+}
+
+/*
+ *  ======== _getDefaultAttrs ========
+ */
+function _getDefaultAttrs()
+{
+    return "GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG";
+}
+
+/*
+ *  ======== _getHwSpecificAttrs ========
+ */
+function _getHwSpecificAttrs(inst)
+{
+    let devSpecDefines = [];
+
+    if (inst.enableStaticParking) {
+        devSpecDefines.push("GPIOCC32XX_CFG_USE_STATIC");
+    }
+
+    return devSpecDefines;
+}
+
+/*
+ *  ======== _pinToDio ========
+ */
+function _pinToDio(pinSolution, devicePin)
+{
+    if (devicePin.description.startsWith("GP")) {
+        /* Most pins are GPnn e.g. GP02, GP26 */
+        return parseInt(devicePin.description.substring(2), 10);
+    }
+
+    /* Some pins have special descriptions, like "SOP2 Device Pin" or "TMS"
+     * We can't use those for counting bounds, but we can look at the $solution
+     * in order to provide accurate GPIO numbers. peripheralPinName is of the
+     * format 'GPIOnn', so we substring off the first four characters
+     */
+    return parseInt(pinSolution.peripheralPinName.substring(4), 10);
 }
 
 /*
@@ -91,6 +138,10 @@ function _getPinResources(inst)
  */
 function extend(base)
 {
+    /* display which driver implementation can be used */
+    base = Common.addImplementationConfig(base, "GPIO", null,
+        [{name: "GPIOCC32XX"}], null);
+
     /* overwrite base module attributes */
     let result = Object.assign({}, base, devSpecific);
 

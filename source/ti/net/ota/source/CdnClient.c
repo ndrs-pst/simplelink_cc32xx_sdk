@@ -54,7 +54,7 @@ int16_t CdnClient_ConnectServer(CdnClient_t *pCdnClient, Ota_optServerInfo *pOta
 
     /* Connect to the OTA server */
     _SlOtaLibTrace(("CdnClient_ConnectServer: HttpClient_Connect %s\r\n", pOtaServerInfo->ServerName));
-    pCdnClient->ServerSockId = HttpClient_Connect(pOtaServerInfo->ServerName, pOtaServerInfo->IpAddress, SOCKET_PORT_DEFAULT, pOtaServerInfo->SecuredConnection, SOCKET_BLOCKING);
+    pCdnClient->ServerSockId = HttpClient_Connect(pOtaServerInfo->ServerName, pOtaServerInfo->IpAddress, SOCKET_PORT_DEFAULT, pOtaServerInfo->SecuredConnection, OTA_SERVER_ROOT_CA_CERT, SOCKET_BLOCKING);
     if (pCdnClient->ServerSockId < 0)
     {
         _SlOtaLibTrace(("CdnClient_ConnectServer: ERROR HttpClient_Connect, Status=%d\r\n", pCdnClient->ServerSockId));
@@ -147,7 +147,7 @@ int16_t CdnClient_ConnectFileServer(CdnClient_t *pCdnClient, uint8_t *pFileUrl, 
 
     /* connect to the CDN server */
     pCdnClient->PortNum = SOCKET_PORT_DEFAULT;
-    pCdnClient->FileSockId = HttpClient_Connect(ServerNameBuf, 0, pCdnClient->PortNum, SecuredConnection, SOCKET_BLOCKING);
+    pCdnClient->FileSockId = HttpClient_Connect(ServerNameBuf, 0, pCdnClient->PortNum, SecuredConnection, OTA_CONTENT_SERVER_ROOT_CA_CERT, SOCKET_BLOCKING);
     if (pCdnClient->FileSockId < 0)
     {
         _SlOtaLibTrace(("CdnClient_ConnectFileServer: ERROR on HttpClient_Connect, Status=%d\r\n", pCdnClient->FileSockId));

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ let config = [
         name: "verifyBufferSize",
         displayName: "Verify Buffer Size",
         description: "Size of the write verification buffer in bytes.",
-        default: 0
+        default: 0x100
     },
     {
         name: "statusPollDelay",
@@ -97,9 +97,15 @@ function filterHardware(component) {
  *  ======== onHardwareChanged ========
  */
 function onHardwareChanged(inst, ui) {
-    /* Default to max size of spi flash if specified */
-    if (inst.$hardware.settings && inst.$hardware.settings.capacity) {
-        inst.regionSize = inst.$hardware.settings.capacity;
+    if (inst.$hardware) {
+        /* Default to max size of spi flash if specified */
+        if (inst.$hardware.settings && inst.$hardware.settings.capacity) {
+            inst.regionSize = inst.$hardware.settings.capacity;
+        }
+    }
+    else {
+        /* restore to default regionSize */
+        inst.regionSize = inst.$module.$configByName.regionSize.default;
     }
 }
 

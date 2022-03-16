@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,10 +52,12 @@ extern "C" {
  *  @brief    Number of bytes greater than or equal to the size of any RTOS
  *            SwiP object.
  *
- *  nortos:   40
- *  SysBIOS:  52
+ *  NoRTOS:   40
+ *  FreeRTOS: ?? (should same as NoRTOS)
+ *  BIOS 6.x: 52
+ *  BIOS 7.x: 60
  */
-#define SwiP_STRUCT_SIZE   (52)
+#define SwiP_STRUCT_SIZE   (60)
 
 /*!
  *  @brief    SemaphoreP structure.
@@ -65,7 +67,7 @@ extern "C" {
  */
 typedef union SwiP_Struct {
     uint32_t dummy;  /*!< Align object */
-    char     data[SwiP_STRUCT_SIZE];
+    uint8_t  data[SwiP_STRUCT_SIZE];
 } SwiP_Struct;
 
 /*!

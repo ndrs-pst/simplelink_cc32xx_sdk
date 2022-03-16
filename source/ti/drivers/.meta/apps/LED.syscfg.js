@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2021, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,8 +50,8 @@ let config = [
 a [__GPIO__][1] instance or a [__PWM__][2] instance, however, brightness
 control requires a PWM.
 
-[1]: /tidrivers/doxygen/html/_g_p_i_o_8h.html#details "GPIO"
-[2]: /tidrivers/doxygen/html/_p_w_m_8h.html#details "PWM"
+[1]: /drivers/doxygen/html/_g_p_i_o_8h.html#details "GPIO"
+[2]: /drivers/doxygen/html/_p_w_m_8h.html#details "PWM"
 `,
         default: false
     }
@@ -63,18 +63,32 @@ control requires a PWM.
 function _getPinResources(inst)
 {
     let mod;
-    let pin;
 
-    if (inst.pwmPin) {
+    if (inst.dimmable) {
         mod = system.getScript("/ti/drivers/PWM.syscfg.js");
-        pin = mod._getPinResources(inst.pwmPin);
-    }
-    else if (inst.gpioPin) {
-        mod = system.getScript("/ti/drivers/GPIO.syscfg.js");
-        pin = mod._getPinResources(inst.gpioPin);
+        return mod._getPinResources(inst.pwmPin);
     }
 
-    return (pin);
+    return null;
+}
+
+/*
+ *  ======== pinmuxRequirements ========
+ */
+function pinmuxRequirements(inst)
+{
+    if (!inst.dimmable) {
+        let ledRequirements = {
+            name: "ledPin",
+            hidden: true,
+            displayName: "LED Pin",
+            interfaceName: "GPIO",
+            signalTypes: ["DOUT"]
+        };
+
+        return [ledRequirements];
+    }
+    return [];
 }
 
 /*
@@ -113,8 +127,6 @@ function supportsPWM(comp)
  */
 function validate(inst, validation)
 {
-    Common.validateNames(inst, validation);
-
     if (inst.$hardware) {
         if (inst.dimmable && !supportsPWM(inst.$hardware)) {
             var name = inst.$hardware.displayName
@@ -159,8 +171,13 @@ function moduleInstances(inst)
             description: "This LED is driven by a GPIO",
             moduleName: "/ti/drivers/GPIO",
             args: {
-                $name: inst.$name + "_GPIO",
-                mode : "Output"
+                $name: inst.$name + "_GPIO"
+            },
+            requiredArgs: {
+                mode : "Output",
+                parentInterfaceName: "GPIO",
+                parentSignalName: "ledPin",
+                parentSignalDisplayName: "LED GPIO"
             }
         };
     }
@@ -216,12 +233,12 @@ The [__LED driver__][1] provides a simple interface to control LEDs.
 * [Usage Synopsis][2]
 * [Examples][3]
 * [Configuration][4]
-[1]: /tidrivers/doxygen/html/_l_e_d_8h.html#details "C API reference"
+[1]: /drivers/doxygen/html/_l_e_d_8h.html#details "C API reference"
 [2]:
-/tidrivers/doxygen/html/_l_e_d_8h.html#ti_drivers_LED_Synopsis "Synopsis"
-[3]: /tidrivers/doxygen/html/_l_e_d_8h.html#ti_drivers_LED_Examples
+/drivers/doxygen/html/_l_e_d_8h.html#ti_drivers_LED_Synopsis "Synopsis"
+[3]: /drivers/doxygen/html/_l_e_d_8h.html#ti_drivers_LED_Examples
 "C usage examples"
-[4]: /tidrivers/syscfg/html/ConfigDoc.html#LED_Configuration_Options "Configuration options reference"
+[4]: /drivers/syscfg/html/ConfigDoc.html#LED_Configuration_Options "Configuration options reference"
 `,
     defaultInstanceName: "CONFIG_LED_",
 
@@ -231,6 +248,7 @@ The [__LED driver__][1] provides a simple interface to control LEDs.
     modules: Common.autoForceModules(["Board"]),
     moduleInstances: moduleInstances,
     filterHardware: filterHardware,
+    pinmuxRequirements: pinmuxRequirements,
 
     /* make GUI changes in response to HW model changes */
     onHardwareChanged: onHardwareChanged,

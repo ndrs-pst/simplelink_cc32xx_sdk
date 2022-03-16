@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,6 +69,9 @@
 void ADCCC32XX_close(ADC_Handle handle);
 int_fast16_t ADCCC32XX_control(ADC_Handle handle, uint_fast16_t cmd, void *arg);
 int_fast16_t ADCCC32XX_convert(ADC_Handle handle, uint16_t *value);
+int_fast16_t ADCCC32XX_convertChain(ADC_Handle *handleList,
+                                    uint16_t *dataBuffer,
+                                    uint8_t channelCount);
 uint32_t ADCCC32XX_convertToMicroVolts(ADC_Handle handle,
     uint16_t adcValue);
 void ADCCC32XX_init(ADC_Handle handle);
@@ -79,6 +82,7 @@ const ADC_FxnTable ADCCC32XX_fxnTable = {
     ADCCC32XX_close,
     ADCCC32XX_control,
     ADCCC32XX_convert,
+    ADCCC32XX_convertChain,
     ADCCC32XX_convertToMicroVolts,
     ADCCC32XX_init,
     ADCCC32XX_open
@@ -161,6 +165,21 @@ int_fast16_t ADCCC32XX_convert(ADC_Handle handle, uint16_t *value)
     /* Strip time stamp & reserve bits from ADC sample */
     *value = ((adcSample >> 2) & 0x0FFF);
 
+    return (ADC_STATUS_SUCCESS);
+}
+
+/*
+ *  ======== ADCCC32XX_convertChain ========
+ */
+int_fast16_t ADCCC32XX_convertChain(ADC_Handle *handleList,
+                                    uint16_t *dataBuffer,
+                                    uint8_t channelCount)
+{
+    uint8_t i = 0;
+
+    for (i = 0; i < channelCount; i++) {
+        ADCCC32XX_convert(handleList[i], &dataBuffer[i]);
+    }
     return (ADC_STATUS_SUCCESS);
 }
 

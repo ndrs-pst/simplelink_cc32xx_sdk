@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -378,7 +378,8 @@ static void spiHwiFxn(uintptr_t arg)
  *  ======== spiPollingTransfer ========
  */
 static inline void spiPollingTransfer(SPICC32XXDMA_Object *object,
-    SPICC32XXDMA_HWAttrsV1 const *hwAttrs, SPI_Transaction *transaction)
+                                      SPICC32XXDMA_HWAttrsV1 const *hwAttrs,
+                                      SPI_Transaction *transaction)
 {
     uint8_t   increment;
     uint32_t  dummyBuffer;

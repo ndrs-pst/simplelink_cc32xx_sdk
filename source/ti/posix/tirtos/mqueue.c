@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2016-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,10 +75,8 @@
 #define GATE_INIT(use_gate) \
     use_gate = (BIOS_getThreadType() == BIOS_ThreadType_Task);
 
-
-/* this instance was created in Settings.xs */
-extern const ti_sysbios_gates_GateMutex_Handle tiposix_mqGate;
-
+static GateMutex_Struct tiposix_mqGateStruct;
+static GateMutex_Handle tiposix_mqGate = NULL;
 
 /*
  *  ======== MQueueObj ========
@@ -175,14 +173,26 @@ mqd_t mq_open(const char *name, int oflags, ...)
     IArg                key;
     IHeap_Handle        heap = Task_Object_heap();
     size_t              nameLen;
-    bool use_gate;
+    bool                use_gate;
+    UInt                taskKey;
 
     GATE_INIT(use_gate)
+
+    taskKey = Task_disable();
+    /* Make sure that this 'tiposix_mqGate' test and set is atomic.
+     * GateMutex_construct cannot block so it's OK to call it with the
+     * Task scheduler disabled.
+     */
+    if (tiposix_mqGate == NULL) {
+        GateMutex_construct(&tiposix_mqGateStruct, NULL);
+        tiposix_mqGate = GateMutex_handle(&tiposix_mqGateStruct);
+    }
+    Task_restore(taskKey);
 
     va_start(va, oflags);
 
     if (oflags & O_CREAT) {
-        mode = va_arg(va, mode_t);
+        mode = (mode_t)va_arg(va, unsigned int);
         attrs = va_arg(va, struct mq_attr *);
 
         if (attrs == NULL) {

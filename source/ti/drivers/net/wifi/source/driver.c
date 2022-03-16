@@ -696,8 +696,10 @@ _SlDrvDriverCBDeinit - De init Driver Control Block
 *****************************************************************************/
 _SlReturnVal_t _SlDrvDriverCBDeinit(void)
 {
+#ifdef SL_MEMORY_MGMT_DYNAMIC
     _SlSpawnMsgItem_t* pCurr;
     _SlSpawnMsgItem_t* pNext;
+#endif
 
     /* Flow control de-init */
     g_pCB->FlowContCB.TxPoolCnt = 0;
@@ -735,9 +737,6 @@ _SlReturnVal_t _SlDrvDriverCBDeinit(void)
 #endif
 
     g_pCB = NULL;
-
-    /* Clear the restart device flag  */
-    SL_UNSET_RESTART_REQUIRED;
 
     return SL_OS_RET_CODE_OK;
 }
@@ -1402,7 +1401,8 @@ _SlReturnVal_t _SlDrvMsgRead(_u16* outMsgReadLen, _u8** pOutAsyncBuf)
             /* This case is for reading the receive response sent by clearing the control socket. */
             if((RetVal == SL_RET_OBJ_NOT_SET) && (SD(&uBuf.TempBuf[4]) == g_pCB->MultiSelectCB.CtrlSockFD))
             {
-                _u8 buffer[16];
+                /*KW - we need to allocate the maximum possible which is 24*/
+                _u8 buffer[RECVFROM_IPV6_ARGS_SIZE];
 
                 sl_Memcpy(&buffer[0], &uBuf.TempBuf[4], RECV_ARGS_SIZE);
 
@@ -1440,6 +1440,7 @@ _SlReturnVal_t _SlDrvMsgRead(_u16* outMsgReadLen, _u8** pOutAsyncBuf)
                 if(RetVal < 0)
                 {
                     SL_DRV_PROTECTION_OBJ_UNLOCK();
+					SL_DRV_LOCK_GLOBAL_UNLOCK(TRUE);
                     return SL_API_ABORTED;
                 }
 
@@ -2289,7 +2290,7 @@ _SlReturnVal_t _SlDrvProtectAsyncRespSetting(_u8 *pAsyncRsp, _SlActionID_e Actio
     }
     else if (MAX_CONCURRENT_ACTIONS == ObjIdx)
     {
-        return MAX_CONCURRENT_ACTIONS;
+        return SL_POOL_IS_EMPTY;
     }
     else
     {
@@ -2447,6 +2448,25 @@ _SlReturnVal_t _SlDrvReleasePoolObj(_u8 ObjIdx)
         }
         PendingIndex = g_pCB->ObjPool[PendingIndex].NextIndex;
     }
+
+    //if this action is socket relate but the correlate bit is off , return without deleting old data
+    if (SL_MAX_SOCKETS > (g_pCB->ObjPool[ObjIdx].AdditionalData & SL_BSD_SOCKET_ID_MASK)) 
+    {
+        if (!((1 << (g_pCB->ObjPool[ObjIdx].AdditionalData & SL_BSD_SOCKET_ID_MASK)) & g_pCB->ActiveActionsBitmap))
+        {
+            return SL_RET_CODE_OK;
+        }
+    }
+    //if this action has action ID but the correlate bit is off, return without deleting old data
+    else
+    {
+        if ((!((1 << g_pCB->ObjPool[ObjIdx].ActionID) & g_pCB->ActiveActionsBitmap))
+                && ( SELECT_ID != g_pCB->ObjPool[ObjIdx].ActionID)) // multiple select can take more then one pool obj with the same actionID
+        {
+            return SL_RET_CODE_OK;
+        }
+    }
+
 
     if (SL_MAX_SOCKETS > (g_pCB->ObjPool[ObjIdx].AdditionalData & SL_BSD_SOCKET_ID_MASK))
     {
@@ -3177,9 +3197,12 @@ _u16 _SlSpawnMsgListGetCount()
 
 void _SlFindAndReleasePendingCmd()
 {
-    /* In case there is no free buffer to store the async event until context switch release the command and return specific error */
-    ((SlSocketResponse_t *)(g_pCB->ObjPool[g_pCB->FunctionParams.AsyncExt.ActionIndex].pRespArgs))->StatusOrLen = SL_RET_CODE_NO_FREE_ASYNC_BUFFERS_ERROR;
-    /* signal pending cmd */
-    SL_DRV_SYNC_OBJ_SIGNAL(&g_pCB->ObjPool[g_pCB->FunctionParams.AsyncExt.ActionIndex].SyncObj);
+    if(g_pCB->ObjPool[g_pCB->FunctionParams.AsyncExt.ActionIndex].pRespArgs != NULL)
+    {
+        /* In case there is no free buffer to store the async event until context switch release the command and return specific error */
+        ((SlSocketResponse_t *)(g_pCB->ObjPool[g_pCB->FunctionParams.AsyncExt.ActionIndex].pRespArgs))->StatusOrLen = SL_RET_CODE_NO_FREE_ASYNC_BUFFERS_ERROR;
+        /* signal pending cmd */
+        SL_DRV_SYNC_OBJ_SIGNAL(&g_pCB->ObjPool[g_pCB->FunctionParams.AsyncExt.ActionIndex].SyncObj);    
+    }
 }
 #endif

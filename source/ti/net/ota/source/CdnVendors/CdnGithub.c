@@ -59,13 +59,18 @@ extern OtaJson OtaJsonObj;
 */
 int16_t  CdnGithub_SendReqDir(int16_t SockId, uint8_t *pSendBuf, uint8_t *pServerName, uint8_t *pVendorDir, uint8_t *pVendorToken)
 {
-    uint8_t ReqDirCmdBuf[100];
+    int16_t status = SL_ERROR_BSD_ENOMEM;
+    uint8_t *pCmdBuf = (uint8_t*)malloc(10 + strlen(OTA_VENDOR_ROOT_DIR)+strlen(OTA_SERVER_REST_REQ_DIR));
+    if(pCmdBuf)
+    {
+        strcpy((char *)pCmdBuf, OTA_VENDOR_ROOT_DIR);
+        strcat((char *)pCmdBuf, OTA_SERVER_REST_REQ_DIR);
 
-    strcpy((char *)ReqDirCmdBuf, OTA_VENDOR_ROOT_DIR);
-    strcat((char *)ReqDirCmdBuf, OTA_SERVER_REST_REQ_DIR);
-
-    _SlOtaLibTrace(("CdnGithub_SendReqDir: uri=%s\r\n", ReqDirCmdBuf));
-    return HttpClient_SendReq (SockId, pSendBuf, (uint8_t *)"GET ", pServerName, ReqDirCmdBuf , pVendorDir, (uint8_t *)OTA_SERVER_REST_HDR, pVendorToken);
+        _SlOtaLibTrace(("CdnGithub_SendReqDir: uri=%s\r\n", pCmdBuf));
+        status = HttpClient_SendReq (SockId, pSendBuf, (uint8_t *)"GET ", pServerName, pCmdBuf , pVendorDir, (uint8_t *)OTA_SERVER_REST_HDR, pVendorToken);
+        free (pCmdBuf);
+    }
+    return status;
 }
 
 

@@ -2,7 +2,7 @@
  *  Do not modify this file; it is automatically 
  *  generated and any modifications will be overwritten.
  *
- * @(#) xdc-H25
+ * @(#) xdc-K04
  */
 
 #ifndef ti_uia_events_UIAChanCtx__INTERNAL__

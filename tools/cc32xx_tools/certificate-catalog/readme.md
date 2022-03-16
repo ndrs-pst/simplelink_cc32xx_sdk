@@ -1,13 +1,21 @@
-##### Revision - 20190217  
+## Revision - 20200715  
 
 The root certificate catalog holds the fingerprints of common trusted root CA.  
-The following is the list of root CA:  
 
-ACEDICOM Root  
-Actalis Authentication Root CA  
+##### Expired and removed 
 AddTrust Class 1 CA Root  
 AddTrust External CA Root  
 AddTrust Qualified CA Root  
+Class 2 Primary CA  
+Staat der Nederlanden Root CA - G2 
+
+##### Added
+Go Daddy Class 2 Certification Authority 
+
+##### The following is the list of root CA
+
+ACEDICOM Root  
+Actalis Authentication Root CA  
 Amazon Root CA 1  
 Amazon Root CA 2  
 Amazon Root CA 3  
@@ -30,7 +38,6 @@ CFCA EV ROOT
 Chambers of Commerce Root - 2008  
 China Internet Network Information Center EV Certificates Root  
 Cisco Root CA 2048  
-Class 2 Primary CA  
 COMODO Certification Authority  
 COMODO ECC Certification Authority  
 COMODO RSA Certification Authority  
@@ -63,6 +70,7 @@ GlobalSign ECC Root CA - R5
 GlobalSign Root CA - R2  
 GlobalSign Root CA - R3  
 GlobalSign Root CA  
+Go Daddy Class 2 Certification Authority  
 Go Daddy Root Certificate Authority - G2  
 Hellenic Academic and Research Institutions RootCA 2011  
 Hongkong Post Root CA 1  
@@ -76,7 +84,6 @@ S-TRUST Universal Root CA
 SecureSign RootCA11  
 SecureTrust CA  
 Staat der Nederlanden EV Root CA  
-Staat der Nederlanden Root CA - G2  
 Staat der Nederlanden Root CA - G3  
 Starfield Class 2 Certification Authority  
 Starfield Root Certificate Authority - G2  

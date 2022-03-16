@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,7 @@
 #include <ti/drivers/Timer.h>
 #include <ti/drivers/power/PowerCC32XX.h>
 #include <ti/drivers/timer/TimerCC32XX.h>
+#include <ti/drivers/timer/TimerSupport.h>
 
 #include <ti/devices/cc32xx/inc/hw_types.h>
 #include <ti/devices/cc32xx/inc/hw_memmap.h>
@@ -61,16 +62,6 @@
  */
 #define timerMaskShift(baseAddress) ((((baseAddress) & 0XF000) >> 12) * 2)
 
-void TimerCC32XX_close(Timer_Handle handle);
-int_fast16_t TimerCC32XX_control(Timer_Handle handle,
-     uint_fast16_t cmd, void *arg);
-uint32_t TimerCC32XX_getCount(Timer_Handle handle);
-void TimerCC32XX_init(Timer_Handle handle);
-Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params);
-int32_t TimerCC32XX_setPeriod(Timer_Handle handle, Timer_PeriodUnits periodUnits, uint32_t period);
-int32_t TimerCC32XX_start(Timer_Handle handle);
-void TimerCC32XX_stop(Timer_Handle handle);
-
 /* Internal static Functions */
 static void initHw(Timer_Handle handle);
 static void getPrescaler(Timer_Handle handle);
@@ -79,16 +70,14 @@ static int postNotifyFxn(unsigned int eventType, uintptr_t eventArg,
     uintptr_t clientArg);
 static void TimerCC32XX_hwiIntFunction(uintptr_t arg);
 
-/* Function table for TimerCC32XX implementation */
-const Timer_FxnTable TimerCC32XX_fxnTable = {
-    .closeFxn     = TimerCC32XX_close,
-    .openFxn      = TimerCC32XX_open,
-    .startFxn     = TimerCC32XX_start,
-    .stopFxn      = TimerCC32XX_stop,
-    .initFxn      = TimerCC32XX_init,
-    .getCountFxn  = TimerCC32XX_getCount,
-    .controlFxn   = TimerCC32XX_control,
-    .setPeriodFxn = TimerCC32XX_setPeriod
+extern uint_least8_t Timer_count;
+
+/* Default Parameters */
+static const Timer_Params defaultParams = {
+    .timerMode     = Timer_ONESHOT_BLOCKING,
+    .periodUnits   = Timer_PERIOD_COUNTS,
+    .timerCallback = NULL,
+    .period        = (uint16_t) ~0
 };
 
 /*
@@ -284,15 +273,15 @@ bool TimerCC32XX_allocateTimerResource(uint32_t baseAddress,
 }
 
 /*
- *  ======== TimerCC32XX_close ========
+ *  ======== Timer_close ========
  */
-void TimerCC32XX_close(Timer_Handle handle)
+void Timer_close(Timer_Handle handle)
 {
     TimerCC32XX_Object        *object = handle->object;
     TimerCC32XX_HWAttrs const *hwAttrs = handle->hwAttrs;
 
     /* Stopping the Timer before closing it */
-    TimerCC32XX_stop(handle);
+    Timer_stop(handle);
 
     Power_unregisterNotify(&(object->notifyObj));
 
@@ -303,19 +292,19 @@ void TimerCC32XX_close(Timer_Handle handle)
         object->hwiHandle = NULL;
     }
 
-    if (object->timerSem) {
+    if (object->semHandle) {
 
-        SemaphoreP_delete(object->timerSem);
-        object->timerSem = NULL;
+        SemaphoreP_destruct(&(object->semStruct));
+        object->semHandle = NULL;
     }
 
     TimerCC32XX_freeTimerResource(hwAttrs->baseAddress, hwAttrs->subTimer);
 }
 
 /*
- *  ======== TimerCC32XX_control ========
+ *  ======== Timer_control ========
  */
-int_fast16_t TimerCC32XX_control(Timer_Handle handle,
+int_fast16_t Timer_control(Timer_Handle handle,
         uint_fast16_t cmd, void *arg)
 {
     return (Timer_STATUS_UNDEFINEDCMD);
@@ -342,9 +331,9 @@ void TimerCC32XX_freeTimerResource(uint32_t baseAddress,
 }
 
 /*
- *  ======== TimerCC32XX_getCount ========
+ *  ======== Timer_getCount ========
  */
-uint32_t TimerCC32XX_getCount(Timer_Handle handle)
+uint32_t Timer_getCount(Timer_Handle handle)
 {
     TimerCC32XX_HWAttrs const *hWAttrs = handle->hwAttrs;
     TimerCC32XX_Object  const *object = handle->object;
@@ -379,32 +368,41 @@ void TimerCC32XX_hwiIntFunction(uintptr_t arg)
 
     /* Hwi is not created when using Timer_FREE_RUNNING */
     if (object->mode != Timer_CONTINUOUS_CALLBACK) {
-        TimerCC32XX_stop(handle);
+        Timer_stop(handle);
     }
 
     if (object-> mode != Timer_ONESHOT_BLOCKING) {
-        object->callBack(handle);
+        object->callBack(handle, Timer_STATUS_SUCCESS);
     }
 }
 
 /*
- *  ======== TimerCC32XX_init ========
+ *  ======== Timer_open ========
  */
-void TimerCC32XX_init(Timer_Handle handle)
+Timer_Handle Timer_open(uint_least8_t index, Timer_Params *params)
 {
-    return;
-}
-
-/*
- *  ======== TimerCC32XX_open ========
- */
-Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params)
-{
-    TimerCC32XX_Object        *object = handle->object;
-    TimerCC32XX_HWAttrs const *hwAttrs = handle->hwAttrs;
-    SemaphoreP_Params          semParams;
+    Timer_Handle               handle = NULL;
+    TimerCC32XX_Object        *object;
+    TimerCC32XX_HWAttrs const *hwAttrs;
     HwiP_Params                hwiParams;
     ClockP_FreqHz              clockFreq;
+
+    /* Verify driver index and state */
+    if (index < Timer_count) {
+        /* If parameters are NULL use defaults */
+        if (params == NULL) {
+            params = (Timer_Params *) &defaultParams;
+        }
+
+        /* Get handle for this driver instance */
+        handle = (Timer_Handle) &(Timer_config[index]);
+        object = handle->object;
+        hwAttrs = handle->hwAttrs;
+    }
+    else
+    {
+        return (NULL);
+    }
 
     /* Check for valid parameters */
     if (((params->timerMode == Timer_ONESHOT_CALLBACK ||
@@ -449,7 +447,7 @@ Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params)
 
         if (object->hwiHandle == NULL) {
 
-            TimerCC32XX_close(handle);
+            Timer_close(handle);
 
             return (NULL);
         }
@@ -459,13 +457,11 @@ Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params)
     /* Creating the semaphore if mode is blocking */
     if (params->timerMode == Timer_ONESHOT_BLOCKING) {
 
-        SemaphoreP_Params_init(&semParams);
-        semParams.mode = SemaphoreP_Mode_BINARY;
-        object->timerSem = SemaphoreP_create(0, &semParams);
+        object->semHandle = SemaphoreP_constructBinary(&(object->semStruct), 0);
 
-        if (object->timerSem == NULL) {
+        if (object->semHandle == NULL) {
 
-            TimerCC32XX_close(handle);
+            Timer_close(handle);
 
             return (NULL);
         }
@@ -479,7 +475,7 @@ Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params)
         /* Checks if the calculated period will fit in 32-bits */
         if (object->period >= ((uint32_t) ~0) / (clockFreq.lo / 1000000)) {
 
-            TimerCC32XX_close(handle);
+            Timer_close(handle);
 
             return (NULL);
         }
@@ -491,7 +487,7 @@ Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params)
         /* If (object->period) > clockFreq */
         if ((object->period = clockFreq.lo / object->period) == 0) {
 
-            TimerCC32XX_close(handle);
+            Timer_close(handle);
 
             return (NULL);
         }
@@ -505,7 +501,7 @@ Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params)
             /* 24-bit resolution for the half timer */
             if (object->period >= (1 << 24)) {
 
-                TimerCC32XX_close(handle);
+                Timer_close(handle);
 
                 return (NULL);
             }
@@ -520,86 +516,31 @@ Timer_Handle TimerCC32XX_open(Timer_Handle handle, Timer_Params *params)
 }
 
 /*
- *  ======== TimerCC32XX_setPeriod =======
-  */
-int32_t TimerCC32XX_setPeriod(Timer_Handle handle, Timer_PeriodUnits periodUnits, uint32_t period)
-{
-    TimerCC32XX_HWAttrs const *hwAttrs= handle->hwAttrs;
-    TimerCC32XX_Object        *object = handle->object;
-    ClockP_FreqHz              clockFreq;
-
-    /* Formality; CC32XX System Clock fixed to 80.0 MHz */
-    ClockP_getCpuFreq(&clockFreq);
-
-    if (periodUnits == Timer_PERIOD_US) {
-
-        /* Checks if the calculated period will fit in 32-bits */
-        if (period >= ((uint32_t) ~0) / (clockFreq.lo / 1000000)) {
-
-            return (Timer_STATUS_ERROR);
-        }
-
-        period = period * (clockFreq.lo / 1000000);
-    }
-    else if (periodUnits == Timer_PERIOD_HZ) {
-
-        /* If period > clockFreq */
-        if ((period = clockFreq.lo / period) == 0) {
-
-            return (Timer_STATUS_ERROR);
-        }
-    }
-
-    /* If using a half timer */
-    if (hwAttrs->subTimer != TimerCC32XX_timer32) {
-
-        if (period > 0xFFFF) {
-
-            /* 24-bit resolution for the half timer */
-            if (period >= (1 << 24)) {
-
-                return (Timer_STATUS_ERROR);
-            }
-        }
-    }
-
-    object->period = period;
-
-    if (hwAttrs->subTimer != TimerCC32XX_timer32) {
-        getPrescaler(handle);
-    }
-
-    /* Writing the PSR Register has no effect for full width 32-bit mode */
-    TimerPrescaleSet(hwAttrs->baseAddress, object->timer, object->prescaler);
-    TimerLoadSet(hwAttrs->baseAddress, object->timer, object->period);
-
-    return (Timer_STATUS_SUCCESS);
-
-
-}
-
-/*
- *  ======== TimerCC32XX_start ========
+ *  ======== TimerSupport_timerDisable ========
  */
-int32_t TimerCC32XX_start(Timer_Handle handle)
+void TimerSupport_timerDisable(Timer_Handle handle)
 {
     TimerCC32XX_HWAttrs const *hwAttrs = handle->hwAttrs;
     TimerCC32XX_Object        *object = handle->object;
     uint32_t                   interruptMask;
-    uintptr_t                  key;
 
     interruptMask = object->timer & (TIMER_TIMB_TIMEOUT | TIMER_TIMA_TIMEOUT);
 
-    key = HwiP_disable();
+    TimerDisable(hwAttrs->baseAddress, object->timer);
+    TimerIntDisable(hwAttrs->baseAddress, interruptMask);
+    Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
+}
 
-    if (object->isRunning) {
+/*
+ *  ======== TimerSupport_timerEnable ========
+ */
+void TimerSupport_timerEnable(Timer_Handle handle)
+{
+    TimerCC32XX_HWAttrs const *hwAttrs = handle->hwAttrs;
+    TimerCC32XX_Object        *object = handle->object;
+    uint32_t                   interruptMask;
 
-        HwiP_restore(key);
-
-        return (Timer_STATUS_ERROR);
-    }
-
-    object->isRunning = true;
+    interruptMask = object->timer & (TIMER_TIMB_TIMEOUT | TIMER_TIMA_TIMEOUT);
 
     if (object->hwiHandle) {
 
@@ -617,50 +558,36 @@ int32_t TimerCC32XX_start(Timer_Handle handle)
     }
 
     TimerEnable(hwAttrs->baseAddress, object->timer);
-
-    HwiP_restore(key);
-
-    if (object->mode == Timer_ONESHOT_BLOCKING) {
-
-        /* Pend forever, ~0 */
-        SemaphoreP_pend(object->timerSem, ~0);
-    }
-
-    return (Timer_STATUS_SUCCESS);
 }
 
 /*
- *  ======== TimerCC32XX_stop ========
+ *  ======== TimerSupport_timerFullWidth ========
  */
-void TimerCC32XX_stop(Timer_Handle handle)
+bool TimerSupport_timerFullWidth(Timer_Handle handle)
+{
+    TimerCC32XX_HWAttrs const *hwAttrs = handle->hwAttrs;
+
+    if (hwAttrs->subTimer == TimerCC32XX_timer32)
+    {
+        return (true);
+    }
+
+    return (false);
+}
+
+/*
+ *  ======== TimerSupport_timerLoad ========
+ */
+void TimerSupport_timerLoad(Timer_Handle handle)
 {
     TimerCC32XX_HWAttrs const *hwAttrs = handle->hwAttrs;
     TimerCC32XX_Object        *object = handle->object;
-    uint32_t                   interruptMask;
-    uintptr_t                  key;
-    bool                       flag = false;
 
-    interruptMask = object->timer & (TIMER_TIMB_TIMEOUT | TIMER_TIMA_TIMEOUT);
-
-    key = HwiP_disable();
-
-    if (object->isRunning) {
-
-        object->isRunning = false;
-
-        /* Post the Semaphore when called from the Hwi */
-        if (object->mode == Timer_ONESHOT_BLOCKING) {
-            flag = true;
-        }
-
-        TimerDisable(hwAttrs->baseAddress, object->timer);
-        TimerIntDisable(hwAttrs->baseAddress, interruptMask);
-        Power_releaseConstraint(PowerCC32XX_DISALLOW_LPDS);
+    if (hwAttrs->subTimer != TimerCC32XX_timer32) {
+        getPrescaler(handle);
     }
 
-    HwiP_restore(key);
-
-    if (flag) {
-        SemaphoreP_post(object->timerSem);
-    }
+    /* Writing the PSR Register has no effect for full width 32-bit mode */
+    TimerPrescaleSet(hwAttrs->baseAddress, object->timer, object->prescaler);
+    TimerLoadSet(hwAttrs->baseAddress, object->timer, object->period);
 }

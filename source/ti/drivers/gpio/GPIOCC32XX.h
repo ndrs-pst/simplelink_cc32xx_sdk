@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,98 +43,12 @@
  *  Refer to @ref GPIO.h for a complete description of the GPIO
  *  driver APIs provided and examples of their use.
  *
- *  ### CC32xx GPIO Driver Configuration #
+ *  There are some CC32XX-specific configuration values that can be used when
+ *  calling GPIO_setConfig, listed below. All other macros should be used
+ *  directly from GPIO.h.
  *
- *  In order to use the GPIO APIs, the application is required
- *  to provide 3 structures in the ti_drivers_config.c file:
- *
- *  1.  An array of @ref GPIO_PinConfig elements that defines the
- *  initial configuration of each pin used by the application. A
- *  pin is referenced in the application by its corresponding index in this
- *  array. The pin type (that is, INPUT/OUTPUT), its initial state (that is
- *  OUTPUT_HIGH or LOW), interrupt behavior (RISING/FALLING edge, etc.)
- *  (see @ref GPIO_PinConfigSettings), and
- *  device specific pin identification (see @ref GPIOCC32XX_PinConfigIds)
- *  are configured in each element of this array.
- *  Below is an CC32XX device specific example of the GPIO_PinConfig array:
- *  @code
- *  //
- *  // Array of Pin configurations
- *  // NOTE: The order of the pin configurations must coincide with what was
- *  //       defined in CC3220SF_LAUNCHXL.h
- *  // NOTE: Pins not used for interrupts should be placed at the end of the
- *  //       array.  Callback entries can be omitted from callbacks array to
- *  //       reduce memory usage.
- *  //
- *  GPIO_PinConfig gpioPinConfigs[] = {
- *      // input pins with callbacks
- *      // CC3220SF_LAUNCHXL_GPIO_SW2
- *      GPIOCC32XX_GPIO_22 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
- *      // CC3220SF_LAUNCHXL_GPIO_SW3
- *      GPIOCC32XX_GPIO_13 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
- *
- *      // output pins
- *      // CC3220SF_LAUNCHXL_GPIO_LED_D7
- *      GPIOCC32XX_GPIO_09 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
- *  };
- *  @endcode
- *
- *  2.  An array of @ref GPIO_CallbackFxn elements that is used to store
- *  callback function pointers for GPIO pins configured with interrupts.
- *  The indexes for these array elements correspond to the pins defined
- *  in the @ref GPIO_PinConfig array. These function pointers can be defined
- *  statically by referencing the callback function name in the array
- *  element, or dynamically, by setting the array element to NULL and using
- *  GPIO_setCallback() at runtime to plug the callback entry.
- *  Pins not used for interrupts can be omitted from the callback array to
- *  reduce memory usage (if they are placed at the end of the @ref
- *  GPIO_PinConfig array). The callback function syntax should match the
- *  following:
- *  @code
- *  void (*GPIO_CallbackFxn)(unsigned int index);
- *  @endcode
- *  The index parameter is the same index that was passed to
- *  GPIO_setCallback(). This allows the same callback function to be used
- *  for multiple GPIO interrupts, by using the index to identify the GPIO
- *  that caused the interrupt.
- *  Below is a CC32XX device specific example of the @ref GPIO_CallbackFxn
- *  array:
- *  @code
- *  //
- *  // Array of callback function pointers
- *  // NOTE: The order of the pin configurations must coincide with what was
- *  //       defined in CC3220SF_LAUNCHXL.h
- *  // NOTE: Pins not used for interrupts can be omitted from callbacks array to
- *  //       reduce memory usage (if placed at end of gpioPinConfigs array).
- *  //
- *  GPIO_CallbackFxn gpioCallbackFunctions[] = {
- *      NULL,  // CC3220SF_LAUNCHXL_GPIO_SW2
- *      NULL   // CC3220SF_LAUNCHXL_GPIO_SW3
- *  };
- *  @endcode
- *
- *  3.  The device specific GPIOCC32XX_Config structure that tells the GPIO
- *  driver where the two aforementioned arrays are and the number of elements
- *  in each. The interrupt priority of all pins configured to generate
- *  interrupts is also specified here. Values for the interrupt priority are
- *  device-specific. You should be well-acquainted with the interrupt
- *  controller used in your device before setting this parameter to a
- *  non-default value. The sentinel value of (~0) (the default value) is
- *  used to indicate that the lowest possible priority should be used.
- *  Below is an example of an initialized GPIOCC32XX_Config
- *  structure:
- *  @code
- *  const GPIOCC32XX_Config GPIOCC32XX_config = {
- *      .pinConfigs = (GPIO_PinConfig *)gpioPinConfigs,
- *      .callbacks = (GPIO_CallbackFxn *)gpioCallbackFunctions,
- *      .numberOfPinConfigs = sizeof(gpioPinConfigs)/sizeof(GPIO_PinConfig),
- *      .numberOfCallbacks = sizeof(gpioCallbackFunctions)/sizeof(GPIO_CallbackFxn),
- *      .intPriority = (~0)
- *  };
- *  @endcode
- *
- * \note GPIOCC32XX_GPIO_26 & GPIOCC32XX_GPIO_27 can only be used as output
- * pins.
+ *  \note GPIOCC32XX_GPIO_26 & GPIOCC32XX_GPIO_27 can only be used as output
+ *  pins.
  *
  *  ============================================================================
  */
@@ -145,116 +59,82 @@
 #include <stdint.h>
 #include <ti/drivers/GPIO.h>
 
+#include <ti/devices/cc32xx/inc/hw_types.h>
+#include <ti/devices/cc32xx/driverlib/gpio.h>
+#include <ti/devices/cc32xx/driverlib/pin.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/*!
- *  @brief  GPIO device specific driver configuration structure
- *
- *  The device specific GPIOCC32XX_Config structure that tells the GPIO
- *  driver where the two aforementioned arrays are and the number of elements
- *  in each. The interrupt priority of all pins configured to generate
- *  interrupts is also specified here. Values for the interrupt priority are
- *  device-specific. You should be well-acquainted with the interrupt
- *  controller used in your device before setting this parameter to a
- *  non-default value. The sentinel value of (~0) (the default value) is
- *  used to indicate that the lowest possible priority should be used.
- *
- *  Below is an example of an initialized GPIOCC32XX_Config
- *  structure:
- *  @code
- *  const GPIOCC32XX_Config GPIOCC32XX_config = {
- *      .pinConfigs = (GPIO_PinConfig *)gpioPinConfigs,
- *      .callbacks = (GPIO_CallbackFxn *)gpioCallbackFunctions,
- *      .numberOfPinConfigs = sizeof(gpioPinConfigs)/sizeof(GPIO_PinConfig),
- *      .numberOfCallbacks = sizeof(gpioCallbackFunctions)/sizeof(GPIO_CallbackFxn),
- *      .intPriority = (~0)
- *  };
- *  @endcode
- */
-typedef struct GPIOCC32XX_Config {
-    /*! Pointer to the board's GPIO_PinConfig array */
-    GPIO_PinConfig  *pinConfigs;
-
-    /*! Pointer to the board's GPIO_CallbackFxn array */
-    GPIO_CallbackFxn  *callbacks;
-
-    /*! Number of GPIO_PinConfigs defined */
-    uint32_t numberOfPinConfigs;
-
-    /*! Number of GPIO_Callbacks defined */
-    uint32_t numberOfCallbacks;
-
-    /*!
-     *  Interrupt priority used for call back interrupts.
-     *
-     *  intPriority is the interrupt priority, as defined by the
-     *  underlying OS.  It is passed unmodified to the underlying OS's
-     *  interrupt handler creation code, so you need to refer to the OS
-     *  documentation for usage.  If the driver uses the ti.dpl
-     *  interface instead of making OS calls directly, then the HwiP port
-     *  handles the interrupt priority in an OS specific way.  In the case
-     *  of the SYS/BIOS port, intPriority is passed unmodified to Hwi_create().
-     *
-     *  Setting ~0 will configure the lowest possible priority
-     */
-    uint32_t intPriority;
-} GPIOCC32XX_Config;
-
-/*!
- *  \defgroup GPIOCC32XX_PinConfigIds GPIO pin identification macros used to configure GPIO pins
- *  @{
- */
-/**
- *  @name Device specific GPIO port/pin identifiers to be used within the board's GPIO_PinConfig table.
- *  @{
-*/
-#define GPIOCC32XX_EMPTY_PIN  0x0000    /*!< @hideinitializer */
-
-#define GPIOCC32XX_GPIO_00    0x0001    /*!< PIN 50 */
-#define GPIOCC32XX_GPIO_01    0x0002    /*!< PIN 55 */
-#define GPIOCC32XX_GPIO_02    0x0004    /*!< PIN 57 */
-#define GPIOCC32XX_GPIO_03    0x0008    /*!< PIN 58 */
-#define GPIOCC32XX_GPIO_04    0x0010    /*!< PIN 59 */
-#define GPIOCC32XX_GPIO_05    0x0020    /*!< PIN 60 */
-#define GPIOCC32XX_GPIO_06    0x0040    /*!< PIN 61 */
-#define GPIOCC32XX_GPIO_07    0x0080    /*!< PIN 62 */
-
-#define GPIOCC32XX_GPIO_08    0x0101    /*!< PIN 63 */
-#define GPIOCC32XX_GPIO_09    0x0102    /*!< PIN 64 */
-#define GPIOCC32XX_GPIO_10    0x0104    /*!< PIN 1  */
-#define GPIOCC32XX_GPIO_11    0x0108    /*!< PIN 2  */
-#define GPIOCC32XX_GPIO_12    0x0110    /*!< PIN 3  */
-#define GPIOCC32XX_GPIO_13    0x0120    /*!< PIN 4  */
-#define GPIOCC32XX_GPIO_14    0x0140    /*!< PIN 5  */
-#define GPIOCC32XX_GPIO_15    0x0180    /*!< PIN 6  */
-
-#define GPIOCC32XX_GPIO_16    0x0201    /*!< PIN 7  */
-#define GPIOCC32XX_GPIO_17    0x0202    /*!< PIN 8  */
-#define GPIOCC32XX_GPIO_22    0x0240    /*!< PIN 15 */
-#define GPIOCC32XX_GPIO_23    0x0280    /*!< PIN 16 */
-
-#define GPIOCC32XX_GPIO_24    0x0301    /*!< PIN 17 */
-#define GPIOCC32XX_GPIO_25    0x0302    /*!< PIN 21 */
-#define GPIOCC32XX_GPIO_26    0x0304    /*!< PIN 29 */
-#define GPIOCC32XX_GPIO_27    0x0308    /*!< PIN 30 */
-#define GPIOCC32XX_GPIO_28    0x0310    /*!< PIN 18 */
-#define GPIOCC32XX_GPIO_29    0x0320    /*!< PIN 20 */
-#define GPIOCC32XX_GPIO_30    0x0340    /*!< PIN 53 */
-#define GPIOCC32XX_GPIO_31    0x0380    /*!< PIN 45 */
-
-#define GPIOCC32XX_GPIO_32    0x0401    /*!< PIN 52 */
-/** @} */
 
 /**
  *  @name CC32xx device specific GPIO_PinConfig macros
  *  @{
  */
-#define GPIOCC32XX_USE_STATIC 0x8000    /*!< @hideinitializer use statically-defined parking state */
+/*! @hideinitializer Do not configure this pin. setConfig calls will return immediately */
+#define GPIOCC32XX_DO_NOT_CONFIG    0x80000000
+
+/*! @hideinitializer Use statically-defined parking state from Power driver, instead of current pin value */
+#define GPIOCC32XX_CFG_USE_STATIC   0x4000
 /** @} */
 
-/** @} end of GPIOCC32XX_PinConfigIds group */
+/* We don't define this value on purpose - any unsupported values will cause a
+ * compile-time error. If your compiler tells you that this macro is missing,
+ * you are trying to use an unsupported option.
+ *
+ * See below for which options are unsupported.
+ */
+#undef GPIOCC32XX_CFG_OPTION_NOT_SUPPORTED
+
+/* To mux on CC32XX, use the PinTypeXXX functions from driverlib. */
+#define GPIO_MUX_GPIO_INTERNAL              GPIOCC32XX_CFG_OPTION_NOT_SUPPORTED
+
+/* The following options are not supported by CC32XX IO hardware */
+#define GPIO_CFG_SLEW_NORMAL_INTERNAL       GPIOCC32XX_CFG_OPTION_NOT_SUPPORTED
+#define GPIO_CFG_SLEW_REDUCED_INTERNAL      GPIOCC32XX_CFG_OPTION_NOT_SUPPORTED
+#define GPIO_CFG_INVERT_OFF_INTERNAL        GPIOCC32XX_CFG_OPTION_NOT_SUPPORTED
+#define GPIO_CFG_INVERT_ON_INTERNAL         GPIOCC32XX_CFG_OPTION_NOT_SUPPORTED
+
+/* See GPIO.h for details about these configuration values */
+
+/* Interrupt config takes bits 0-2.
+ * 0x0 is used for FALLING, which makes this setting difficult to detect. The
+ * highest value here is 6 and 7 is still only 3 bits, so we add 1 to shift the
+ * value range and we can then use 0 for 'no configured interrupts' as usual.
+ */
+#define GPIO_CFG_INT_NONE_INTERNAL          0
+#define GPIO_CFG_INT_LOW_INTERNAL           (GPIO_LOW_LEVEL + 1)
+#define GPIO_CFG_INT_HIGH_INTERNAL          (GPIO_HIGH_LEVEL + 1)
+#define GPIO_CFG_INT_FALLING_INTERNAL       (GPIO_FALLING_EDGE + 1)
+#define GPIO_CFG_INT_RISING_INTERNAL        (GPIO_RISING_EDGE + 1)
+#define GPIO_CFG_INT_BOTH_EDGES_INTERNAL    (GPIO_BOTH_EDGES + 1)
+
+/* Int enabled stored in bit 3 */
+#define GPIO_CFG_INT_ENABLE_INTERNAL        0x8
+#define GPIO_CFG_INT_DISABLE_INTERNAL       0
+
+/* General options, stored in bits 4-11 */
+#define GPIO_CFG_INPUT_INTERNAL             (PIN_TYPE_STD | PIN_DIR_MODE_IN)
+#define GPIO_CFG_OUTPUT_INTERNAL            (PIN_TYPE_STD | PIN_DIR_MODE_OUT)
+#define GPIO_CFG_OUTPUT_OPEN_DRAIN_INTERNAL (PIN_TYPE_OD | PIN_DIR_MODE_OUT)
+
+#define GPIO_CFG_PULL_NONE_INTERNAL         PIN_TYPE_STD
+#define GPIO_CFG_PULL_UP_INTERNAL           PIN_TYPE_STD_PU
+#define GPIO_CFG_PULL_DOWN_INTERNAL         PIN_TYPE_STD_PD
+
+#define GPIO_CFG_DRVSTR_LOW_INTERNAL        PIN_STRENGTH_2MA
+#define GPIO_CFG_DRVSTR_MED_INTERNAL        PIN_STRENGTH_4MA
+#define GPIO_CFG_DRVSTR_HIGH_INTERNAL       PIN_STRENGTH_6MA
+
+#define GPIO_CFG_NO_DIR_INTERNAL            PIN_TYPE_ANALOG
+
+/* Hysteresis enable in bit 12 */
+#define GPIO_CFG_HYSTERESIS_OFF_INTERNAL    0x0
+#define GPIO_CFG_HYSTERESIS_ON_INTERNAL     0x1000
+
+/* Default enable in bit 13 */
+#define GPIO_CFG_OUTPUT_DEFAULT_LOW_INTERNAL     0x0
+#define GPIO_CFG_OUTPUT_DEFAULT_HIGH_INTERNAL    0x2000
 
 #ifdef __cplusplus
 }

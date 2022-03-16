@@ -32,14 +32,15 @@
 #include <ti/net/ota/otauser.h>
 #include <ti/net/ota/source/OtaJson.h>
 #include <ti/net/ota/source/CdnClient.h>
+#include <ti/net/ota/source/OtaArchive.h>
 
 #define JSON_OBJ_SIZE               (2048)
 
 /* Max value length of the different fields in the ota.cmd file (in bytes) */
-#define MAX_FILENAME_LENGTH         (100)
+#define MAX_FILENAME_LENGTH         (MAX_FILE_NAME_SIZE)
 #define MAX_SIGNATURE_LENGTH        (350)
 #define MAX_SHA256DIGEST_LENGTH     (64)
-#define MAX_CERTIFICATE_LENGTH      (20)
+#define MAX_CERTIFICATE_LENGTH      (MAX_FILE_NAME_SIZE)
 #define MAX_SECURED_LENGTH          (4)
 #define MAX_BUNDLE_LENGTH           (4)
 
@@ -249,7 +250,7 @@ int16_t OtaJson_getFilename (OtaArchive_BundleFileInfo_t *CurrBundleFile)
 
     /* Parsing file name failed, free dynamic memory and return error */
     OtaJson_destroy();
-    return -1;
+    return retVal;
 }
 
 int16_t OtaJson_getSignature (OtaArchive_BundleFileInfo_t *CurrBundleFile)
@@ -281,7 +282,7 @@ int16_t OtaJson_getSignature (OtaArchive_BundleFileInfo_t *CurrBundleFile)
 
     /* Parsing signature failed, free dynamic memory and return error */
     OtaJson_destroy();
-    return -1;
+    return retVal;
 }
 
 int16_t OtaJson_getSha256Digest (OtaArchive_BundleFileInfo_t *CurrBundleFile)
@@ -308,7 +309,7 @@ int16_t OtaJson_getSha256Digest (OtaArchive_BundleFileInfo_t *CurrBundleFile)
 
     /* Parsing SHA 256 digest failed, free dynamic memory and return error */
     OtaJson_destroy();
-    return -1;
+    return retVal;
 }
 
 int16_t OtaJson_getCertificate (OtaArchive_BundleFileInfo_t *CurrBundleFile)
@@ -331,7 +332,7 @@ int16_t OtaJson_getCertificate (OtaArchive_BundleFileInfo_t *CurrBundleFile)
 
     /* Parsing certificate failed, free dynamic memory and return error */
     OtaJson_destroy();
-    return -1;
+    return retVal;
 }
 
 int16_t OtaJson_getSecureField (OtaArchive_BundleFileInfo_t *CurrBundleFile)
@@ -354,7 +355,7 @@ int16_t OtaJson_getSecureField (OtaArchive_BundleFileInfo_t *CurrBundleFile)
 
     /* Parsing secure field failed, free dynamic memory and return error */
     OtaJson_destroy();
-    return -1;
+    return retVal;
 }
 
 int16_t OtaJson_getBundleField (OtaArchive_BundleFileInfo_t *CurrBundleFile)
@@ -377,7 +378,7 @@ int16_t OtaJson_getBundleField (OtaArchive_BundleFileInfo_t *CurrBundleFile)
 
     /* Parsing bundle field failed, free dynamic memory and return error */
     OtaJson_destroy();
-    return -1;
+    return retVal;
 }
 
 /* OtaJson_FindStartObject - go to the first '{' */

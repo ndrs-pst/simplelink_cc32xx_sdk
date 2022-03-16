@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, Texas Instruments Incorporated
+ * Copyright (c) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -130,8 +130,6 @@ typedef enum {
     TimerCC32XX_timer32  = 0x0003,    /*!< Full width timer   */
 } TimerCC32XX_SubTimer;
 
-extern const Timer_FxnTable TimerCC32XX_fxnTable;
-
 /*!
  *  @brief TimerCC32XX Hardware Attributes
  *
@@ -164,17 +162,9 @@ extern const Timer_FxnTable TimerCC32XX_fxnTable;
  *  @endcode
  */
 typedef struct {
-    /*! The base address of the timer peripheral. */
-    uint32_t             baseAddress;
-
+    TIMER_BASE_HWATTRS
     /*! Specifies a full width timer or half-width timer. */
     TimerCC32XX_SubTimer subTimer;
-
-    /*! The hardware interrupt number for the timer peripheral. */
-    uint32_t             intNum;
-
-    /*! The interrupt priority. */
-    uint32_t             intPriority;
 } TimerCC32XX_HWAttrs;
 
 /*!
@@ -183,15 +173,7 @@ typedef struct {
  *  The application must not access any member variables of this structure!
  */
 typedef struct {
-    HwiP_Handle         hwiHandle;
-    Power_NotifyObj     notifyObj;
-    SemaphoreP_Handle   timerSem;
-    Timer_CallBackFxn   callBack;
-    Timer_Mode          mode;
-    uint32_t            timer;
-    uint32_t            period;
-    uint32_t            prescaler;
-    bool                isRunning;
+    TIMER_BASE_OBJECT
 } TimerCC32XX_Object;
 
 /*!

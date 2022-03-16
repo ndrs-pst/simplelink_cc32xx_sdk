@@ -37,7 +37,7 @@ function init()
     }
 }
 /*
- *  @(#) iar.targets.arm; 1, 0, 0,0; 8-9-2019 17:14:57; /db/ztree/library/trees/xdctargets/xdctargets-v00/src/ xlibrary
+ *  @(#) iar.targets.arm; 1, 0, 0,; 7-28-2021 06:57:36; /db/ztree/library/trees/xdctargets/xdctargets-w20/src/ xlibrary
 
  */
 

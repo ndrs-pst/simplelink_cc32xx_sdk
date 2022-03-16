@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019, Texas Instruments Incorporated
+ * Copyright (c) 2016-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -171,6 +171,10 @@
 
 #include <stdint.h>
 
+#include <ti/drivers/dpl/HwiP.h>
+#include <ti/drivers/dpl/SemaphoreP.h>
+#include <ti/drivers/Power.h>
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -252,7 +256,7 @@ typedef enum {
                                        block the calling thread's execution until
                                        the timer generates an interrupt. If
                                        Timer_stop() is called, the calling thread
-                                       will become unblockedimmediately. The
+                                       will become unblocked immediately. The
                                        behavior of the timer in this mode is similar
                                        to a sleep function.
                                         */
@@ -291,17 +295,17 @@ typedef enum {
  *  @brief  Timer callback function
  *
  *  User definable callback function prototype. The timer driver will call the
- *  defined function and pass in the timer driver's handle and the pointer to the
- *  user-specified the argument.
+ *  defined function and pass in the timer driver's handle and the status code.
  *
  *  @param[in]  handle         Timer_Handle
+ *  @param[in]  status         Status of timer interrupt
  */
-typedef void (*Timer_CallBackFxn)(Timer_Handle handle);
+typedef void (*Timer_CallBackFxn)(Timer_Handle handle, int_fast16_t status);
 
 /*!
  *  @brief Timer Parameters
  *
- *  Timer parameters are used to with the Timer_open() call. Default values for
+ *  Timer parameters are used with the Timer_open() call. Default values for
  *  these parameters are set using Timer_Params_init().
  *
  */
@@ -320,87 +324,52 @@ typedef struct {
     uint32_t             period;
 } Timer_Params;
 
-/*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_control().
- */
-typedef int_fast16_t (*Timer_ControlFxn)(Timer_Handle handle,
-    uint_fast16_t cmd, void *arg);
+/*! @cond NODOC */
+#define TIMER_BASE_OBJECT \
+    /* Timer control variables */ \
+    Timer_Mode                 mode;         /* Blocking or Callback mode */ \
+    Timer_CallBackFxn          callBack;     /* Callback function pointer */ \
+    Power_NotifyObj            notifyObj;    /* Ptr to current I2C transaction */ \
+    uint32_t                   timer; \
+    uint32_t                   period; \
+    uint32_t                   prescaler; \
+    \
+    /* Timer RTOS objects */ \
+    HwiP_Handle                hwiHandle;    /* Hwi object handle */ \
+    SemaphoreP_Struct          semStruct;    /* Grants exclusive access to I2C */ \
+    SemaphoreP_Handle          semHandle;    /* Signal I2C transfer complete */ \
+    \
+    bool                       isRunning;    /* Flag to show module is open */ \
+/*! @endcond */
 
 /*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_close().
- */
-typedef void (*Timer_CloseFxn)(Timer_Handle handle);
-
-/*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_getCount().
- */
-typedef uint32_t (*Timer_GetCountFxn)(Timer_Handle handle);
-
-/*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_init().
- */
-typedef void (*Timer_InitFxn)(Timer_Handle handle);
-
-/*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_open().
- */
-typedef Timer_Handle (*Timer_OpenFxn)(Timer_Handle handle,
-    Timer_Params *params);
-
-/*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_setPeriod().
- */
-typedef int32_t (*Timer_SetPeriodFxn)(Timer_Handle handle,
-    Timer_PeriodUnits periodUnits, uint32_t period);
-
-/*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_start().
- */
-typedef int32_t (*Timer_StartFxn)(Timer_Handle handle);
-
-/*!
- *  @brief      A function pointer to a driver specific implementation of
- *              Timer_stop().
- */
-typedef void (*Timer_StopFxn)(Timer_Handle handle);
-
-/*!
- *  @brief      The definition of a timer function table that contains the
- *              required set of functions to control a specific timer driver
- *              implementation.
+ *  @cond NODOC
+ *  Timer Object. Applications must not access any member variables of
+ *  this structure!
  */
 typedef struct {
-    /*! Function to close the specified peripheral. */
-    Timer_CloseFxn closeFxn;
+    TIMER_BASE_OBJECT
+} Timer_Object;
+/*! @endcond */
 
-    /*! Function to implementation specific control function. */
-    Timer_ControlFxn controlFxn;
+/*! @cond NODOC */
+#define TIMER_BASE_HWATTRS \
+    /*! Timer Peripheral's base address */ \
+    uint32_t baseAddress; \
+    /*! Timer Peripheral's interrupt vector */ \
+    uint32_t intNum; \
+    /*! Timer Peripheral's interrupt priority*/ \
+    uint32_t intPriority;
+/*! @endcond */
 
-    /*! Function to get the count of the specified peripheral. */
-    Timer_GetCountFxn getCountFxn;
-
-    /*! Function to initialize the given data object. */
-    Timer_InitFxn initFxn;
-
-    /*! Function to open the specified peripheral. */
-    Timer_OpenFxn openFxn;
-
-    /*! Function to set the period of the specified peripheral. */
-    Timer_SetPeriodFxn setPeriodFxn;
-
-    /*! Function to start the specified peripheral. */
-    Timer_StartFxn startFxn;
-
-    /*! Function to stop the specified peripheral. */
-    Timer_StopFxn stopFxn;
-} Timer_FxnTable;
+/*!
+ *  @cond NODOC
+ *  Timer HWAttrs.
+ */
+typedef struct {
+    TIMER_BASE_HWATTRS
+} Timer_HWAttrs;
+/*! @endcond */
 
 /*!
  *  @brief  Timer Global configuration
@@ -414,19 +383,23 @@ typedef struct {
  *  @sa     Timer_init()
  */
 typedef struct Timer_Config_ {
-    /*! Pointer to a table of driver-specific implementations of timer APIs. */
-    Timer_FxnTable const *fxnTablePtr;
-
-    /*! Pointer to a driver specific data object. */
+    /*! Pointer to a driver-specific data object. */
     void                 *object;
 
-    /*! Pointer to a driver specific hardware attributes structure. */
+    /*! Pointer to a driver-specific hardware attributes structure. */
     void           const *hwAttrs;
 } Timer_Config;
 
 /*!
- *  @brief  Function to close a timer. The corresponding timer to the
- *          Timer_Handle becomes an available timer resource.
+ *  @cond NODOC
+ *  Timer Config.
+ */
+extern const Timer_Config Timer_config[];
+/*! @endcond */
+
+/*!
+ *  @brief  Function to close a timer. The corresponding timer
+ *          becomes an available timer resource.
  *
  *  @pre    Timer_open() has been called.
  *
@@ -437,14 +410,14 @@ typedef struct Timer_Config_ {
 extern void Timer_close(Timer_Handle handle);
 
 /*!
- *  @brief  Function performs device specific features on a given
- *          Timer_Handle.
+ *  @brief  Function performs device-specific features on a given
+ *          timer.
  *
  *  @pre    Timer_open() has been called.
  *
  *  @param[in]  handle      A Timer_Handle returned from Timer_open().
  *
- *  @param[in]  cmd         A command value defined by the driver specific
+ *  @param[in]  cmd         A command value defined by the driver-specific
  *                      implementation.
  *
  *  @param[in]  arg         A pointer to an optional R/W (read/write) argument that
@@ -462,7 +435,7 @@ extern int_fast16_t Timer_control(Timer_Handle handle, uint_fast16_t cmd,
  *  @brief  Function to get the current count of a timer. The value returned
  *          represents timer counts. The value returned is always
  *          characteristic of an up counter. This is true even if the timer
- *          peripheral is counting down. Some device specific implementations
+ *          peripheral is counting down. Some device-specific implementations
  *          may employ a prescaler in addition to this timer count.
  *
  *  @pre    Timer_open() has been called.
@@ -478,12 +451,12 @@ extern uint32_t Timer_getCount(Timer_Handle handle);
 
 
 /*!
- *  @brief  Function to initialize a timer module. This function will go through
+ *  @brief  Function to initialize a timer. This function will go through
  *          all available hardware resources and mark them as "available".
  *
- *  @pre    The Timer_config structure must exist and be persistent before this
- *          function can be called. This function must also be called before
- *          any other timer driver APIs.
+ *  @pre    The Timer_config structure must exist before this function is
+ *          called, and must be persistent. This function must be called
+ *          before any other timer driver APIs.
  *
  *  @sa     Timer_open()
  */
@@ -491,12 +464,12 @@ extern void Timer_init(void);
 
 /*!
  *  @brief  Function to initialize a given timer peripheral specified by the
- *          index argument. The Timer_Params specifies which mode the timer
- *          will operate. The accuracy of the desired period is limited by the
+ *          index argument. The Timer_Params specifies the mode the timer will
+ *          operate in. The accuracy of the desired period is limited by the
  *          the clock. For example, a 100 MHz clock will have a tick resolution
  *          of 10 nanoseconds. This function takes care of timer resource
  *          allocation. If the particular timer is available to use, the timer
- *          driver owns it and returns a Timer_Handle.
+ *          driver acquires it and returns a Timer_Handle.
  *
  *  @pre    Timer_init() has been called.
  *
@@ -506,9 +479,9 @@ extern void Timer_init(void);
  *  @param[in]  params        Pointer to an parameter block, if NULL it will use
  *                        default values.
  *
- *  @return A #Timer_Handle upon success or NULL. If the desired period results
- *          in overflow, or saturation, of the timer, NULL is returned. If the
- *          timer resource is already in use, NULL is returned.
+ *  @return A #Timer_Handle upon success, or NULL. NULL is returned if the
+ *          desired period results in overflow or saturation of the timer, or
+ *          if the timer resource is already in use.
  *
  *  @sa     Timer_init()
  *  @sa     Timer_close()
@@ -516,8 +489,7 @@ extern void Timer_init(void);
 extern Timer_Handle Timer_open(uint_least8_t index, Timer_Params *params);
 
 /*!
- *  @brief  Function to set the period of the timer module after it has been
- *          opened.
+ *  @brief  Function to set the period of a timer after it has been opened.
  *
  *  @pre    Timer_open() has been called. It is also recommended Timer_stop() has
  *          been called on an already running timer before calling this API as the
@@ -530,7 +502,7 @@ extern Timer_Handle Timer_open(uint_least8_t index, Timer_Params *params);
  *  @param[in]  period       Period value to set.
  *
  *  @retval #Timer_STATUS_SUCCESS  The setPeriod call was successful.
- *  @retval #Timer_STATUS_ERROR    The setPeriod call failed
+ *  @retval #Timer_STATUS_ERROR    The setPeriod call failed.
  *
  *  @sa     Timer_open()
  *  @sa     Timer_stop()
@@ -552,7 +524,7 @@ extern int32_t Timer_setPeriod(Timer_Handle handle, Timer_PeriodUnits periodUnit
 extern void Timer_Params_init(Timer_Params *params);
 
 /*!
- *  @brief  Function to start the timer.
+ *  @brief  Function to start a timer.
  *
  *  @pre    Timer_open() has been called.
  *
@@ -566,7 +538,7 @@ extern void Timer_Params_init(Timer_Params *params);
 extern int32_t Timer_start(Timer_Handle handle);
 
 /*!
- *  @brief  Function to stop timer. If the timer is already stopped, this
+ *  @brief  Function to stop a timer. If the timer is already stopped this
  *          function has no effect.
  *
  *  @pre    Timer_open() has been called.

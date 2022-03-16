@@ -41,20 +41,21 @@ extern "C" {
 #define OTA_ARCHIVE_VERSION    "OTA_ARCHIVE_2.0.0.4"
 
 /* RunStatus */
-#define ARCHIVE_STATUS_FORCE_READ_MORE                  (2L)
-#define ARCHIVE_STATUS_DOWNLOAD_DONE                    (1L)
-#define ARCHIVE_STATUS_CONTINUE                         (0L)
-#define ARCHIVE_STATUS_OK                               (0L)
-#define ARCHIVE_STATUS_ERROR_STATE                      (-20101L)
-#define ARCHIVE_STATUS_ERROR_FILE_NAME_SLASHES          (-20102L)
-#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_FILE_NAME       (-20103L)   
-#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_SKIP_OBJECT     (-20104L)   
-#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_ERROR           (-20105L)
-#define ARCHIVE_STATUS_ERROR_OPEN_FILE                  (-20106L)
-#define ARCHIVE_STATUS_ERROR_SAVE_CHUNK                 (-20107L)
-#define ARCHIVE_STATUS_ERROR_CLOSE_FILE                 (-20108L)
-#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_MAX_OBJECT      (-20109L)   
-#define ARCHIVE_STATUS_ERROR_SECURITY_ALERT             (-20199L)
+#define ARCHIVE_STATUS_FORCE_READ_MORE                          (2L)
+#define ARCHIVE_STATUS_DOWNLOAD_DONE                            (1L)
+#define ARCHIVE_STATUS_CONTINUE                                 (0L)
+#define ARCHIVE_STATUS_OK                                       (0L)
+#define ARCHIVE_STATUS_ERROR_STATE                              (-20101L)
+#define ARCHIVE_STATUS_ERROR_FILE_NAME_SLASHES                  (-20102L)
+#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_FILE_NAME               (-20103L)
+#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_SKIP_OBJECT             (-20104L)
+#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_ERROR                   (-20105L)
+#define ARCHIVE_STATUS_ERROR_OPEN_FILE                          (-20106L)
+#define ARCHIVE_STATUS_ERROR_SAVE_CHUNK                         (-20107L)
+#define ARCHIVE_STATUS_ERROR_CLOSE_FILE                         (-20108L)
+#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_MAX_OBJECT              (-20109L)
+#define ARCHIVE_STATUS_ERROR_BUNDLE_CMD_FILE_NAME_MAX_LEN       (-20110L)
+#define ARCHIVE_STATUS_ERROR_SECURITY_ALERT                     (-20199L)
 
 typedef enum
 {

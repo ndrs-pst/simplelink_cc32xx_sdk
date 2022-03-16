@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,18 +46,6 @@ let family = Common.device2Family(system.deviceData, "Crypto");
 let config = [];
 
 /*
- *  ======== validate ========
- *  Validate this instance's configuration
- *
- *  param inst       - Crypto instance to be validated
- *  param validation - object to hold detected validation issues
- */
-function validate(inst, validation)
-{
-    Common.validateNames(inst, validation);
-}
-
-/*
  *  ======== base ========
  *  Define the base Crypto properties and methods
  */
@@ -71,9 +59,8 @@ performance.
 
 * [Configuration Options][1]
 
-[1]: /tidrivers/syscfg/html/ConfigDoc.html#Crypto_Configuration_Options "Configuration options reference"
+[1]: /drivers/syscfg/html/ConfigDoc.html#Crypto_Configuration_Options "Configuration options reference"
 `,
-    validate            : validate,
     defaultInstanceName : "CONFIG_Crypto_",
     config              : Common.addNameConfig(config, "/ti/drivers/Crypto", "CONFIG_Crypto_"),
     modules: Common.autoForceModules(["Board", "Power"])

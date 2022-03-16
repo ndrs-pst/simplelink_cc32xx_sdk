@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -104,7 +104,7 @@
  *
  *  ## DMA Interrupts #
  *  This driver is designed to operate with the micro DMA. The micro DMA
- *  generates an interrupt on the perpheral's interrupt vector. This
+ *  generates an interrupt on the peripheral's interrupt vector. This
  *  implementation automatically installs a DMA aware hardware ISR to service
  *  the assigned micro DMA channels.
  *

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,8 @@
 
 #include <ti/sysbios/BIOS.h>
 
-#if defined(xdc_target__isaCompatible_v8M)
+#include <ti/devices/DeviceFamily.h>
+#if (DeviceFamily_PARENT == DeviceFamily_PARENT_CC13X4_CC26X3_CC26X4)
 #include <ti/sysbios/family/arm/v8m/Hwi.h>
 #else
 #include <ti/sysbios/family/arm/m3/Hwi.h>
@@ -167,6 +168,19 @@ bool HwiP_inISR(void)
     }
 
     return (false);
+}
+
+/*
+ *  ======== HwiP_interruptsEnabled ========
+ */
+bool HwiP_interruptsEnabled(void)
+{
+    uintptr_t key;
+
+    key = Hwi_disable();
+    Hwi_restore(key);
+
+    return (key == 0);
 }
 
 /*

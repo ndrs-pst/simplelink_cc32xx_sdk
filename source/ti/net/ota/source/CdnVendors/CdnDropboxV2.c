@@ -71,21 +71,28 @@ extern OtaJson OtaJsonObj;
 */
 int16_t  CdnDropboxV2_SendReqDir(int16_t SockId, uint8_t *pSendBuf, uint8_t *pServerName, uint8_t *pVendorDir, uint8_t *pVendorToken)
 {
-    uint8_t ReqDirCmdBuf[200];
+    int16_t status = SL_ERROR_BSD_ENOMEM;
+    uint8_t *pCmdBuf = (uint8_t*)malloc(100 + strlen((char*)pVendorDir) + strlen((char*)pVendorToken));
+    if(pCmdBuf)
+    {
+        uint8_t pVendorDirUnderComment[] =  "";
+        /* Headers */
+        strcpy((char *)pCmdBuf, (const char *)pVendorToken);
+        strcat((char *)pCmdBuf, "\r\nContent-Type: Application/Json\r\nContent-Length:  ");
+        snprintf((char *)&pCmdBuf[strlen((const char *)pCmdBuf)], CONTENT_LENGTH_MAX_STR_LEN, "%d", 13 /* {"path": "/"} */ + strlen((const char *)pVendorDir));
+        strcat((char *)pCmdBuf, "\r\n\r\n");
 
-    /* Headers */
-    strcpy((char *)ReqDirCmdBuf, (const char *)pVendorToken);
-    strcat((char *)ReqDirCmdBuf, "\r\nContent-Type: Application/Json\r\nContent-Length:  ");
-    snprintf((char *)&ReqDirCmdBuf[strlen((const char *)ReqDirCmdBuf)], CONTENT_LENGTH_MAX_STR_LEN, "%d", 13 /* {"path": "/"} */ + strlen((const char *)pVendorDir));
-    strcat((char *)ReqDirCmdBuf, "\r\n\r\n");
+        /* Data */
+        strcat((char *)pCmdBuf, "{\"path\": \"/");
+        strcat((char *)pCmdBuf, (const char *)pVendorDir);
+        strcat((char *)pCmdBuf, "\"}");
 
-    /* Data */
-    strcat((char *)ReqDirCmdBuf, "{\"path\": \"/");
-    strcat((char *)ReqDirCmdBuf, (const char *)pVendorDir);
-    strcat((char *)ReqDirCmdBuf, "\"}");
+        _SlOtaLibTrace(("CdnDropbox_SendReqDir: uri=%s\r\n", OTA_SERVER_REST_REQ_DIR));
 
-    _SlOtaLibTrace(("CdnDropbox_SendReqDir: uri=%s\r\n", OTA_SERVER_REST_REQ_DIR));
-    return HttpClient_SendReq (SockId, pSendBuf, (uint8_t *)"POST ", pServerName, (uint8_t *)OTA_SERVER_REST_REQ_DIR , ""/*pVendorDir*/, (uint8_t *)OTA_SERVER_REST_HDR, ReqDirCmdBuf/*pVendorToken*/);
+        status = HttpClient_SendReq (SockId, pSendBuf, (uint8_t *)"POST ", pServerName, (uint8_t *)OTA_SERVER_REST_REQ_DIR , pVendorDirUnderComment/*pVendorDir*/, (uint8_t *)OTA_SERVER_REST_HDR, pCmdBuf/*pVendorToken*/);
+        free(pCmdBuf);
+    }
+    return status;
 }
 
 /* DROPBOX API - parse metadata JSON response, example
@@ -140,7 +147,7 @@ int16_t  CdnDropboxV2_ParseRespDir(int16_t SockId, uint8_t *pRespBuf, OtaDirData
     /* Search for CR+LF in order to parse the JSON length. */
     pEndBuf = pRespBuf + RespLen;
     iterator = pRespBuf;
-
+    jsonLen = RespLen;
     /* Avoid exceeding array size */
     while ((pEndBuf - iterator) >= CRLF_STR_LEN)
     {
@@ -155,6 +162,19 @@ int16_t  CdnDropboxV2_ParseRespDir(int16_t SockId, uint8_t *pRespBuf, OtaDirData
         {
             iterator+=1;
         }
+    }
+    if(RespLen != jsonLen)
+    {
+        /* Set the fileBuffer to point to the beginning of the JSON file */
+        OtaJsonObj.jsonBuffer.fileBuffer = (char *)iterator + CRLF_STR_LEN;
+        OtaJsonObj.jsonBuffer.fileBuffer[jsonLen] = '\0';
+    }
+    else
+    {
+        /* Set the fileBuffer to point to the beginning of the JSON file */
+        OtaJsonObj.jsonBuffer.fileBuffer = (char *)pRespBuf;
+        OtaJsonObj.jsonBuffer.fileBuffer[jsonLen] = '\0';
+
     }
 
     /* ProcessedSize is the length of the actual JSON file that was received */
@@ -304,21 +324,28 @@ int16_t  CdnDropboxV2_ParseRespDir(int16_t SockId, uint8_t *pRespBuf, OtaDirData
 */
 int16_t  CdnDropboxV2_SendReqFileUrl(int16_t SockId, uint8_t *pSendBuf, uint8_t *pServerName, uint8_t *pFileName, uint8_t *pVendorToken)
 {
-    uint8_t ReqDirCmdBuf[200];
+    int16_t status = SL_ERROR_BSD_ENOMEM;
+    uint8_t *pCmdBuf = (uint8_t*)malloc(100 + strlen((char*)pFileName) + strlen((char*)pVendorToken));
+    if(pCmdBuf)
+    {
+        uint8_t pFileNameUnderComment[] = "";
 
-    /* Headers */
-    strcpy((char *)ReqDirCmdBuf, (const char *)pVendorToken);
-    strcat((char *)ReqDirCmdBuf, "\r\nContent-Type: Application/Json\r\nContent-Length:  ");
-    snprintf((char *)&ReqDirCmdBuf[strlen((const char *)ReqDirCmdBuf)], CONTENT_LENGTH_MAX_STR_LEN, "%d", 12 /* {"path": ""} */ + strlen((const char *)pFileName));
-    strcat((char *)ReqDirCmdBuf, "\r\n\r\n");
+        /* Headers */
+        strcpy((char *)pCmdBuf, (const char *)pVendorToken);
+        strcat((char *)pCmdBuf, "\r\nContent-Type: Application/Json\r\nContent-Length:  ");
+        snprintf((char *)&pCmdBuf[strlen((const char *)pCmdBuf)], CONTENT_LENGTH_MAX_STR_LEN, "%d", 12 /* {"path": ""} */ + strlen((const char *)pFileName));
+        strcat((char *)pCmdBuf, "\r\n\r\n");
 
-    /* Data */
-    strcat((char *)ReqDirCmdBuf, "{\"path\": \"");
-    strcat((char *)ReqDirCmdBuf, (const char *)pFileName);
-    strcat((char *)ReqDirCmdBuf, "\"}");
+        /* Data */
+        strcat((char *)pCmdBuf, "{\"path\": \"");
+        strcat((char *)pCmdBuf, (const char *)pFileName);
+        strcat((char *)pCmdBuf, "\"}");
 
-    _SlOtaLibTrace(("CdnDropbox_SendReqFileUrl: uri=%s\r\n", OTA_SERVER_REST_REQ_FILE_URL));
-    return HttpClient_SendReq(SockId, pSendBuf, (uint8_t *)"POST ", pServerName, (uint8_t *)OTA_SERVER_REST_REQ_FILE_URL , "" /*pFileName*/, (uint8_t *)OTA_SERVER_REST_HDR, ReqDirCmdBuf/*pVendorToken*/);
+        _SlOtaLibTrace(("CdnDropbox_SendReqFileUrl: uri=%s\r\n", OTA_SERVER_REST_REQ_FILE_URL));
+        status = HttpClient_SendReq(SockId, pSendBuf, (uint8_t *)"POST ", pServerName, (uint8_t *)OTA_SERVER_REST_REQ_FILE_URL , pFileNameUnderComment /*pFileName*/, (uint8_t *)OTA_SERVER_REST_HDR, pCmdBuf/*pVendorToken*/);
+        free(pCmdBuf);
+   }
+    return status;
 }
 
 /* DROPBOX API - parse media JSON response, example
@@ -358,6 +385,7 @@ int16_t CdnDropboxV2_ParseRespFileUrl(uint16_t SockId, uint8_t *pRespBuf, uint8_
     /* Search for CR+LF in order to parse the JSON length. */
     pEndBuf = pRespBuf + RespLen;
     iterator = pRespBuf;
+    jsonLen = RespLen;
 
     /* Avoid exceeding array size */
     while ((pEndBuf - iterator) >= CRLF_STR_LEN)
@@ -375,9 +403,19 @@ int16_t CdnDropboxV2_ParseRespFileUrl(uint16_t SockId, uint8_t *pRespBuf, uint8_
         }
     }
 
-    /* Set the fileBuffer to point to the beginning of the JSON file */
-    OtaJsonObj.jsonBuffer.fileBuffer = (char *)iterator + CRLF_STR_LEN;
-    OtaJsonObj.jsonBuffer.fileBuffer[jsonLen] = '\0';
+    if(RespLen != jsonLen)
+    {
+        /* Set the fileBuffer to point to the beginning of the JSON file */
+        OtaJsonObj.jsonBuffer.fileBuffer = (char *)iterator + CRLF_STR_LEN;
+        OtaJsonObj.jsonBuffer.fileBuffer[jsonLen] = '\0';
+    }
+    else
+    {
+        /* Set the fileBuffer to point to the beginning of the JSON file */
+        OtaJsonObj.jsonBuffer.fileBuffer = (char *)pRespBuf;
+        OtaJsonObj.jsonBuffer.fileBuffer[jsonLen] = '\0';
+
+    }
 
     /* Initialize the JSON module */
     retVal = OtaJson_init(template_DropboxV2URL, &(OtaJsonObj.jsonBuffer.fileBuffer), jsonLen);

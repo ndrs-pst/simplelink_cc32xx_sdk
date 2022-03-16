@@ -65,8 +65,9 @@ extern "C" {
 #define OTA_HTTP_CLIENT_ERROR_OFFSET_AND_SIZE           (-20311L)
 #define OTA_HTTP_CLIENT_ERROR_RECV_MAX_EAGAIN_RETRIES   (-20312L)
 #define OTA_HTTP_CLIENT_ERROR_RECV_LEN_0                (-20313L)
+#define OTA_HTTP_CLIENT_ERROR_DOMAIN_NAME_LEN           (-20314L)
 
-int16_t  HttpClient_Connect(uint8_t *ServerName, int32_t IpAddr, int32_t Port, int32_t Secured, int32_t NonBlocking);
+int16_t  HttpClient_Connect(uint8_t *ServerName, int32_t IpAddr, int32_t Port, int32_t Secured, char *pRootCA, int32_t NonBlocking);
 int16_t  HttpClient_CloseConnection(int16_t SockId);
 int16_t  HttpClient_Recv(int16_t SockId, void *pBuf, int16_t Len, int16_t Flags, int16_t MaxEagain);
 int16_t  HttpClient_RecvAppend(int16_t SockId, uint8_t *pRecvBuf, int16_t RecvBufSize, int16_t RecvLen, int16_t RecvOffset);

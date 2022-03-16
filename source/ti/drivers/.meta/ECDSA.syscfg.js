@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,24 +47,13 @@ let family = Common.device2Family(system.deviceData, "ECDSA");
 let config = [];
 
 /*
- *  ======== validate ========
- *  Validate this instance's configuration
- *
- *  param inst       - ECDSA instance to be validated
- *  param validation - object to hold detected validation issues
- */
-function validate(inst, validation)
-{
-    Common.validateNames(inst, validation);
-}
-
-/*
  *  ======== base ========
  *  Define the base ECDSA properties and methods
  */
 let base = {
     displayName         : "ECDSA",
     description         : "Elliptic Curve Digital Signature Algorithm (ECDSA) Driver",
+    alwaysShowLongDescription : true,
     longDescription     : `
 The [__ECDSA driver__][1] provides APIs for generating
 and verifying digital signatures.
@@ -72,12 +61,11 @@ and verifying digital signatures.
 * [Usage Synopsis][2]
 * [Examples][3]
 * [Configuration Options][4]
-[1]: /tidrivers/doxygen/html/_e_c_d_s_a_8h.html#details "C API reference"
-[2]: /tidrivers/doxygen/html/_e_c_d_s_a_8h.html#ti_drivers_ECDSA_Synopsis "Basic C usage summary"
-[3]: /tidrivers/doxygen/html/_e_c_d_s_a_8h.html#ti_drivers_ECDSA_Examples "C usage examples"
-[4]: /tidrivers/syscfg/html/ConfigDoc.html#ECDSA_Configuration_Options "Configuration options reference"
+[1]: /drivers/doxygen/html/_e_c_d_s_a_8h.html#details "C API reference"
+[2]: /drivers/doxygen/html/_e_c_d_s_a_8h.html#ti_drivers_ECDSA_Synopsis "Basic C usage summary"
+[3]: /drivers/doxygen/html/_e_c_d_s_a_8h.html#ti_drivers_ECDSA_Examples "C usage examples"
+[4]: /drivers/syscfg/html/ConfigDoc.html#ECDSA_Configuration_Options "Configuration options reference"
 `,
-    validate            : validate,
     defaultInstanceName : "CONFIG_ECDSA_",
     config              : Common.addNameConfig(config, "/ti/drivers/ECDSA", "CONFIG_ECDSA_"),
     modules             : Common.autoForceModules(["Board", "Power"])

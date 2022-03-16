@@ -1,38 +1,31 @@
 ## Introduction
-The SimpleLink™ Wi-Fi® CC3235 device is a single-chip micro-controller (MCU) with built-in Wi-Fi connectivity, created for the Internet of Things (IoT).
-The CC3235 device is a wireless MCU that integrates a high-performance ARM® Cortex®-M4 MCU, allowing customers to develop an entire application with a single IC.
+The SimpleLink™ Wi-Fi® CC323X device is a single-chip micro-controller (MCU) with built-in Wi-Fi connectivity, created for the Internet of Things (IoT).
+The CC323X device is a wireless MCU that integrates a high-performance ARM® Cortex®-M4 MCU, allowing customers to develop an entire application with a single IC.
 
 ## Content and Documentation
-This release include the ServicePack binary image to be programmed into CC3135/CC3235 devices.
-**ServicePack must be applied both in production and development stage of the CC3135/CC3235 devices**
+This release include the ServicePack binary image to be programmed into CC313X/CC323X devices.
+**ServicePack must be applied both in production and development stage of the CC313X/CC323X devices**
 
 | File |  Notes |
 | --- | --- |
-| sp_4.4.1.3_3.1.0.5_3.1.0.19.bin | ServicePack binary for UniFlash |
-| sp_4.4.1.3_3.1.0.5_3.1.0.19.ucf | ServicePack UCF for host driver API |
-| sp_4.4.1.3_3.1.0.5_3.1.0.19.ucf.signed.bin | ServicePack UCF signature |
+| sp_4.12.0.1_3.7.0.1_3.1.0.26.bin | ServicePack binary for UniFlash |
+| sp_4.12.0.1_3.7.0.1_3.1.0.26.ucf | ServicePack UCF for host driver API |
+| sp_4.12.0.1_3.7.0.1_3.1.0.26.ucf.signed.bin | ServicePack UCF signature |
 
 
 **Version information**
 
 | Component |  Version |
 | --- | --- |
-| NWP | 4.4.1.3 |
-| MAC | 3.1.0.5 |
-| PHY | 3.1.0.19 |
+| NWP | 4.12.0.1 |
+| MAC | 3.7.0.1 |
+| PHY | 3.1.0.26 |
 
-**Note:**
-Upon successful ServicePack programming, version can be retrieved using 'sl_DeviceGet()' API, with SL_DEVICE_GENERAL_VERSION option.
 
 ## What's New
-**SIMPLELINK-CC32XX-SDK\_3.30.01.02:**  
-* Added DICE unique Certificate Extensions to the Alias key certificate
-* Added downgrade protection to the SP when the DICE or the vendor certificate catalog features exists as from this version the NWP SP contains code implemented for those features   
 
-**SIMPLELINK-CC32XX-SDK\_3.30.00.04:**  
-* Support bonjour test 1.5  
-* Support for DICE - a security standard which based hardware and software authentication using manufacturer servers based on Azure cloud service  
-* Support enterprise connection with 4096bits RSA key   
+* Bug fixes
+	- Fixes issue in 3235SF devices when using Dice feature
 
 ## Upgrade and Compatibility Information
 
@@ -47,26 +40,23 @@ The ServicePack can also be flushed using host driver API's or OTA application
 This release requires the following software components and tools:
 
 * UniFlash latest version - [Download page](http://www.ti.com/tool/UniFlash).
-* The ServicePack is bounded to host driver 3.0.1.55
+* The ServicePack is bounded to host driver 3.0.1.71
 
 ## Device Support
 * CC3135
 * CC3235S – Dual-Band 2.4 and 5-GHz Wi-Fi, MCU with 256KB of RAM, IoT networking security, device identity/keys as well as MCU level security such as file system encryption, user IP (MCU image) encryption, secure boot and debug security  
 * CC3235SF - Dual-Band 2.4 and 5-GHz Wi-Fi, MCU with 1MB user-dedicated flash and 256KB of RAM, IoT networking security, device identity/keys as well as MCU level security such as file system encryption, user IP (MCU image) encryption, secure boot and debug  
+* CC3230S – Dual-Band 2.4 Wi-Fi, MCU with 256KB of RAM, IoT networking security, device identity/keys as well as MCU level security such as file system encryption, user IP (MCU image) encryption, secure boot and debug security  
+* CC3230SF - Dual-Band 2.4 Wi-Fi, MCU with 1MB user-dedicated flash and 256KB of RAM, IoT networking security, device identity/keys as well as MCU level security such as file system encryption, user IP (MCU image) encryption, secure boot and debug  
 
 **Evaluation Boards**
 * CC3135\_BOOSTXL
 * CC3235S\_LAUNCHXL
 * CC3235SF\_LAUNCHXL
 
-
-## Fixed Issues
-
-${GEN3_FIXED_ISSUES}
-
 ## Known Issues
 
-${GEN3_OPEN_ISSUES}
+${GEN3_KI}
 
 ## Versioning
 

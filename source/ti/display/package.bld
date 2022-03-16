@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019, Texas Instruments Incorporated
+ * Copyright (c) 2016-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,7 @@ var objList = [
     "DisplayHost.c",
     "DisplaySharp.c",
     "DisplayUart.c",
+    "DisplayUart2.c",
     "lcd/SharpGrLib.c"
 ];
 
@@ -55,6 +56,7 @@ var otherFiles = [
     "DisplayHost.h",
     "DisplaySharp.h",
     "DisplayUart.h",
+    "DisplayUart2.h",
     "lcd/SharpGrLib.h",
     "package.bld"
 ];
@@ -66,28 +68,29 @@ var cc26xxOtherFiles = [
 ];
 
 var xdcArgs = java.lang.System.getenv("XDCARGS");
-var deviceWareOpts =
-    xdc.loadCapsule("ti/drivers/xdcArgParser.xs").getDeviceWareOpts(xdcArgs);
+var deviceWareOpts = xdc.loadCapsule("ti/drivers/xdcArgParser.xs").getDeviceWareOpts(xdcArgs);
+var libBuilder = xdc.loadCapsule("ti/drivers/libBuilder.xs");
 
 if (deviceWareOpts.cc26xxware) {
     objList = objList.concat(cc26xxObjFiles);
     otherFiles = otherFiles.concat(cc26xxOtherFiles);
+
+    libBuilder.makeLibs("display_cc13x1",   libBuilder.cc26x1Targets, objList, " -I. -DDeviceFamily_CC13X1");
+    libBuilder.makeLibs("display_cc26x1",   libBuilder.cc26x1Targets, objList, " -I. -DDeviceFamily_CC26X1");
+    libBuilder.makeLibs("display_cc13x2",   libBuilder.cc26xxTargets, objList, " -I. -DDeviceFamily_CC13X2");
+    libBuilder.makeLibs("display_cc26x2",   libBuilder.cc26xxTargets, objList, " -I. -DDeviceFamily_CC26X2");
+    libBuilder.makeLibs("display_cc13x2x7", libBuilder.cc26xxTargets, objList, " -I. -DDeviceFamily_CC13X2X7");
+    libBuilder.makeLibs("display_cc26x2x7", libBuilder.cc26xxTargets, objList, " -I. -DDeviceFamily_CC26X2X7");
+    libBuilder.makeLibs("display_cc13x4", libBuilder.cc26x4Targets, objList, " -I. -DDeviceFamily_CC13X4");
+    libBuilder.makeLibs("display_cc26x4", libBuilder.cc26x4Targets, objList, " -I. -DDeviceFamily_CC26X4");
 }
 
-var profile = "release";
+if (deviceWareOpts.cc23xxware) {
+    libBuilder.makeLibs("display_cc23x0", libBuilder.cc23xxTargets, objList, " -I. -DDeviceFamily_CC23X0");
+}
 
-/*
- * this package builds the library using "release" profile and
- * currently cannot use common.bld because common.bld assumes
- * all ti targets libs are built with whole_program_debug profile
- */
-for (var i = 0; i < Build.targets.length; i++) {
-    var targ = Build.targets[i];
-
-    var lib = Pkg.addLibrary('lib/display', targ,
-        {profile: profile, copts: " -I. "});
-
-    lib.addObjects(objList);
+if (deviceWareOpts.cc32xxware) {
+    libBuilder.makeLibs("display_cc32xx", libBuilder.cc32xxTargets, objList, " -I. -DDeviceFamily_CC3220");
 }
 
 /* include source files in the release package */

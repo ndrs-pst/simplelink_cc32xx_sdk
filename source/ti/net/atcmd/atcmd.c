@@ -420,8 +420,22 @@ int32_t ATCmd_send(char *buffer)
             /* move to the params */
             token = params;
 
-            ret = ATCmd_getLengthUntilDataAndOfData(token,&length_of_data,
-                                                    &length_until_data, list);
+            if (ATCmd_checkHelp(token))
+            {
+                /* Send usage string */                
+                ATCmd_commandResult(ATCmd_commandUsage,list->usage,0);
+                ATCmd_okResult();
+                return 0;
+            }
+            else if (ATCmd_checkNumParams(token,list->numParams))
+            {
+                /* Number params incorrect */                
+                ATCmd_errorResult(ATCmd_errorNumParamsStr,0);
+                return -1;
+            }
+
+            ret = ATCmd_getLengthUntilDataAndOfData(token, &length_of_data,
+                                                                &length_until_data, list);
             if(ret < 0)
             {
                 /* Number of length cannot be 0*/
@@ -432,19 +446,7 @@ int32_t ATCmd_send(char *buffer)
             /* Remove spaces from params */
             StrMpl_rmspc(token,ATCMD_DELIM_ARG,excludeDelim,length_until_data,length_of_data);
 
-            if (ATCmd_checkHelp(token))
-            {
-                /* Send usage string */                
-                ATCmd_commandResult(ATCmd_commandUsage,list->usage,0);
-                ATCmd_okResult();
-            }
-            else if (ATCmd_checkNumParams(token,list->numParams))
-            {
-                /* Number params incorrect */                
-                ATCmd_errorResult(ATCmd_errorNumParamsStr,0);
-                ret = -1;
-            }
-            else if ((list->blocked) == 1)
+            if ((list->blocked) == 1)
             {
                 /* Blocked command */                
                 ret = ATCmd_blockedCmd(list,token);

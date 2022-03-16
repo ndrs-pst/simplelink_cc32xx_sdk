@@ -36,7 +36,7 @@
 #define DECIMAL_BASE           (10)
 #define CONTENT_LENGTH_STR_LEN (14)
 
-int16_t HttpClient_Connect(uint8_t *ServerName, int32_t IpAddr, int32_t Port, int32_t Secured, int32_t NonBlocking)
+int16_t HttpClient_Connect(uint8_t *ServerName, int32_t IpAddr, int32_t Port, int32_t Secured, char *pRootCA, int32_t NonBlocking)
 {
     int32_t Status;
     SlSockAddrIn_t  Addr;
@@ -105,25 +105,26 @@ int16_t HttpClient_Connect(uint8_t *ServerName, int32_t IpAddr, int32_t Port, in
         return OTA_HTTP_CLIENT_ERROR_CONNECT_SL_SET_SOC_OPT;
     }
 
-#ifdef OTA_SERVER_ROOT_CA_CERT
-    /* Using the root ca for server authentication */
-    Status = sl_SetSockOpt(SockId, SL_SOL_SOCKET, SL_SO_SECURE_FILES_CA_FILE_NAME, OTA_SERVER_ROOT_CA_CERT, strlen(OTA_SERVER_ROOT_CA_CERT));
-    if( Status < 0 )
+    if(Secured && pRootCA)
     {
-        sl_Close(SockId);
-        _SlOtaLibTrace(("HttpClient_Connect: ERROR sl_SetSockOpt SL_SO_SECURE_FILES_CA_FILE_NAME=%s, status=%d\r\n", OTA_SERVER_ROOT_CA_CERT, Status));
-        return OTA_HTTP_CLIENT_ERROR_CONNECT_SL_SET_SOC_OPT;
-    }
+        /* Using the root ca for server authentication */
+        Status = sl_SetSockOpt(SockId, SL_SOL_SOCKET, SL_SO_SECURE_FILES_CA_FILE_NAME, pRootCA, strlen(pRootCA));
+        if( Status < 0 )
+        {
+            sl_Close(SockId);
+            _SlOtaLibTrace(("HttpClient_Connect: ERROR sl_SetSockOpt SL_SO_SECURE_FILES_CA_FILE_NAME=%s, status=%d\r\n", pRootCA, Status));
+            return OTA_HTTP_CLIENT_ERROR_CONNECT_SL_SET_SOC_OPT;
+        }
 
-    /* domain name verification */
-    Status = sl_SetSockOpt(SockId, SL_SOL_SOCKET, SL_SO_SECURE_DOMAIN_NAME_VERIFICATION, (const char *)ServerName, strlen((const char *)ServerName));
-    if( Status < 0 )
-    {
-        sl_Close(SockId);
-        _SlOtaLibTrace(("HttpClient_Connect: ERROR sl_SetSockOpt SL_SO_SECURE_DOMAIN_NAME_VERIFICATION=%s, status=%d\r\n", ServerName, Status));
-        return OTA_HTTP_CLIENT_ERROR_CONNECT_SL_SET_SOC_OPT;
+        /* domain name verification */
+        Status = sl_SetSockOpt(SockId, SL_SOL_SOCKET, SL_SO_SECURE_DOMAIN_NAME_VERIFICATION, (const char *)ServerName, strlen((const char *)ServerName));
+        if( Status < 0 )
+        { 
+            sl_Close(SockId);
+            _SlOtaLibTrace(("HttpClient_Connect: ERROR sl_SetSockOpt SL_SO_SECURE_DOMAIN_NAME_VERIFICATION=%s, status=%d\r\n", ServerName, Status));
+            return OTA_HTTP_CLIENT_ERROR_CONNECT_SL_SET_SOC_OPT;
+        }
     }
-#endif
 
     /* connect to the server */
     Status = sl_Connect(SockId, ( SlSockAddr_t *)&Addr, (uint16_t)AddrSize);
@@ -216,6 +217,14 @@ uint8_t *HttpClient_ParseUrl(uint8_t *pUrlName, uint8_t *pServerNameBuf, int16_t
         *Status = OTA_HTTP_CLIENT_ERROR_END_SLASH_NOT_FOUND;
         return NULL;
     }
+    /* verify that the length of the domain name not longer then the size of ServerNameBuf*/
+    else if (len > MAX_SERVER_NAME)
+    {
+         *Status = OTA_HTTP_CLIENT_ERROR_DOMAIN_NAME_LEN;
+         return NULL;
+    }
+
+
     strncpy ((char *)pServerNameBuf, (const char *)pBuf, len);
     pServerNameBuf[len] = 0;
     pBuf += len;

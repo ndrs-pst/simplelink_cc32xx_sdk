@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <iarUserArgVars>
-  <group active="true" name="SIMPLELINK_CC32XX_SDK">
+  <group active="true" name="SIMPLELINK_CC32XX_SDK_5_30_00_08">
     <variable>
       <name>XDCPATH</name>
-      <value>c:/ti/simplelink_cc32xx_sdk_3_30_01_02/kernel/tirtos/packages;c:/ti/simplelink_cc32xx_sdk_3_30_01_02/source</value>
+      <value>c:/ti/simplelink_cc32xx_sdk_5_30_00_08/kernel/tirtos/packages;c:/ti/simplelink_cc32xx_sdk_5_30_00_08/source</value>
     </variable>
     <variable>
       <name>XDCROOT</name>
-      <value>c:/ti/xdctools_3_60_00_24_core</value>
+      <value>c:/ti/xdctools_3_62_01_15_core</value>
     </variable>
     <variable>
       <name>SYSCONFIG_ROOT</name>
-      <value>c:/ti/sysconfig_1.2.946</value>
+      <value>c:/ti/sysconfig_1.10.0</value>
     </variable>
     <variable>
       <name>FREERTOS_INSTALL_DIR</name>
-      <value>c:/FreeRTOSv10.1.1</value>
+      <value>c:/FreeRTOSv202104.00</value>
     </variable>
     <variable>
       <name>SIMPLELINK_CC32XX_SDK_INSTALL_DIR</name>
-      <value>c:/ti/simplelink_cc32xx_sdk_3_30_01_02</value>
+      <value>c:/ti/simplelink_cc32xx_sdk_5_30_00_08</value>
+    </variable>
+    <variable>
+      <name>SIMPLELINK_SDK_INSTALL_DIR</name>
+      <value>c:/ti/simplelink_cc32xx_sdk_5_30_00_08</value>
     </variable>
     <variable>
       <name>EXAMPLE_ROOT</name>
-      <value>c:/ti/simplelink_cc32xx_sdk_3_30_01_02/tools/iar</value>
+      <value>c:/ti/simplelink_cc32xx_sdk_5_30_00_08/tools/iar</value>
     </variable>
   </group>
 </iarUserArgVars>

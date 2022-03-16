@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,8 +62,10 @@ extern "C" {
  *  @brief    Number of bytes greater than or equal to the size of any RTOS
  *            HwiP object.
  *
- *  nortos:   12
- *  SysBIOS:  28
+ *  NoRTOS:   12
+ *  FreeRTOS: 12
+ *  BIOS 6.x: 28
+ *  BIOS 7.x: 20
  */
 #define HwiP_STRUCT_SIZE   (28)
 
@@ -75,7 +77,7 @@ extern "C" {
  */
 typedef union HwiP_Struct {
     uint32_t dummy;  /*!< Align object */
-    char     data[HwiP_STRUCT_SIZE];
+    uint8_t  data[HwiP_STRUCT_SIZE];
 } HwiP_Struct;
 
 /*!
@@ -235,6 +237,15 @@ extern void HwiP_enableInterrupt(int interruptNum);
  *      ISR (true) or at thread level (false).
  */
 extern bool HwiP_inISR(void);
+
+/*!
+ *  @brief  Function to determine whether interrupts are currently enabled.
+ *
+ *  @return Current state of interrupts.
+ *    - true  Interrupts are currently enabled.
+ *    - false Interrupts are currently disabled.
+ */
+extern bool HwiP_interruptsEnabled(void);
 
 /*!
  *  @brief  Initialize params structure to default values.

@@ -297,7 +297,8 @@ int32_t ATCmdNetUtil_cmdParse(char *buff, ATCmdNetUtil_Cmd_t *params)
             }
             if (((SlNetUtilCryptoCmdKeyMgnt_t *)(params->attrib))->SubCmd == SL_NETUTIL_CRYPTO_INSTALL_SUB_CMD)
             {
-                params->inValue = malloc(sizeof(SlNetUtilCryptoPubKeyInfo_t) + SL_FS_MAX_FILE_NAME_LENGTH + SL_FS_MAX_FILE_NAME_LENGTH);
+                params->inValueLen = (sizeof(SlNetUtilCryptoPubKeyInfo_t) + SL_FS_MAX_FILE_NAME_LENGTH + SL_FS_MAX_FILE_NAME_LENGTH);
+                params->inValue = malloc(params->inValueLen);
                 if (params->inValue == NULL)
                 {
                     return -1;

@@ -64,14 +64,14 @@
 //*****************************************************************************
 extern mqd_t     ATCmd_rxQueue;
 
+
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Split IP address to 4 components in 4 byte array.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        val       -   Value to split.
+    \param         ip       -   Pointer to buffer to store result.
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return         None
 */
 void ATCmd_valToIPv4(uint32_t val, uint8_t *ip)
 {
@@ -82,13 +82,11 @@ void ATCmd_valToIPv4(uint32_t val, uint8_t *ip)
 }
 
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Checks if the user sent the help parameter for the command being parsed.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        buff      -    Pointer to command line buffer.
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return        One if true, zero otherwise
 */
 int32_t ATCmd_checkHelp(char *buff)
 {
@@ -100,13 +98,12 @@ int32_t ATCmd_checkHelp(char *buff)
 }
 
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Verifies the number of parameters for the AT command being used is correct.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        token      -   Points to array of input tokens.
+    \param        num        -   The expected number of parameters. 
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return        Zero on success, -1 otherwise
 */
 int32_t ATCmd_checkNumParams(char *token, uint8_t num)
 {    
@@ -121,13 +118,11 @@ int32_t ATCmd_checkNumParams(char *token, uint8_t num)
 
 
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Reports OK result for the AT command.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        None
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return        Zero
 */
 int32_t ATCmd_okResult(void)
 {    
@@ -141,13 +136,12 @@ int32_t ATCmd_okResult(void)
 
 
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Reports error result for the AT command.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        buff       -   Input string containing command.
+    \param        error      -   Error to be reported.
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return        Zero
 */
 int32_t ATCmd_errorResult(const char *buff, int32_t error)
 {    
@@ -166,13 +160,13 @@ int32_t ATCmd_errorResult(const char *buff, int32_t error)
 }
 
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Reports the command results for the AT command.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        callback   -   Callback function to be called.
+    \param        buff        -    Pointer to arguments for callback function.
+    \param        num        -   Optional number to be passed to callback function.
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return        Zero
 */
 int32_t ATCmd_commandResult(int32_t (*callback)(void *, int32_t, char *), void *buff, int32_t num)
 {    
@@ -187,13 +181,12 @@ int32_t ATCmd_commandResult(int32_t (*callback)(void *, int32_t, char *), void *
 }
 
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Prints AT command help informartion.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        args       -   Pointer to arguments
+    \param        buff       -   Pointer to command line buffer
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return        Zero
 */
 int32_t ATCmd_commandUsage(void *args, int32_t num, char *buff)
 {  
@@ -204,13 +197,11 @@ int32_t ATCmd_commandUsage(void *args, int32_t num, char *buff)
 
 
 /*!
-    \brief          Prints AT command help menu.
+    \brief          Generates the signal event for the AT command.
 
-    \param          arg       -   Points to arguments.
-    \param          buff      -   Points to command line buffer.
+    \param        pmsg  -   Pointer to message to be placed in queue.
 
-    \return         Upon successful completion, the function shall return 0.
-
+    \return        Zero
 */
 int32_t ATCmd_signalEvent(ATCmd_Event_t *pmsg)
 {

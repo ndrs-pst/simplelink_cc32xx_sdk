@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,18 +61,6 @@ let timerConfig = [
 ];
 
 /*
- *  ======== validate ========
- *  Validate this instance's configuration
- *
- *  param inst       - Timer instance to be validated
- *  param validation - object to hold detected validation issues
- */
-function validate(inst, validation)
-{
-    Common.validateNames(inst, validation);
-}
-
-/*
  *  ======== base ========
  *  Define the base Timer properties and methods
  */
@@ -80,22 +68,21 @@ let base = {
     displayName         : "Timer",
     description         : "Timer Driver",
     longDescription     : `
-The [__Timer driver__][1] allows you to manage a Timer peripheral via simple 
+The [__Timer driver__][1] allows you to manage a Timer peripheral via simple
 and portable APIs.
 
 * [Usage Synopsis][2]
 * [Examples][3]
 * [Configuration Options][4]
 
-[1]: /tidrivers/doxygen/html/_timer_8h.html#details "C API reference"
-[2]: /tidrivers/doxygen/html/_timer_8h.html#ti_drivers_Timer_Synopsis "Basic C usage summary"
-[3]: /tidrivers/doxygen/html/_timer_8h.html#ti_drivers_Timer_Examples "C usage examples"
-[4]: /tidrivers/syscfg/html/ConfigDoc.html#Timer_Configuration_Options "Configuration options reference"
+[1]: /drivers/doxygen/html/_timer_8h.html#details "C API reference"
+[2]: /drivers/doxygen/html/_timer_8h.html#ti_drivers_Timer_Synopsis "Basic C usage summary"
+[3]: /drivers/doxygen/html/_timer_8h.html#ti_drivers_Timer_Examples "C usage examples"
+[4]: /drivers/syscfg/html/ConfigDoc.html#Timer_Configuration_Options "Configuration options reference"
 `,
     defaultInstanceName : "CONFIG_TIMER_",
     config              : Common.addNameConfig(timerConfig, "/ti/drivers/Timer", "CONFIG_TIMER_"),
-    modules             : Common.autoForceModules(["Board", "Power"]),
-    validate            : validate
+    modules             : Common.autoForceModules(["Board", "Power"])
 };
 
 /* get family-specific Timer module */

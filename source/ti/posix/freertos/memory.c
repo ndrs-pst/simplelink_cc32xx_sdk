@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2016-2020 Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@
  *  ======== memory.c ========
  */
 
-#if defined(__ti__)
+#if defined(__ti__) && !defined(__clang__)
 
 #pragma FUNC_EXT_CALLED(malloc);
 #pragma FUNC_EXT_CALLED(memalign);
@@ -90,13 +90,20 @@ typedef union Header {
 void ATTRIBUTE *malloc(size_t size)
 {
     Header *packet;
+    size_t allocSize;
 
-    if (size == 0) {
+    allocSize = size + sizeof(Header);
+
+    /*
+     * If size is very large and allocSize overflows, the result will be
+     * smaller than size. In this case, don't try to allocate.
+     */
+    if ((size == 0) || (allocSize < size)) {
         errno = EINVAL;
         return (NULL);
     }
 
-    packet = (Header *)pvPortMalloc(size + sizeof(Header));
+    packet = (Header *)pvPortMalloc(allocSize);
 
     if (packet == NULL) {
         errno = ENOMEM;
@@ -104,7 +111,7 @@ void ATTRIBUTE *malloc(size_t size)
     }
 
     packet->header.actualBuf = (void *)packet;
-    packet->header.size = size + sizeof(Header);
+    packet->header.size = allocSize;
 
     return (packet + 1);
 }

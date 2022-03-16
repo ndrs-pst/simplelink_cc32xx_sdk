@@ -2,7 +2,7 @@
  *  Do not modify this file; it is automatically 
  *  generated and any modifications will be overwritten.
  *
- * @(#) xdc-H25
+ * @(#) xdc-K04
  */
 import java.util.*;
 import org.mozilla.javascript.*;
@@ -11,7 +11,7 @@ import xdc.services.spec.Session;
 
 public class iar_targets_arm
 {
-    static final String VERS = "@(#) xdc-H25\n";
+    static final String VERS = "@(#) xdc-K04\n";
 
     static final Proto.Elm $$T_Bool = Proto.Elm.newBool();
     static final Proto.Elm $$T_Num = Proto.Elm.newNum();
@@ -91,6 +91,30 @@ public class iar_targets_arm
         om.bind("iar.targets.arm.ITarget.StdTypes", om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"));
         om.bind("iar.targets.arm.ITarget.Command", om.findStrict("xdc.bld.ITarget2.Command", "iar.targets.arm"));
         om.bind("iar.targets.arm.ITarget.Options", om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
+    }
+
+    void M0$$OBJECTS()
+    {
+        Proto.Obj po, spo;
+        Value.Obj vo;
+
+        po = (Proto.Obj)om.bind("iar.targets.arm.M0.Module", new Proto.Obj());
+        vo = (Value.Obj)om.bind("iar.targets.arm.M0", new Value.Obj("iar.targets.arm.M0", po));
+        pkgV.bind("M0", vo);
+        // decls 
+        om.bind("iar.targets.arm.M0.Model", om.findStrict("xdc.bld.ITarget.Model", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.DebugGen", om.findStrict("xdc.bld.ITarget.DebugGen", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.Extension", om.findStrict("xdc.bld.ITarget.Extension", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.CompileOptions", om.findStrict("xdc.bld.ITarget.CompileOptions", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.OptionSet", om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.CompileGoal", om.findStrict("xdc.bld.ITarget.CompileGoal", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.LinkGoal", om.findStrict("xdc.bld.ITarget.LinkGoal", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.ArchiveGoal", om.findStrict("xdc.bld.ITarget.ArchiveGoal", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.CommandSet", om.findStrict("xdc.bld.ITarget.CommandSet", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.TypeInfo", om.findStrict("xdc.bld.ITarget.TypeInfo", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.StdTypes", om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.Command", om.findStrict("xdc.bld.ITarget2.Command", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M0.Options", om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
     }
 
     void M3$$OBJECTS()
@@ -189,9 +213,38 @@ public class iar_targets_arm
         om.bind("iar.targets.arm.M33.Options", om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
     }
 
+    void M33F$$OBJECTS()
+    {
+        Proto.Obj po, spo;
+        Value.Obj vo;
+
+        po = (Proto.Obj)om.bind("iar.targets.arm.M33F.Module", new Proto.Obj());
+        vo = (Value.Obj)om.bind("iar.targets.arm.M33F", new Value.Obj("iar.targets.arm.M33F", po));
+        pkgV.bind("M33F", vo);
+        // decls 
+        om.bind("iar.targets.arm.M33F.Model", om.findStrict("xdc.bld.ITarget.Model", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.DebugGen", om.findStrict("xdc.bld.ITarget.DebugGen", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.Extension", om.findStrict("xdc.bld.ITarget.Extension", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.CompileOptions", om.findStrict("xdc.bld.ITarget.CompileOptions", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.OptionSet", om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.CompileGoal", om.findStrict("xdc.bld.ITarget.CompileGoal", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.LinkGoal", om.findStrict("xdc.bld.ITarget.LinkGoal", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.ArchiveGoal", om.findStrict("xdc.bld.ITarget.ArchiveGoal", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.CommandSet", om.findStrict("xdc.bld.ITarget.CommandSet", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.TypeInfo", om.findStrict("xdc.bld.ITarget.TypeInfo", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.StdTypes", om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.Command", om.findStrict("xdc.bld.ITarget2.Command", "iar.targets.arm"));
+        om.bind("iar.targets.arm.M33F.Options", om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
+    }
+
     void ITarget$$CONSTS()
     {
         // interface ITarget
+    }
+
+    void M0$$CONSTS()
+    {
+        // module M0
     }
 
     void M3$$CONSTS()
@@ -214,7 +267,19 @@ public class iar_targets_arm
         // module M33
     }
 
+    void M33F$$CONSTS()
+    {
+        // module M33F
+    }
+
     void ITarget$$CREATES()
+    {
+        Proto.Fxn fxn;
+        StringBuilder sb;
+
+    }
+
+    void M0$$CREATES()
     {
         Proto.Fxn fxn;
         StringBuilder sb;
@@ -249,7 +314,20 @@ public class iar_targets_arm
 
     }
 
+    void M33F$$CREATES()
+    {
+        Proto.Fxn fxn;
+        StringBuilder sb;
+
+    }
+
     void ITarget$$FUNCTIONS()
+    {
+        Proto.Fxn fxn;
+
+    }
+
+    void M0$$FUNCTIONS()
     {
         Proto.Fxn fxn;
 
@@ -279,7 +357,17 @@ public class iar_targets_arm
 
     }
 
+    void M33F$$FUNCTIONS()
+    {
+        Proto.Fxn fxn;
+
+    }
+
     void ITarget$$SIZES()
+    {
+    }
+
+    void M0$$SIZES()
     {
     }
 
@@ -296,6 +384,10 @@ public class iar_targets_arm
     }
 
     void M33$$SIZES()
+    {
+    }
+
+    void M33F$$SIZES()
     {
     }
 
@@ -322,12 +414,12 @@ public class iar_targets_arm
         po.addFld("arOpts", (Proto)om.findStrict("iar.targets.arm.ITarget.Options", "iar.targets.arm"), Global.newObject("prefix", "--silent", "suffix", ""), "wh");
         po.addFld("lnkOpts", (Proto)om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"), Global.newObject("prefix", "--silent", "suffix", "--map $(XDCCFGDIR)/$@.map  --redirect _Printf=_PrintfSmall --redirect _Scanf=_ScanfSmall "), "wh");
         po.addFld("vers", (Proto)om.findStrict("iar.targets.arm.ITarget.Command", "iar.targets.arm"), Global.newObject("cmd", "iccarm", "opts", "-v"), "rh");
-        po.addFld("extensions", new Proto.Map((Proto)om.findStrict("iar.targets.arm.ITarget.Extension", "iar.targets.arm")), Global.newArray(new Object[]{Global.newArray(new Object[]{".asm", Global.newObject("suf", ".asm", "typ", "asm")}), Global.newArray(new Object[]{".c", Global.newObject("suf", ".c", "typ", "c")}), Global.newArray(new Object[]{".cpp", Global.newObject("suf", ".cpp", "typ", "cpp")}), Global.newArray(new Object[]{".cxx", Global.newObject("suf", ".cxx", "typ", "cpp")}), Global.newArray(new Object[]{".C", Global.newObject("suf", ".C", "typ", "cpp")}), Global.newArray(new Object[]{".cc", Global.newObject("suf", ".cc", "typ", "cpp")}), Global.newArray(new Object[]{".s", Global.newObject("suf", ".s", "typ", "asm")}), Global.newArray(new Object[]{".sv7M", Global.newObject("suf", ".sv7M", "typ", "asm")}), Global.newArray(new Object[]{".sv8M", Global.newObject("suf", ".sv8M", "typ", "asm")})}), "wh");
+        po.addFld("extensions", new Proto.Map((Proto)om.findStrict("iar.targets.arm.ITarget.Extension", "iar.targets.arm")), Global.newArray(new Object[]{Global.newArray(new Object[]{".asm", Global.newObject("suf", ".asm", "typ", "asm")}), Global.newArray(new Object[]{".c", Global.newObject("suf", ".c", "typ", "c")}), Global.newArray(new Object[]{".cpp", Global.newObject("suf", ".cpp", "typ", "cpp")}), Global.newArray(new Object[]{".cxx", Global.newObject("suf", ".cxx", "typ", "cpp")}), Global.newArray(new Object[]{".C", Global.newObject("suf", ".C", "typ", "cpp")}), Global.newArray(new Object[]{".cc", Global.newObject("suf", ".cc", "typ", "cpp")}), Global.newArray(new Object[]{".s", Global.newObject("suf", ".s", "typ", "asm")}), Global.newArray(new Object[]{".sv6M", Global.newObject("suf", ".sv6M", "typ", "asm")}), Global.newArray(new Object[]{".sv7M", Global.newObject("suf", ".sv7M", "typ", "asm")}), Global.newArray(new Object[]{".sv8M", Global.newObject("suf", ".sv8M", "typ", "asm")})}), "wh");
         po.addFld("includeOpts", $$T_Str, "", "wh");
         po.addFld("cmdPrefix", $$T_Str, "LC_ALL=C ", "wh");
         po.addFld("alignDirectiveSupported", $$T_Bool, true, "rh");
         po.addFld("stdTypes", (Proto)om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"), Global.newObject("t_IArg", Global.newObject("size", 4L, "align", 4L), "t_Char", Global.newObject("size", 1L, "align", 1L), "t_Double", Global.newObject("size", 8L, "align", 8L), "t_Float", Global.newObject("size", 4L, "align", 4L), "t_Fxn", Global.newObject("size", 4L, "align", 4L), "t_Int", Global.newObject("size", 4L, "align", 4L), "t_Int8", Global.newObject("size", 1L, "align", 1L), "t_Int16", Global.newObject("size", 2L, "align", 2L), "t_Int32", Global.newObject("size", 4L, "align", 4L), "t_Long", Global.newObject("size", 4L, "align", 4L), "t_LDouble", Global.newObject("size", 8L, "align", 8L), "t_LLong", Global.newObject("size", 8L, "align", 8L), "t_Ptr", Global.newObject("size", 4L, "align", 4L), "t_Short", Global.newObject("size", 2L, "align", 2L), "t_Size", Global.newObject("size", 4L, "align", 4L), "t_Int64", Global.newObject("size", 8L, "align", 8L)), "rh");
-        po.addFld("profiles", new Proto.Map((Proto)om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm")), Global.newArray(new Object[]{Global.newArray(new Object[]{"debug", Global.newObject("compileOpts", Global.newObject("copts", "--debug --dlib_config $(rootDir)/inc/c/DLib_Config_Normal.h"), "linkOpts", "--semihosting=iar_breakpoint")}), Global.newArray(new Object[]{"release", Global.newObject("compileOpts", Global.newObject("copts", "-Ohs --dlib_config $(rootDir)/inc/c/DLib_Config_Normal.h"), "linkOpts", "--semihosting=iar_breakpoint")}), Global.newArray(new Object[]{"debug_full", Global.newObject("compileOpts", Global.newObject("copts", "--debug --dlib_config $(rootDir)/inc/c/DLib_Config_Full.h"), "linkOpts", "--semihosting=iar_breakpoint")}), Global.newArray(new Object[]{"release_full", Global.newObject("compileOpts", Global.newObject("copts", "-Ohs --dlib_config $(rootDir)/inc/c/DLib_Config_Full.h"), "linkOpts", "--semihosting=iar_breakpoint")})}), "wh");
+        po.addFld("profiles", new Proto.Map((Proto)om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm")), Global.newArray(new Object[]{Global.newArray(new Object[]{"debug", Global.newObject("compileOpts", Global.newObject("copts", "--debug --dlib_config $(rootDir)/inc/c/DLib_Config_Normal.h"), "linkOpts", "--semihosting=iar_breakpoint")}), Global.newArray(new Object[]{"release", Global.newObject("compileOpts", Global.newObject("copts", "--debug -Ohs --dlib_config $(rootDir)/inc/c/DLib_Config_Normal.h"), "linkOpts", "--semihosting=iar_breakpoint")}), Global.newArray(new Object[]{"debug_full", Global.newObject("compileOpts", Global.newObject("copts", "--debug --dlib_config $(rootDir)/inc/c/DLib_Config_Full.h"), "linkOpts", "--semihosting=iar_breakpoint")}), Global.newArray(new Object[]{"release_full", Global.newObject("compileOpts", Global.newObject("copts", "--debug -Ohs --dlib_config $(rootDir)/inc/c/DLib_Config_Full.h"), "linkOpts", "--semihosting=iar_breakpoint")})}), "wh");
         po.addFld("binaryParser", $$T_Str, "xdc.targets.omf.Elf", "wh");
         fxn = Global.get(cap, "module$use");
         if (fxn != null) om.bind("iar.targets.arm.ITarget$$module$use", true);
@@ -364,6 +456,39 @@ public class iar_targets_arm
                 if (fxn != null) po.addFxn("genVisibleLibFxns", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genVisibleLibFxns", "iar.targets.arm"), fxn);
                 fxn = Global.get(cap, "getRawVersion");
                 if (fxn != null) po.addFxn("getRawVersion", (Proto.Fxn)om.findStrict("xdc.bld.ITarget3$$getRawVersion", "iar.targets.arm"), fxn);
+    }
+
+    void M0$$TYPES()
+    {
+        Scriptable cap;
+        Proto.Obj po;
+        Proto.Str ps;
+        Proto.Typedef pt;
+        Object fxn;
+
+        po = (Proto.Obj)om.findStrict("iar.targets.arm.M0.Module", "iar.targets.arm");
+        po.init("iar.targets.arm.M0.Module", om.findStrict("iar.targets.arm.ITarget.Module", "iar.targets.arm"));
+                po.addFld("$hostonly", $$T_Num, 1, "r");
+        po.addFld("name", $$T_Str, "M0", "rh");
+        po.addFld("suffix", $$T_Str, "rm0", "rh");
+        po.addFld("isa", $$T_Str, "v6M", "rh");
+        po.addFld("platform", $$T_Str, "ti.platforms.simCM3", "wh");
+        po.addFld("cc", (Proto)om.findStrict("iar.targets.arm.M0.Command", "iar.targets.arm"), Global.newObject("cmd", "iccarm", "opts", "--aeabi --cpu=Cortex-M0 --diag_suppress=Pa050,Go005 --endian=little -e --thumb"), "rh");
+        po.addFld("asm", (Proto)om.findStrict("iar.targets.arm.M0.Command", "iar.targets.arm"), Global.newObject("cmd", "iasmarm", "opts", "--cpu Cortex-M0 --endian little"), "rh");
+        po.addFld("lnk", (Proto)om.findStrict("iar.targets.arm.M0.Command", "iar.targets.arm"), Global.newObject("cmd", "ilinkarm", "opts", "--cpu=Cortex-M0"), "rh");
+                po.addFxn("archive", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$archive", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("compile", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$compile", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("scompile", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$scompile", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("link", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$link", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("getVersion", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$getVersion", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("getISAChain", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$getISAChain", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("findSuffix", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$findSuffix", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("selectSuffix", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$selectSuffix", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genConstCustom", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genConstCustom", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genVisibleData", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genVisibleData", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genVisibleFxns", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genVisibleFxns", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genVisibleLibFxns", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genVisibleLibFxns", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("getRawVersion", (Proto.Fxn)om.findStrict("xdc.bld.ITarget3$$getRawVersion", "iar.targets.arm"), $$UNDEF);
     }
 
     void M3$$TYPES()
@@ -498,7 +623,44 @@ public class iar_targets_arm
                 po.addFxn("getRawVersion", (Proto.Fxn)om.findStrict("xdc.bld.ITarget3$$getRawVersion", "iar.targets.arm"), $$UNDEF);
     }
 
+    void M33F$$TYPES()
+    {
+        Scriptable cap;
+        Proto.Obj po;
+        Proto.Str ps;
+        Proto.Typedef pt;
+        Object fxn;
+
+        po = (Proto.Obj)om.findStrict("iar.targets.arm.M33F.Module", "iar.targets.arm");
+        po.init("iar.targets.arm.M33F.Module", om.findStrict("iar.targets.arm.ITarget.Module", "iar.targets.arm"));
+                po.addFld("$hostonly", $$T_Num, 1, "r");
+        po.addFld("name", $$T_Str, "M33F", "rh");
+        po.addFld("suffix", $$T_Str, "rm33f", "rh");
+        po.addFld("isa", $$T_Str, "v8M", "rh");
+        po.addFld("platform", $$T_Str, "ti.platforms.cortexM:FVP_MPS2:2", "wh");
+        po.addFld("cc", (Proto)om.findStrict("iar.targets.arm.M33F.Command", "iar.targets.arm"), Global.newObject("cmd", "iccarm", "opts", "--aeabi --cpu=Cortex-M33.fp --fpu=FPv5_sp --diag_suppress=Pa050,Go005 --endian=little -e --thumb"), "rh");
+        po.addFld("asm", (Proto)om.findStrict("iar.targets.arm.M33F.Command", "iar.targets.arm"), Global.newObject("cmd", "iasmarm", "opts", "--cpu Cortex-M33.fp --fpu FPv5_sp --endian little "), "rh");
+        po.addFld("lnk", (Proto)om.findStrict("iar.targets.arm.M33F.Command", "iar.targets.arm"), Global.newObject("cmd", "ilinkarm", "opts", "--cpu=Cortex-M33.fp"), "rh");
+                po.addFxn("archive", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$archive", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("compile", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$compile", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("scompile", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$scompile", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("link", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$link", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("getVersion", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$getVersion", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("getISAChain", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$getISAChain", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("findSuffix", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$findSuffix", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("selectSuffix", (Proto.Fxn)om.findStrict("xdc.bld.ITarget$$selectSuffix", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genConstCustom", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genConstCustom", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genVisibleData", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genVisibleData", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genVisibleFxns", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genVisibleFxns", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("genVisibleLibFxns", (Proto.Fxn)om.findStrict("xdc.bld.ITarget2$$genVisibleLibFxns", "iar.targets.arm"), $$UNDEF);
+                po.addFxn("getRawVersion", (Proto.Fxn)om.findStrict("xdc.bld.ITarget3$$getRawVersion", "iar.targets.arm"), $$UNDEF);
+    }
+
     void ITarget$$ROV()
+    {
+    }
+
+    void M0$$ROV()
     {
     }
 
@@ -515,6 +677,10 @@ public class iar_targets_arm
     }
 
     void M33$$ROV()
+    {
+    }
+
+    void M33F$$ROV()
     {
     }
 
@@ -617,6 +783,82 @@ public class iar_targets_arm
         if (vo.getProto().lookupFld("$used") != null) {
             vo.unseal("$used");
         }
+    }
+
+    void M0$$SINGLETONS()
+    {
+        Proto.Obj po;
+        Value.Obj vo;
+
+        vo = (Value.Obj)om.findStrict("iar.targets.arm.M0", "iar.targets.arm");
+        po = (Proto.Obj)om.findStrict("iar.targets.arm.M0.Module", "iar.targets.arm");
+        vo.init2(po, "iar.targets.arm.M0", $$DEFAULT, false);
+        vo.bind("Module", po);
+        vo.bind("$category", "Module");
+        vo.bind("$capsule", $$UNDEF);
+        vo.bind("$package", om.findStrict("iar.targets.arm", "iar.targets.arm"));
+        tdefs.clear();
+        proxies.clear();
+        mcfgs.clear();
+        icfgs.clear();
+        inherits.clear();
+        vo.bind("Model", om.findStrict("xdc.bld.ITarget.Model", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.Model", "iar.targets.arm"));
+        vo.bind("DebugGen", om.findStrict("xdc.bld.ITarget.DebugGen", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.DebugGen", "iar.targets.arm"));
+        vo.bind("Extension", om.findStrict("xdc.bld.ITarget.Extension", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.Extension", "iar.targets.arm"));
+        vo.bind("CompileOptions", om.findStrict("xdc.bld.ITarget.CompileOptions", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.CompileOptions", "iar.targets.arm"));
+        vo.bind("OptionSet", om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm"));
+        vo.bind("CompileGoal", om.findStrict("xdc.bld.ITarget.CompileGoal", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.CompileGoal", "iar.targets.arm"));
+        vo.bind("LinkGoal", om.findStrict("xdc.bld.ITarget.LinkGoal", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.LinkGoal", "iar.targets.arm"));
+        vo.bind("ArchiveGoal", om.findStrict("xdc.bld.ITarget.ArchiveGoal", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.ArchiveGoal", "iar.targets.arm"));
+        vo.bind("CommandSet", om.findStrict("xdc.bld.ITarget.CommandSet", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.CommandSet", "iar.targets.arm"));
+        vo.bind("StringArray", om.findStrict("xdc.bld.ITarget.StringArray", "iar.targets.arm"));
+        vo.bind("TypeInfo", om.findStrict("xdc.bld.ITarget.TypeInfo", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.TypeInfo", "iar.targets.arm"));
+        vo.bind("StdTypes", om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"));
+        vo.bind("Command", om.findStrict("xdc.bld.ITarget2.Command", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget2.Command", "iar.targets.arm"));
+        vo.bind("Options", om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
+        vo.bind("$$tdefs", Global.newArray(tdefs.toArray()));
+        vo.bind("$$proxies", Global.newArray(proxies.toArray()));
+        vo.bind("$$mcfgs", Global.newArray(mcfgs.toArray()));
+        vo.bind("$$icfgs", Global.newArray(icfgs.toArray()));
+        inherits.add("iar.targets.arm");
+        inherits.add("xdc.bld");
+        inherits.add("xdc.bld");
+        inherits.add("xdc.bld");
+        vo.bind("$$inherits", Global.newArray(inherits.toArray()));
+        ((Value.Arr)pkgV.getv("$modules")).add(vo);
+        ((Value.Arr)om.findStrict("$modules", "iar.targets.arm")).add(vo);
+        vo.bind("$$instflag", 0);
+        vo.bind("$$iobjflag", 1);
+        vo.bind("$$sizeflag", 1);
+        vo.bind("$$dlgflag", 0);
+        vo.bind("$$iflag", 1);
+        vo.bind("$$romcfgs", "|");
+        vo.bind("$$nortsflag", 0);
+        Proto.Str ps = (Proto.Str)vo.find("Module_State");
+        if (ps != null) vo.bind("$object", ps.newInstance());
+        vo.bind("$$meta_iobj", om.has("iar.targets.arm.M0$$instance$static$init", null) ? 1 : 0);
+        vo.bind("$$fxntab", Global.newArray());
+        vo.bind("$$logEvtCfgs", Global.newArray());
+        vo.bind("$$errorDescCfgs", Global.newArray());
+        vo.bind("$$assertDescCfgs", Global.newArray());
+        Value.Map atmap = (Value.Map)vo.getv("$attr");
+        atmap.setElem("", "xdc/bld/stddefs.xdt");
+        atmap.seal("length");
+        pkgV.bind("M0", vo);
+        ((Value.Arr)pkgV.getv("$unitNames")).add("M0");
     }
 
     void M3$$SINGLETONS()
@@ -923,22 +1165,102 @@ public class iar_targets_arm
         ((Value.Arr)pkgV.getv("$unitNames")).add("M33");
     }
 
+    void M33F$$SINGLETONS()
+    {
+        Proto.Obj po;
+        Value.Obj vo;
+
+        vo = (Value.Obj)om.findStrict("iar.targets.arm.M33F", "iar.targets.arm");
+        po = (Proto.Obj)om.findStrict("iar.targets.arm.M33F.Module", "iar.targets.arm");
+        vo.init2(po, "iar.targets.arm.M33F", $$DEFAULT, false);
+        vo.bind("Module", po);
+        vo.bind("$category", "Module");
+        vo.bind("$capsule", $$UNDEF);
+        vo.bind("$package", om.findStrict("iar.targets.arm", "iar.targets.arm"));
+        tdefs.clear();
+        proxies.clear();
+        mcfgs.clear();
+        icfgs.clear();
+        inherits.clear();
+        vo.bind("Model", om.findStrict("xdc.bld.ITarget.Model", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.Model", "iar.targets.arm"));
+        vo.bind("DebugGen", om.findStrict("xdc.bld.ITarget.DebugGen", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.DebugGen", "iar.targets.arm"));
+        vo.bind("Extension", om.findStrict("xdc.bld.ITarget.Extension", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.Extension", "iar.targets.arm"));
+        vo.bind("CompileOptions", om.findStrict("xdc.bld.ITarget.CompileOptions", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.CompileOptions", "iar.targets.arm"));
+        vo.bind("OptionSet", om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.OptionSet", "iar.targets.arm"));
+        vo.bind("CompileGoal", om.findStrict("xdc.bld.ITarget.CompileGoal", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.CompileGoal", "iar.targets.arm"));
+        vo.bind("LinkGoal", om.findStrict("xdc.bld.ITarget.LinkGoal", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.LinkGoal", "iar.targets.arm"));
+        vo.bind("ArchiveGoal", om.findStrict("xdc.bld.ITarget.ArchiveGoal", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.ArchiveGoal", "iar.targets.arm"));
+        vo.bind("CommandSet", om.findStrict("xdc.bld.ITarget.CommandSet", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.CommandSet", "iar.targets.arm"));
+        vo.bind("StringArray", om.findStrict("xdc.bld.ITarget.StringArray", "iar.targets.arm"));
+        vo.bind("TypeInfo", om.findStrict("xdc.bld.ITarget.TypeInfo", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.TypeInfo", "iar.targets.arm"));
+        vo.bind("StdTypes", om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget.StdTypes", "iar.targets.arm"));
+        vo.bind("Command", om.findStrict("xdc.bld.ITarget2.Command", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget2.Command", "iar.targets.arm"));
+        vo.bind("Options", om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
+        tdefs.add(om.findStrict("xdc.bld.ITarget2.Options", "iar.targets.arm"));
+        vo.bind("$$tdefs", Global.newArray(tdefs.toArray()));
+        vo.bind("$$proxies", Global.newArray(proxies.toArray()));
+        vo.bind("$$mcfgs", Global.newArray(mcfgs.toArray()));
+        vo.bind("$$icfgs", Global.newArray(icfgs.toArray()));
+        inherits.add("iar.targets.arm");
+        inherits.add("xdc.bld");
+        inherits.add("xdc.bld");
+        inherits.add("xdc.bld");
+        vo.bind("$$inherits", Global.newArray(inherits.toArray()));
+        ((Value.Arr)pkgV.getv("$modules")).add(vo);
+        ((Value.Arr)om.findStrict("$modules", "iar.targets.arm")).add(vo);
+        vo.bind("$$instflag", 0);
+        vo.bind("$$iobjflag", 1);
+        vo.bind("$$sizeflag", 1);
+        vo.bind("$$dlgflag", 0);
+        vo.bind("$$iflag", 1);
+        vo.bind("$$romcfgs", "|");
+        vo.bind("$$nortsflag", 0);
+        Proto.Str ps = (Proto.Str)vo.find("Module_State");
+        if (ps != null) vo.bind("$object", ps.newInstance());
+        vo.bind("$$meta_iobj", om.has("iar.targets.arm.M33F$$instance$static$init", null) ? 1 : 0);
+        vo.bind("$$fxntab", Global.newArray());
+        vo.bind("$$logEvtCfgs", Global.newArray());
+        vo.bind("$$errorDescCfgs", Global.newArray());
+        vo.bind("$$assertDescCfgs", Global.newArray());
+        Value.Map atmap = (Value.Map)vo.getv("$attr");
+        atmap.setElem("", "xdc/bld/stddefs.xdt");
+        atmap.seal("length");
+        pkgV.bind("M33F", vo);
+        ((Value.Arr)pkgV.getv("$unitNames")).add("M33F");
+    }
+
     void $$INITIALIZATION()
     {
         Value.Obj vo;
 
         if (isCFG) {
         }//isCFG
+        Global.callFxn("module$meta$init", (Scriptable)om.findStrict("iar.targets.arm.M0", "iar.targets.arm"));
         Global.callFxn("module$meta$init", (Scriptable)om.findStrict("iar.targets.arm.M3", "iar.targets.arm"));
         Global.callFxn("module$meta$init", (Scriptable)om.findStrict("iar.targets.arm.M4", "iar.targets.arm"));
         Global.callFxn("module$meta$init", (Scriptable)om.findStrict("iar.targets.arm.M4F", "iar.targets.arm"));
         Global.callFxn("module$meta$init", (Scriptable)om.findStrict("iar.targets.arm.M33", "iar.targets.arm"));
+        Global.callFxn("module$meta$init", (Scriptable)om.findStrict("iar.targets.arm.M33F", "iar.targets.arm"));
         Global.callFxn("init", pkgV);
         ((Value.Obj)om.getv("iar.targets.arm.ITarget")).bless();
+        ((Value.Obj)om.getv("iar.targets.arm.M0")).bless();
         ((Value.Obj)om.getv("iar.targets.arm.M3")).bless();
         ((Value.Obj)om.getv("iar.targets.arm.M4")).bless();
         ((Value.Obj)om.getv("iar.targets.arm.M4F")).bless();
         ((Value.Obj)om.getv("iar.targets.arm.M33")).bless();
+        ((Value.Obj)om.getv("iar.targets.arm.M33F")).bless();
         ((Value.Arr)om.findStrict("$packages", "iar.targets.arm")).add(pkgV);
     }
 
@@ -956,48 +1278,64 @@ public class iar_targets_arm
         $$IMPORTS();
         $$OBJECTS();
         ITarget$$OBJECTS();
+        M0$$OBJECTS();
         M3$$OBJECTS();
         M4$$OBJECTS();
         M4F$$OBJECTS();
         M33$$OBJECTS();
+        M33F$$OBJECTS();
         ITarget$$CONSTS();
+        M0$$CONSTS();
         M3$$CONSTS();
         M4$$CONSTS();
         M4F$$CONSTS();
         M33$$CONSTS();
+        M33F$$CONSTS();
         ITarget$$CREATES();
+        M0$$CREATES();
         M3$$CREATES();
         M4$$CREATES();
         M4F$$CREATES();
         M33$$CREATES();
+        M33F$$CREATES();
         ITarget$$FUNCTIONS();
+        M0$$FUNCTIONS();
         M3$$FUNCTIONS();
         M4$$FUNCTIONS();
         M4F$$FUNCTIONS();
         M33$$FUNCTIONS();
+        M33F$$FUNCTIONS();
         ITarget$$SIZES();
+        M0$$SIZES();
         M3$$SIZES();
         M4$$SIZES();
         M4F$$SIZES();
         M33$$SIZES();
+        M33F$$SIZES();
         ITarget$$TYPES();
+        M0$$TYPES();
         M3$$TYPES();
         M4$$TYPES();
         M4F$$TYPES();
         M33$$TYPES();
+        M33F$$TYPES();
         if (isROV) {
             ITarget$$ROV();
+            M0$$ROV();
             M3$$ROV();
             M4$$ROV();
             M4F$$ROV();
             M33$$ROV();
+            M33F$$ROV();
         }//isROV
         $$SINGLETONS();
         ITarget$$SINGLETONS();
+        M0$$SINGLETONS();
         M3$$SINGLETONS();
         M4$$SINGLETONS();
         M4F$$SINGLETONS();
         M33$$SINGLETONS();
+        M33F$$SINGLETONS();
         $$INITIALIZATION();
     }
 }

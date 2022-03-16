@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2018-2021, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,10 +52,10 @@ memory regions via simple and portable APIs.
 * [Examples][3]
 * [Configuration Options][4]
 
-[1]: /tidrivers/doxygen/html/_n_v_s_8h.html#details "C API reference"
-[2]: /tidrivers/doxygen/html/_n_v_s_8h.html#ti_drivers_NVS_Synopsis "Basic C usage summary"
-[3]: /tidrivers/doxygen/html/_n_v_s_8h.html#ti_drivers_NVS_Examples "C usage examples"
-[4]: /tidrivers/syscfg/html/ConfigDoc.html#NVS_Configuration_Options "Configuration options reference"
+[1]: /drivers/doxygen/html/_n_v_s_8h.html#details "C API reference"
+[2]: /drivers/doxygen/html/_n_v_s_8h.html#ti_drivers_NVS_Synopsis "Basic C usage summary"
+[3]: /drivers/doxygen/html/_n_v_s_8h.html#ti_drivers_NVS_Examples "C usage examples"
+[4]: /drivers/syscfg/html/ConfigDoc.html#NVS_Configuration_Options "Configuration options reference"
 `;
 
 let configs = [
@@ -71,11 +71,12 @@ region accessible via SPI.
 * [__RAM__][3] allows you to configure in a CPU addressable internal RAM
 region.
 
-[1]: /tidrivers/syscfg/html/ConfigDoc.html#NVS${family}_Configuration_Options
-[2]: /tidrivers/syscfg/html/ConfigDoc.html#NVSSPI25X_Configuration_Options
-[3]: /tidrivers/syscfg/html/ConfigDoc.html#NVSRAM_Configuration_Options
+[1]: /drivers/syscfg/html/ConfigDoc.html#NVS${family}_Configuration_Options
+[2]: /drivers/syscfg/html/ConfigDoc.html#NVSSPI25X_Configuration_Options
+[3]: /drivers/syscfg/html/ConfigDoc.html#NVSRAM_Configuration_Options
 `,
         default: "Internal",
+        onChange: onChangeUpdateImplementation,
         options: [
             {
                 name: "Internal",
@@ -95,8 +96,46 @@ development.
 `
             }
         ]
+    },
+    {
+        name: "nvsImplementation",
+        displayName: "NVS Implementation",
+        default: "NVS" + family,
+        options: [{name: "NVS" + family}, {name: "NVSSPI25X"}, {name: "NVSRAM"}],
+        readOnly: true,
+        description: "Displays NVS delegates available for the " +
+            system.deviceData.deviceId + " device and the NVS Type.",
+        longDescription: "Displays NVS delegates available for the " +
+            system.deviceData.deviceId + " device and the __NVS Type__.\n\n" + `
+Since there is only one delegate for each NVS Type, it is a read-only value
+that cannot be changed. Please refer to the
+[__TI-Drivers implementation matrix__][0] for all available drivers and
+documentation.
+
+[0]: /drivers/doxygen/html/index.html#drivers
+`
     }
 ];
+
+/*
+ *  ======== onChangeUpdateImplementation ========
+ *  Update driver implementation to match any change in NVS Type
+ */
+function onChangeUpdateImplementation(inst, ui)
+{
+    if (inst.nvsType == "Internal")
+    {
+        inst.nvsImplementation = "NVS" + family;
+    }
+    else if (inst.nvsType == "External")
+    {
+        inst.nvsImplementation = "NVSSPI25X";
+    }
+    else if (inst.nvsType == "RAM")
+    {
+        inst.nvsImplementation = "NVSRAM";
+    }
+}
 
 /*
  *  ======== filterHardware ========
@@ -123,14 +162,6 @@ function onHardwareChanged(inst, ui)
     } else {
         ui.nvsType.readOnly = false;
     }
-}
-
-/*
- *  ======== validate ========
- */
-function validate(inst, validation)
-{
-    Common.validateNames(inst, validation);
 }
 
 /*
@@ -182,9 +213,9 @@ function _getPinResources(inst)
 
         let spiFlash = inst.externalFlash.spiFlashDevice;
 
-        if (spiFlash.slaveSelectGpioInstance) {
+        if (spiFlash.slaveSelectPinInstance) {
             mod = system.getScript("/ti/drivers/GPIO.syscfg.js");
-            ss = "SS: " + mod._getPinResources(spiFlash.slaveSelectGpioInstance);
+            ss = "SS: " + mod._getPinResources(spiFlash.slaveSelectPinInstance);
         }
 
         if (spiFlash.sharedSpiInstance) {
@@ -201,6 +232,24 @@ function _getPinResources(inst)
 }
 
 /*
+ *  ======== getLibs ========
+ *  Argument to the /ti/utils/build/GenLibs.cmd.xdt template
+ */
+function getLibs(mod)
+{
+    /* Get device information from GenLibs */
+    let GenLibs = system.getScript("/ti/utils/build/GenLibs");
+
+    let libGroup = {
+        name: "/third_party/spiffs",
+        deps: ["/ti/drivers"],
+        libs: [GenLibs.libPath("third_party/spiffs", "spiffs.a")]
+    };
+
+    return (libGroup);
+}
+
+/*
  *  ======== base ========
  *  Define the base NVS properties and methods
  */
@@ -210,14 +259,17 @@ let base = {
     description: "Non-Volatile Storage Driver",
     longDescription: longDescription,
     config: Common.addNameConfig(configs, "/ti/drivers/NVS", "CONFIG_NVS_"),
-    validate: validate,
     moduleInstances: moduleInstances,
     modules: Common.autoForceModules(["Board"]),
     filterHardware: filterHardware,
     onHardwareChanged: onHardwareChanged,
     templates: {
         boardc: "/ti/drivers/nvs/NVS.Board.c.xdt",
-        boardh: "/ti/drivers/nvs/NVS.Board.h.xdt"
+        boardh: "/ti/drivers/nvs/NVS.Board.h.xdt",
+
+        /* contribute libraries to linker command file */
+        "/ti/utils/build/GenLibs.cmd.xdt":
+            {modName: "/ti/drivers/NVS", getLibs: getLibs}
     },
 
     _getPinResources: _getPinResources

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (c) 2019-2021, Texas Instruments Incorporated - http://www.ti.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,18 +81,6 @@ let config = [
 ];
 
 /*
- *  ======== validate ========
- *  Validate this instance's configuration
- *
- *  @param inst       - UART2 instance to be validated
- *  @param validation - object to hold detected validation issues
- */
-function validate(inst, validation)
-{
-    Common.validateNames(inst, validation);
-}
-
-/*
  *  ======== _getPinResources ========
  */
 /* istanbul ignore next */
@@ -110,23 +98,24 @@ let base = {
     description   : "Universal Asynchronous Receiver Transmitter (UART) Driver",
 
     longDescription: `
-The [__UART driver__][1] provides device independent APIs for reading
-and writing to the UART peripherals.
+The [__UART2 driver__][1] provides device independent APIs for reading
+and writing to the UART peripherals. The UART2 driver is an improved version
+of the [__UART driver__][5].
 
 * [Usage Synopsis][2]
 * [Examples][3]
 * [Configuration Options][4]
 
-[1]: /tidrivers/doxygen/html/_u_a_r_t_2_8h.html#details "C API reference"
-[2]: /tidrivers/doxygen/html/_u_a_r_t_2_8h.html#ti_drivers_UART_Synopsis "Basic C usage summary"
-[3]: /tidrivers/doxygen/html/_u_a_r_t_2_8h.html#ti_drivers_UART_Examples "C usage examples"
-[4]: /tidrivers/syscfg/html/ConfigDoc.html#UART2_Configuration_Options "Configuration options reference"
+[1]: /drivers/doxygen/html/_u_a_r_t2_8h.html#details "C API reference"
+[2]: /drivers/doxygen/html/_u_a_r_t2_8h.html#ti_drivers_UART_Synopsis "Basic C usage summary"
+[3]: /drivers/doxygen/html/_u_a_r_t2_8h.html#ti_drivers_UART_Examples "C usage examples"
+[4]: /drivers/syscfg/html/ConfigDoc.html#UART2_Configuration_Options "Configuration options reference"
+[5]: /drivers/doxygen/html/_u_a_r_t_8h.html#details "C API reference"
 `,
     /* instance properties and methods */
     defaultInstanceName: "CONFIG_UART2_",
     config        : Common.addNameConfig(config, "/ti/drivers/UART2", "CONFIG_UART2_"),
-    modules       : Common.autoForceModules(["Board", "Power"]),
-    validate      : validate,
+    modules       : Common.autoForceModules(["Board", "Power", "DMA"]),
 
     _getPinResources: _getPinResources
 };

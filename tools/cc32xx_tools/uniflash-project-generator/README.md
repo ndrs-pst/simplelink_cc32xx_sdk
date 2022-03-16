@@ -4,7 +4,9 @@ UniFlash Project Generator
 Description
 -----------
 
-The `uniflash_project_generator` is a simple way to generate and flash UniFlash projects for CC3220R, CC3220S, CC3220SF, CC3235S and CC3235SF.`uniflash_project_generator` located at ```[sdk_install_path]\tools\cc32xx_tools\uniflash-project-generator```
+The `uniflash_project_generator` is a simple way to generate and flash UniFlash projects for CC3220R, CC3220S, CC3220SF, CC3235S and CC3235SF.
+`uniflash_project_generator` use SLImageCretor as main tool for this generation and flash. By default `uniflash_project_generator` looks for SLImageCreator at SDK path ```[sdk_install_path]\source\ti\drivers\net\imagecreator\bin``` but user can use  SLImageCretor from UniFlash path.
+`uniflash_project_generator` located at ```[sdk_install_path]\tools\cc32xx_tools\uniflash-project-generator```.
 
 Generated project includes:
 * Service Pack file from ```sdk_install_path\tools\cc32xx_tools\servicepack-cc3x20``` for CC3220R, CC3220S and CC3220SF devices
@@ -19,19 +21,21 @@ Requirements
 | Application | Version |
 | --- |  --- |
 | UniFlash | 4.3.1.1835 or higher |
-| SLImageCreator | 1.0.19.6 or higher |
+| SLImageCreator | 1.0.22.2 or higher |
 
 
 Synopsis
 -----------
 
 ```batch
-usage: uniflash_project_generator.py [-h] --name PROJECT_NAME --device
-                                     DEVICE_TYPE [--mcu_bin MCU_FILENAME]
-                                     [--debug] [--flash] [--com_port COM_PORT]
+usage: uniflash_project_generator.py [-h] [--version] --name PROJECT_NAME
+                                     --device DEVICE_TYPE
+                                     [--mcu_bin MCU_FILENAME] [--debug]
+                                     [--flash] [--com_port COM_PORT]
                                      [--serial_number SERIAL_NUMBER]
                                      [--extra_files_json EXTRA_FILES_JSON]
                                      [--ota_tar OTA_TAR_FILE] [--no_mcu]
+                                     [--use_from_uniflash]
 ```
 
 Options
@@ -66,6 +70,9 @@ Options
 
 **--no_mcu**
 : Create / Flash project for specific device without mcu file.
+
+**--use_from_uniflash**
+: Set this flag if you want to use SLImageCreator from UniFlash.
 
 **-h**
 : Show help options

@@ -100,18 +100,24 @@ int32_t OtaArchive_ParseOctec(uint8_t *pBuf, int32_t BufSize);
 int16_t OtaArchive_CheckEndOfArchive(uint8_t *pBuf);
 int16_t OtaArchive_CloseAbort(int32_t FileHandle);
 
+#define MaxUint32_t  (-1)
 int16_t GetEntireFile(uint8_t *pRecvBuf, int16_t RecvBufLen, int16_t *ProcessedSize, uint32_t FileSize, char **pFile)
 {
     int16_t        copyLen = 0;
     static bool    firstRun = TRUE;
     static int16_t TotalRecvBufLen = 0;
-
-    if (firstRun)
+    
+	if (firstRun)
     {
         TotalRecvBufLen = RecvBufLen;
         firstRun = FALSE;
         if (TotalRecvBufLen < FileSize)
         {
+             /* verify that FileSize  not bigger then the max uint32_t value */
+            if (FileSize >= (uint32_t)MaxUint32_t)
+            {
+                return ARCHIVE_STATUS_ERROR_BUNDLE_CMD_FILE_NAME_MAX_LEN;
+            }
             /* Didn't receive the entire file in the first run. */
             /* Allocate a buffer in the size of the entire file and fill it in each round. */
             pTempBuf = (char*)malloc(FileSize+1);
@@ -312,6 +318,10 @@ int16_t _BundleCmdFile_Parse(OtaArchive_BundleCmdTable_t *pBundleCmdTable, uint8
             return -1;
         }
     }
+    if((internalBufLen + RecvBufLen) > BUNDLE_CMD_MAX_OBJECT_SIZE)
+    {
+        RecvBufLen = BUNDLE_CMD_MAX_OBJECT_SIZE - internalBufLen;
+    }
 
     /* The bundle command file is in JSON format (array of JSON objects). */
     /* The JSON parser must receive a valid JSON. Since the bundle file may be */
@@ -325,7 +335,7 @@ int16_t _BundleCmdFile_Parse(OtaArchive_BundleCmdTable_t *pBundleCmdTable, uint8
             pEndFileBuf = OtaJson_FindEndObject(pRecvBuf, pRecvBuf+RecvBufLen);
             if (pEndFileBuf == NULL)
             {
-                if ((internalBufLen + RecvBufLen) < BUNDLE_CMD_MAX_OBJECT_SIZE)
+                if ((internalBufLen + RecvBufLen) <= BUNDLE_CMD_MAX_OBJECT_SIZE)
                 {
                     /* Append the entire received buffer to the internal one */
                     memcpy(&(pInternalBuf[internalBufLen]), (char *)pRecvBuf, RecvBufLen);
@@ -421,13 +431,23 @@ int16_t _BundleCmdFile_Parse(OtaArchive_BundleCmdTable_t *pBundleCmdTable, uint8
             /* Increase the number of bytes that was sent to the HMAC module */
             pBundleCmdTable->TotalParsedBytes += internalBufLen;
 
-            /* Initialize the JSON module */
-            retVal = OtaJson_init(template_OtaCmd, (char **)&pInternalBuf, internalBufLen);
+            pStartFileBuf = OtaJson_FindStartObject(pInternalBuf, pInternalBuf+internalBufLen);
+            if (pStartFileBuf != NULL)
+            {
+                /* Initialize the JSON module */
+                retVal = OtaJson_init(template_OtaCmd, (char **)&pStartFileBuf, internalBufLen-(pStartFileBuf-pInternalBuf));
+            }
+            else
+            {
+                _SlOtaLibTrace(("Can't find JSON object start\r\n"));
+                  return -1;
+            }
         }
 
         if (retVal < 0)
         {
             /* Initializing the JSON module failed, return error */
+            OtaJson_destroy();
             return retVal;
         }
 
@@ -436,51 +456,35 @@ int16_t _BundleCmdFile_Parse(OtaArchive_BundleCmdTable_t *pBundleCmdTable, uint8
 
         /* Get current filename*/
         retVal = OtaJson_getFilename(&CurrBundleFile);
-        if (retVal < 0)
+        if (retVal >= 0)
         {
-            /* Parsing filename failed, return error */
-            return retVal;
+            /* Get signature of the current file */
+            retVal = OtaJson_getSignature(&CurrBundleFile);
         }
+        if (retVal >= 0)
+        {
+            /* Get SHA 256 digest of the current file */
+            retVal = OtaJson_getSha256Digest(&CurrBundleFile);
+        }
+        if (retVal >= 0)
+        {
+            /* Get certificate of the current file */
+            retVal = OtaJson_getCertificate(&CurrBundleFile);
+        }
+        if (retVal >= 0)
+        {
+            /* Check if the current file is secured */
+            retVal = OtaJson_getSecureField(&CurrBundleFile);
+        }
+        if (retVal >= 0)
+        {
+            /* Check if the current file is part of a bundle */
+            retVal = OtaJson_getBundleField(&CurrBundleFile);
+        }
+        OtaJson_destroy();
 
-        /* Get signature of the current file */
-        retVal = OtaJson_getSignature(&CurrBundleFile);
-        if (retVal < 0)
-        {
-            /* Parsing signature failed, return error */
+        if(retVal < 0)
             return retVal;
-        }
-
-        /* Get SHA 256 digest of the current file */
-        retVal = OtaJson_getSha256Digest(&CurrBundleFile);
-        if (retVal < 0)
-        {
-            /* Parsing SHA 256 digest failed, return error */
-            return retVal;
-        }
-
-        /* Get certificate of the current file */
-        retVal = OtaJson_getCertificate(&CurrBundleFile);
-        if (retVal < 0)
-        {
-            /* Parsing certificate failed, return error */
-            return retVal;
-        }
-
-        /* Check if the current file is secured */
-        retVal = OtaJson_getSecureField(&CurrBundleFile);
-        if (retVal < 0)
-        {
-            /* Parsing secureField failed, return error */
-            return retVal;
-        }
-
-        /* Check if the current file is part of a bundle */
-        retVal = OtaJson_getBundleField(&CurrBundleFile);
-        if (retVal < 0)
-        {
-            /* Parsing bundleField failed, return error */
-            return retVal;
-        }
 
         /* Finished parsing the current file. Update BundleFileInfo and continue to the next one. */
         if (pBundleCmdTable->NumFiles < MAX_BUNDLE_CMD_FILES)
@@ -505,8 +509,6 @@ int16_t _BundleCmdFile_Parse(OtaArchive_BundleCmdTable_t *pBundleCmdTable, uint8
             internalBufLen = 0;
             return ARCHIVE_STATUS_BUNDLE_CMD_CONTINUE;
         }
-
-        OtaJson_destroy();
     }while (*pBuf == ',');
 
     /* Write the last iteration to the HMAC module */
@@ -778,16 +780,12 @@ int16_t OtaArchive_commit()
 
 int16_t OtaArchive_checkVersion(OtaArchive_t *pOtaArchive, uint8_t *pVersionFileName)
 {
-    int16_t  Status = 0;
+    int16_t  Status = 0, i;
     uint8_t  OldVersionBuf[VERSION_STR_SIZE+1];
     uint8_t  NewVersionBuf[VERSION_STR_SIZE+1];
-    uint32_t OldVersion;
-    uint32_t NewVersion;
 
     memcpy(NewVersionBuf, pVersionFileName, VERSION_STR_SIZE);
     NewVersionBuf[VERSION_STR_SIZE]=0;
-    NewVersion = atol((const char *)NewVersionBuf);
-
     Status = _ReadOtaVersionFile(&pOtaArchive->OtaVersionFile);
     if(Status < 0)
     {
@@ -800,19 +798,31 @@ int16_t OtaArchive_checkVersion(OtaArchive_t *pOtaArchive, uint8_t *pVersionFile
         /* compare versions - only 8 digits */
         memcpy(OldVersionBuf, pOtaArchive->OtaVersionFile.VersionFilename, VERSION_STR_SIZE);
         OldVersionBuf[VERSION_STR_SIZE]=0;
-        OldVersion = atol((const char *)OldVersionBuf);
 
-        _SlOtaLibTrace(("    OtaArchive_CheckVersion: current version str = %s, decimal = %d\r\n", OldVersionBuf, OldVersion));
-        _SlOtaLibTrace(("    OtaArchive_CheckVersion: new     version str = %s, decimal = %d\r\n", NewVersionBuf, NewVersion));
-        if (NewVersion > OldVersion)
+        _SlOtaLibTrace(("    OtaArchive_CheckVersion: current version str = %s\r\n", OldVersionBuf));
+        _SlOtaLibTrace(("    OtaArchive_CheckVersion: new     version str = %s\r\n", NewVersionBuf));
+
+        Status = 0;
+        for(i=0; i<VERSION_STR_SIZE; i++)
+        {
+            if (NewVersionBuf[i] > OldVersionBuf[i])
+            {
+                Status = 1;
+                break;
+            }
+            if (NewVersionBuf[i] < OldVersionBuf[i])
+            {
+                break;
+            }
+        }
+
+        if (Status == 1)
         {
             _SlOtaLibTrace(("    OtaArchive_CheckVersion: newer version update - %s\r\n", NewVersionBuf));
-            Status = 1;
         }
         else
         {
             _SlOtaLibTrace(("    OtaArchive_CheckVersion: older version update - %s\r\n", NewVersionBuf));
-            Status = 0;
         }
     }
 
@@ -930,10 +940,11 @@ int16_t OtaArchive_process(OtaArchive_t *pOtaArchive, uint8_t *pRecvBuf, int16_t
                 /* were in the TAR and saved to the FileSystem successfully */
                 if (pOtaArchive->BundleCmdTable.NumFiles == pOtaArchive->BundleCmdTable.NumFilesSavedInFS)
                 {
+#if OTA_VERSION_SUPPORT
                     /* save the version file with the new version */
                     /* The save is in bundle mode, if the update will be decline or failed, the bundle rollback will go back to the old file */
                     _SaveOtaVersionFile(&pOtaArchive->OtaVersionFile);
-
+#endif
                     pOtaArchive->State = ARCHIVE_STATE_COMPLETE_PENDING_TESTING;
                     return ARCHIVE_STATUS_DOWNLOAD_DONE;
                 }
@@ -1096,7 +1107,7 @@ int16_t OtaArchive_process(OtaArchive_t *pOtaArchive, uint8_t *pRecvBuf, int16_t
                 {
                     FsOpenFlags |= SL_FS_CREATE_PUBLIC_WRITE;
                     FsOpenFlags |= SL_FS_CREATE_SECURE;
-                    if (pBundleFileInfo->SignatureBuf && pBundleFileInfo->SignatureLen)
+                    if (pBundleFileInfo->SignatureBuf[0] && pBundleFileInfo->SignatureLen)
                     {
                         FsOpenFlags &= ~SL_FS_CREATE_NOSIGNATURE;
                     }
@@ -1250,7 +1261,6 @@ int16_t OtaArchive_process(OtaArchive_t *pOtaArchive, uint8_t *pRecvBuf, int16_t
                     else
                     {
                         _SlOtaLibTrace(("OtaArchive_RunParseTar: error on pCloseFile, Status=%ld\r\n", Status));
-                        Status = ARCHIVE_STATUS_ERROR_CLOSE_FILE;
                     }
                     OtaArchive_CloseAbort(pTarObj->lFileHandle);
                     OtaArchive_rollback();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,10 @@ function getLibs()
     var targetSuffix = "";
 
     /* Determine libraries required by device name. */
-    if (Program.cpu.deviceName.match(/CC13.2/)) {
+    if (Program.cpu.deviceName.match(/CC13.4/)) {
+        driverString = "_cc13x4";
+    }
+    else if (Program.cpu.deviceName.match(/CC13.2/)) {
         driverString = "_cc13x2";
     }
     else if (Program.cpu.deviceName.match(/CC13.0/)) {
@@ -54,6 +57,9 @@ function getLibs()
     }
     else if (Program.cpu.deviceName.match(/CC26.0R2/)) {
         driverString = "_cc26x0r2";
+    }
+    else if (Program.cpu.deviceName.match(/CC26.4/)) {
+        driverString = "_cc26x4";
     }
     else if (Program.cpu.deviceName.match(/CC26.2/)) {
         driverString = "_cc26x2";
@@ -63,18 +69,6 @@ function getLibs()
     }
     else if (Program.cpu.deviceName.match(/CC3220/)) {
         driverString = "_cc32xx";
-    }
-    else if (Program.cpu.deviceName.match(/MSP432E4.*/)) {
-        driverString = "_msp432e4";
-    }
-    else if (Program.cpu.deviceName.match(/MSP432P4.1.I/)) {
-        driverString = "_msp432p4x1xi";
-    }
-    else if (Program.cpu.deviceName.match(/MSP432P4.1.T/)) {
-        driverString = "_msp432p4x1xt";
-    }
-    else if (Program.cpu.deviceName.match(/MSP432P401/)) {
-        driverString = "_msp432p401x";
     }
     else {
         throw ("Driver not found for this device " + Program.cpu.deviceName +

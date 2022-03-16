@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
+ * Copyright (c) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,10 +68,12 @@ extern "C" {
  *  @brief    Number of bytes greater than or equal to the size of any RTOS
  *            SemaphoreP object.
  *
- *  nortos:   16
- *  SysBIOS:  28
+ *  NoRTOS:   16
+ *  BIOS 6.x: 28
+ *  BIOS 7.x: 28
+ *  FreeRTOS: 80
  */
-#define SemaphoreP_STRUCT_SIZE   (28)
+#define SemaphoreP_STRUCT_SIZE   (80)
 
 /*!
  *  @brief    SemaphoreP structure.
@@ -81,7 +83,7 @@ extern "C" {
  */
 typedef union SemaphoreP_Struct {
     uint32_t dummy;  /*!< Align object */
-    char     data[SemaphoreP_STRUCT_SIZE];
+    uint8_t  data[SemaphoreP_STRUCT_SIZE];
 } SemaphoreP_Struct;
 
 /*!

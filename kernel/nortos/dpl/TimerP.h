@@ -78,4 +78,3 @@ void TimerP_setPeriod(TimerP_Handle handle, uint32_t period);
 uint64_t TimerP_getCount64(TimerP_Handle handle);
 void TimerP_dynamicStub(uintptr_t arg);
 uint32_t TimerP_getCurrentTick(TimerP_Handle handle, bool saveFlag);
-void TimerP_initDevice(TimerP_Handle handle);

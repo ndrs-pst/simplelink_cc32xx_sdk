@@ -3,14 +3,13 @@
 #
 # These variables can be set here or on the command line.
 #
-# The CCS_ARMCOMPILER, GCC_ARMCOMPILER, and IAR_ARMCOMPILER variables,
-# in addition to pointing to their respective locations, also serve
-# as "switches" for disabling a build using those cgtools. To disable a
-# build using a specific cgtool, either set the cgtool's variable to
-# empty or delete/comment-out its definition:
-#     IAR_ARMCOMPILER ?=
+# The various *_ARMCOMPILER variables, in addition to pointing to
+# their respective locations, also serve as "switches" for disabling a build
+# using those cgtools. To disable a build using a specific cgtool, either set
+# the cgtool's variable to empty or delete/comment-out its definition:
+#     CCS_ARMCOMPILER ?=
 # or
-#     #IAR_ARMCOMPILER ?= c:/Program Files (x86)/IAR Systems/Embedded Workbench 8.0/arm
+#     #CCS_ARMCOMPILER ?= ...
 #
 # If a cgtool's *_ARMCOMPILER variable is set (non-empty), various sub-makes
 # in the installation will attempt to build with that cgtool.  This means
@@ -18,14 +17,15 @@
 # will build using each non-empty *_ARMCOMPILER cgtool.
 #
 
-XDC_INSTALL_DIR        ?= c:/ti/xdctools_3_60_00_24_core
-SYSCONFIG_TOOL         ?= c:/ti/ccs920/ccs/utils/sysconfig/sysconfig_cli.bat
+XDC_INSTALL_DIR        ?= c:/ti/xdctools_3_62_01_15_core
+SYSCONFIG_TOOL         ?= c:/ti/ccs1100/ccs/utils/sysconfig_1.10.0/sysconfig_cli.bat
 
-FREERTOS_INSTALL_DIR   ?= c:/FreeRTOSv10.1.1
+FREERTOS_INSTALL_DIR   ?= c:/FreeRTOSv202104.00
 
-CCS_ARMCOMPILER        ?= c:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS
-GCC_ARMCOMPILER        ?= c:/ti/ccs920/ccs/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major-win32
-IAR_ARMCOMPILER        ?= c:/Program Files (x86)/IAR Systems/Embedded Workbench 8.2/arm
+CCS_ARMCOMPILER        ?= c:/ti/ccs1100/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS
+TICLANG_ARMCOMPILER    ?= c:/ti/ccs1100/ccs/tools/compiler/ti-cgt-armllvm_1.3.0.LTS
+GCC_ARMCOMPILER        ?= c:/ti/ccs1100/ccs/tools/compiler/9.2019.q4.major-win32
+IAR_ARMCOMPILER        ?= c:/Program Files (x86)/IAR Systems/Embedded Workbench 8.4/arm
 
 ifeq ("$(SHELL)","sh.exe")
 # for Windows/DOS shell

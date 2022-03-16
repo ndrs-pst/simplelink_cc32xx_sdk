@@ -192,6 +192,7 @@ int32_t ATCmdHttp_createCallback(void *arg)
         index = ATCmdHttp_findAvailableIndex();
         if (index < 0)
         {
+            HTTPClient_destroy(handle);
             ATCmd_errorResult(ATCmd_errorCmdStr,ret);
 	        return -1;
         }
@@ -668,6 +669,7 @@ int32_t ATCmdHttp_respBodyCallback(void *arg)
     if (handle == NULL)
     {
         ATCmd_errorResult(ATCmd_errorParseStr,STRMPL_ERROR_WRONG_PARAM);
+        ATCmdHttp_respBodyFree(params);
         return -1;
     }  
 
@@ -949,6 +951,7 @@ int32_t ATCmdHttp_getHeaderCallback(void *arg)
     if (handle == NULL)
     {
         ATCmd_errorResult(ATCmd_errorParseStr,STRMPL_ERROR_WRONG_PARAM);
+        ATCmdHttp_getHeaderFree(params);
         return -1;
     }  
 
